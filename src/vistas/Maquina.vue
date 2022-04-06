@@ -129,34 +129,31 @@ export default {
 
 		return {
 
-			datos: [],
-			informeVelocidad: [],
-			datosSpin: [],
-			pulsosPLC: 0,
-			tiempoActualizado: '',
-			velocidad: 'Calculando',
-			codMaquina: '?',
-			estadoMaquina: 'Desconocido',
-			ultActualizacion: '?',
-			estadosMaquinas: [],
-			tiempos: [],
-			producido: 0,
-			metrosEncolado: 0,
-			boletin: [],
 			id: this.$route.params.id || null,
 
-			temporizadorDatos: null,
-			temporizadorDatosReales: null,
-			temporizadorSpin: null,
-
+			datos: [],
+			datosSpin: [],
+			estadosMaquinas: [],
+			boletin: [],
+			tiempos: [],
+	
+			producido: 0,
+			metrosEncolado: 0,
+			pulsosPLC: 0,
 			errorPLC: 0,
-			
 			mtslinencoder: 0,
 			mtslincorte: 0,
 			velocidadMedia: 0,
 			velocidadMediaCorrea: 0,
-
 			anchotira: 0,
+
+			velocidad: 'Calculando',
+			codMaquina: '?',
+			estadoMaquina: 'Desconocido',
+			
+			temporizadorDatos: null,
+			temporizadorDatosReales: null,
+			temporizadorSpin: null,
 
 			badgeEstados: {
 
@@ -232,35 +229,6 @@ export default {
 
 		},
 
-		cargarVelocidad: function(e){
-
-			axios.get( "http://192.168.1.10:3000/maquina/" + this.id + "/velocidades" ).then( res => {
-
-				this.informeVelocidad = res.data[0];
- 
-			} ).catch( err => {
-
-				console.log( "[ERROR] No se han podido cargar los datos de la máquina. Error detallado: " + err );
-
-			} )
-
-		},
-
-		getVelocidad: function(e){
-
-			axios.get( "http://192.168.1.10:3000/maquina/" + this.id + "/velocidad" ).then( res => {
-
-				this.velocidad =  res.data[0].Velocidad;
-				this.ultActualizacion = res.data[0].Fecha;
-				
-			} ).catch( err => {
-
-				console.log("No se puede obtener la velocidad de la maquina. Error detallado: " + err);
-
-			} )
-
-		},
-
 		cargarEstadosMaquina: function(e){
 
 			axios.get( "http://192.168.1.10:3000/maquinas/estados" ).then( res => {
@@ -293,8 +261,6 @@ export default {
 				this.errorPLC = 0;
 
 				this.pulsosPLC = res.data[7];
-
-				this.tiempoActualizado = res.data[0] + "-" + res.data[1] + "-" + res.data[2];
 
 				if( !this.temporizadorDatosReales ){
 					this.temporizadorDatosReales = setTimeout( () => { this.cargarDatosReales() }, 3500 );
@@ -388,8 +354,6 @@ export default {
 
 		this.cargarEstadosMaquina();
 		this.cargarDatos();
-		this.cargarVelocidad();
-		this.getVelocidad();
 		
 	},
 
