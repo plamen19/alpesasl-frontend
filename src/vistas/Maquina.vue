@@ -194,16 +194,6 @@ export default {
 
 				this.codMaquina = (this.datos.Maquina).substring((this.datos.Maquina).lastIndexOf(" ") + 1)
 
-				if( !this.temporizadorDatos ){
-
-					this.temporizadorDatos = setInterval( () => {
-
-						this.cargarDatosReales();
-
-					}, 2000 )
-
-				}
-
 				axios.get( "http://192.168.1.10:3000/maquina/" + this.id + "/anchotira" ).then( res => {
 
 					if( res && res.data && res.data[0].Anchotira ){
@@ -219,6 +209,7 @@ export default {
 
 				} )
 
+				this.cargarDatosReales();
 				this.cargarDatosSpin();
 
 			} ).catch( err => {
@@ -247,40 +238,51 @@ export default {
 
 		},
 
-		cargarDatosReales: function(e){
+		cargarDatosReales: async function(e){
 
-			axios.get( "http://192.168.1.10:3000/modbus/" + this.datos.Maquina.replace(/\s/g, '') ).then( res => {
+			try{
 
-				if( res.data && res.data.err ){
+				axios.get( "http://192.168.1.10:3000/modbus/" + this.datos.Maquina.replace(/\s/g, '') ).then( res => {
 
-					this.errorPLC = 1;
-					return;
+					if( res.data && res.data.err ){
 
-				}
+						this.errorPLC = 1;
+						return;
 
-				this.errorPLC = 0;
+					}
 
-				this.pulsosPLC = res.data[7];
+					this.errorPLC = 0;
 
-				if( !this.temporizadorDatosReales ){
-					this.temporizadorDatosReales = setTimeout( () => { this.cargarDatosReales() }, 3500 );
-				}
+					this.pulsosPLC = res.data[7];
 
-			} ).catch( err => {
+					this.temporizadorDatosReales = setInterval( ()=>{ this.cargarDatosReales() }, 2000 )
 
-				console.log( "[ERROR] No se han podido obtener los datos en tiempo real de la máquina." );
+				} ).catch( err => {
 
-			} )
+					console.log( "[ERROR] No se han podido obtener los datos en tiempo real de la máquina." );
+
+				} );
+
+
+			}catch( err ){
+
+				console.log( "[ERROR] No se han podido obtener los datos del PLC. Error detallado: " + err );
+
+			}
 
 		},
 
-		cargarDatosSpin: function(e){
+		cargarDatosSpin: async function(e){
 
-			axios.get( "http://192.168.1.10:3000/spincliente/" + this.codMaquina + "/datos" ).then( res => {
+			this.temporizadorSpin = null;
 
-				if( res.data && res.data.datos ){
+			try{
 
-					let datosXML = (res.data).datos.replace(/(\r\n|\n|\r|\t|\u0002|\u0003)/gm,"");
+				let response = await axios.get( "http://192.168.1.10:3000/spincliente/" + this.codMaquina + "/datos" );
+
+				if( response.data && response.data.datos ){
+
+					let datosXML = (response.data).datos.replace(/(\r\n|\n|\r|\t|\u0002|\u0003)/gm,"");
 					let datosArray = datosXML.split(" ");
 
 					this.datosSpin = datosArray;
@@ -304,19 +306,15 @@ export default {
 
 					this.estadoMaquina = ( this.datosSpin[2] ? this.getTextoFormateadoSPIN(this.datosSpin[2]): 'Desconocido' )
 
-				}
-				
-				if( !this.temporizadorSpin ){
-
-					this.temporizadorSpin = setInterval( ()=>{ this.cargarDatosSpin(); }, 1400 )
-
+					this.temporizadorSpin = setTimeout( () => { this.cargarDatosSpin() }, 1200 ); 
 				}
 
-			} ).catch( err =>{
+
+			}catch( err ){
 
 				console.log( "[ERROR] No se han podido obtener los datos de SPIN. Error detallado: " + err );
 
-			} )
+			}
 
 		},
 
