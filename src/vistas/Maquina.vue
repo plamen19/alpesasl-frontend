@@ -16,6 +16,9 @@
 
 				</h3>
 
+				<h5><b class="tag is-info is-light">Cliente:</b> {{ operacion.Cliente }}</h5>
+				<h5><b class="tag is-info is-light">Desc.:</b> {{ operacion.Descripcion }}</h5>
+
 				<!-- 
 					VELOCIDAD DE LA MÁQUINA
 				 -->
@@ -24,7 +27,7 @@
 					<p><b>Velocidad:</b> <button style="border:none;" class="button is-loading is-small">Cargando</button></p>
 
 				</div>
-				<div v-else>
+				<div class="mt-3" v-else>
 
 					<BarraVelocidad :merma="merma" :velocidad="velocidad"/>
 
@@ -137,6 +140,7 @@ export default {
 			boletin: [],
 			tiempos: [],
 			registroVelocidad: [],
+			operacion: [],
 	
 			producido: 0,
 			metrosEncolado: 0,
@@ -222,7 +226,6 @@ export default {
 				} )
 
 				this.cargarDatosReales();
-				this.cargarDatosSpin();
 
 			} ).catch( err => {
 
@@ -344,6 +347,22 @@ export default {
 
 						this.boletin = res.data[0];
 
+						axios.get( "http://192.168.1.10:3000/operacion/" + this.boletin.idOperacion ).then( res => {
+
+							if( res && res.data ){
+
+								this.operacion = res.data[0]
+								console.log(this.operacion);
+								this.cargarDatosSpin();
+							
+							}
+
+						} ).catch( err => {
+
+							console.log( "[ERROR] No se han podido cargar los datos de la operación de la máquina. Error detallado: " + err );
+
+						} );
+
 					} ).catch( err => {
 
 						console.log( "[ERROR] No se pueden obtener los datos del boletín " + boletinID + ". Error detallado: " + err );
@@ -411,6 +430,12 @@ export default {
 	.card{
 		width: 80%;
 		margin:0 auto;
+	}
+
+	h5{
+
+		font-size: 0.8em;
+
 	}
 
 </style>
