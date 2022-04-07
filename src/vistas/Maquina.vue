@@ -12,7 +12,7 @@
 				<h3>{{ datos.Maquina }}
 
 					<span class="estado-maquina" v-if="estadoMaquina === 'Desconocido'"><span class="tag is-light is-secondary">Cargando estado...</span></span>
-					<span class="estado-maquina" v-else><span :class="badgeEstados[estadoMaquina]">{{ estadoMaquina }}</span></span>
+					<span class="estado-maquina" v-else><span style="font-size:0.8em;" :class="badgeEstados[estadoMaquina]">{{ estadoMaquina }}</span></span>
 
 				</h3>
 
@@ -115,6 +115,7 @@ import axios from 'axios';
 import InfoProduccion from '../components/InfoProduccion.vue';
 import InfoTiempos from '../components/InfoTiempos.vue';
 import BarraVelocidad from '../components/BarraVelocidad.vue';
+import TabsMaquina from '../components/TabsMaquina.vue';
 
 export default {
 	
@@ -124,7 +125,8 @@ export default {
 
 		InfoProduccion,
 		InfoTiempos,
-		BarraVelocidad
+		BarraVelocidad,
+		TabsMaquina
 
 	},
 
@@ -430,6 +432,8 @@ export default {
 	.card{
 		width: 80%;
 		margin:0 auto;
+
+		transition: all .3s;
 	}
 
 	h5{
