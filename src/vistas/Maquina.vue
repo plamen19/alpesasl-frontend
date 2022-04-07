@@ -4,8 +4,7 @@
 
 		<div v-if="datos">
 
-			<div class="card p-3">
-
+			<vs-card id="div_con_carga" class="p-3 vs-con-loading__container">
 				<!-- 
 					NOMBRE Y ESTADO DE LA MAQUINA
 				 -->
@@ -24,7 +23,7 @@
 				 -->
 				<div v-if="velocidad === 'Calculando'">
 
-					<p><b>Velocidad:</b> <button style="border:none;" class="button is-loading is-small">Cargando</button></p>
+					<BarraVelocidad :cargando="true"/>
 
 				</div>
 				<div class="mt-3" v-else>
@@ -51,7 +50,7 @@
 
 				</div>
 
-			</div>
+			</vs-card>
 
 			<br>
 
@@ -326,6 +325,8 @@ export default {
 					this.merma = 100 * ((this.metrosEncolado) - (this.mtslincorte)) / this.metrosEncolado;
 
 					this.temporizadorSpin = setTimeout( () => { this.cargarDatosSpin() }, 1200 ); 
+
+					this.$vs.loading.close('#div_con_carga > .con-vs-loading')
 				}
 
 
@@ -383,7 +384,18 @@ export default {
 	
 	},
 
+	create(){
+	
+
+
+	},
+
 	mounted(){
+
+		this.$vs.loading({
+			container: '#div_con_carga',
+			scale: 0.6
+		})
 
 		this.cargarEstadosMaquina();
 		this.cargarDatos();

@@ -6,47 +6,36 @@
 
 			<div class="col-12 col-sm-12 col-md-6 mx-auto mt-2">
 
-				<div class="card">
+				<vs-card>
 
-					<div class="card-header">
 
-						<h5><i class="bi bi-activity"></i> Pulsos PLC</h5>
+					<h5><i class="bi bi-activity"></i> Pulsos PLC</h5>
+
+					<div v-if="errorPLC === 0" class="text-center">
+
+						<h4><span class="text-primary">{{ velocidadReal || 0 }}</span></h4>
+
+					</div>
+					<div v-else>
+
+						<vs-alert color="danger">
+							<span>PLC <b>inaccesible</b> por el puerto 502.</span>
+						</vs-alert>
 
 					</div>
 
-					<div class="card-body">
-
-						<div v-if="errorPLC === 0" class="text-center">
-
-							<h4><span class="text-primary">{{ velocidadReal || 0 }}</span></h4>
-
-						</div>
-						<div v-else>
-
-							<div class="notification is-light is-danger">
-								No hay conexión con el puerto <b>502</b> del PLC.
-							</div>
-
-						</div>
-
-					</div>
-
-				</div>
+				</vs-card>
 
 			</div>
 
 
 			<div class="col-12 col-sm-12 col-md-6 mx-auto mt-2">
 
-				<div class="card">
-
-					<div class="card-header">
+				<vs-card>
 
 						<h5><i class="bi bi-speedometer"></i> Velocidad</h5>
 
-					</div>
 
-					<div :style="getStyleFromVelocidad()" class="card-body">
 
 						<div class="text-center">
 
@@ -54,57 +43,39 @@
 
 						</div>
 
-					</div>
-
-				</div>
+				</vs-card>
 
 			</div>
 
 			<div class="col-12 col-sm-12 col-md-6 mt-2">
 
-				<div class="card">
+				<vs-card>
 
-					<div class="card-header">
+					<h5><i class="bi bi-speedometer2"></i> M. Encolado</h5>
 
-						<h5><i class="bi bi-speedometer2"></i> M. Encolado</h5>
+					<div class="text-center">
 
-					</div>
-
-					<div class="card-body">
-
-						<div class="text-center">
-
-							<h4><span>{{ metrosEncolado }}</span></h4>
-
-						</div>
+						<h4><span>{{ metrosEncolado }}</span></h4>
 
 					</div>
 
-				</div>
+
+				</vs-card>
 
 			</div>
 
 			<div class="col-12 col-sm-12 col-md-6 mt-2">
 
-				<div class="card">
+				<vs-card>
 
-					<div class="card-header">
+					<h5><i class="bi bi-boxes"></i> C. Producida</h5>
 
-						<h5><i class="bi bi-boxes"></i> C. Producida</h5>
+					<div class="text-center">
 
-					</div>
-
-					<div class="card-body">
-
-						<div class="text-center">
-
-							<h4><span>{{ (cantidadProducida*(numCortes || 0)) + "/" + cantidadBoletin }}</span></h4>
-
-						</div>
+						<h4><span>{{ (cantidadProducida*(numCortes || 0)) + "/" + cantidadBoletin }}</span></h4>
 
 					</div>
-
-				</div>
+				</vs-card>
 
 			</div>
 
