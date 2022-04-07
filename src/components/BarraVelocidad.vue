@@ -2,7 +2,7 @@
 	
 	<div>
 
-		<p class="text-center"><b>Velocidad:</b> <span :class="velocidad > 1 ? (velocidad > 40 ? 'tag is-success' : 'tag is-warning has-text-dark') : 'tag is-danger'">{{ velocidad }}</span> </p>
+		<p class="text-center"><b>Velocidad:</b> <span :class="velocidad > 1 ? (velocidad > 40 ? 'tag is-success' : 'tag is-warning has-text-dark') : 'tag is-danger'">{{ velocidad }}</span> | <b>(%) Merma:</b> <span class="tag is-danger">{{ merma.toFixed(0) }}%</span></p>
 
 		<span style="width:80%; height:30px;" class="progress mx-auto">
 			<div class="progress-bar has-text-dark progress-bar-animated"
@@ -20,7 +20,7 @@ export default {
 	
 	name: 'BarraVelocidad',
 
-	props: ['velocidad'],
+	props: ['velocidad', 'merma'],
 
 }
 </script>

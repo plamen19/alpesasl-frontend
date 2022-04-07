@@ -26,7 +26,7 @@
 				</div>
 				<div v-else>
 
-					<BarraVelocidad :velocidad="velocidad"/>
+					<BarraVelocidad :merma="merma" :velocidad="velocidad"/>
 
 				</div>
 
@@ -44,7 +44,7 @@
 				 -->
 				<div class="mt-5">
 
-					<InfoProduccion :velocidad="velocidad" :numCortes="boletin.numCortes" :cantidadBoletin="boletin.CantidadBoletin ? boletin.CantidadBoletin : 0" :cantidadProducida="producido" :metrosEncolado="metrosEncolado" :errorPLC="errorPLC" :velocidadReal="pulsosPLC"/>
+					<InfoProduccion :velocidadMedia="velocidadMedia" :velocidad="velocidad" :numCortes="boletin.numCortes" :cantidadBoletin="boletin.CantidadBoletin ? boletin.CantidadBoletin : 0" :cantidadProducida="producido" :metrosEncolado="metrosEncolado" :errorPLC="errorPLC" :velocidadReal="pulsosPLC"/>
 
 				</div>
 
@@ -146,6 +146,7 @@ export default {
 			velocidadMedia: 0,
 			velocidadMediaCorrea: 0,
 			anchotira: 0,
+			merma: 0,
 
 			velocidad: 'Calculando',
 			codMaquina: '?',
@@ -255,7 +256,7 @@ export default {
 
 					this.pulsosPLC = res.data[7];
 
-					this.temporizadorDatosReales = setInterval( ()=>{ this.cargarDatosReales() }, 2000 )
+					this.temporizadorDatosReales = setTimeout( ()=>{ this.cargarDatosReales() }, 2000 )
 
 				} ).catch( err => {
 
@@ -302,9 +303,11 @@ export default {
 					this.tiempos[4] = this.getNumeroFormateadoSPIN(this.datosSpin[14].replace("/></DETALLEMAQUINA>", ""));
 
 					this.velocidadMedia = this.mtslincorte / (this.tiempos[1]/60);
-					this.velocidadMediaCorrea = this.velocidadMedia * 3.1416 * this.boletin.DiametroInt / this.anchotira
+					this.velocidadMediaCorrea = this.velocidadMedia * 3.1416 * (this.boletin.DiametroInt / this.anchotira)
 
 					this.estadoMaquina = ( this.datosSpin[2] ? this.getTextoFormateadoSPIN(this.datosSpin[2]): 'Desconocido' )
+
+					this.merma = 100 * ((this.metrosEncolado) - (this.mtslincorte)) / this.metrosEncolado;
 
 					this.temporizadorSpin = setTimeout( () => { this.cargarDatosSpin() }, 1200 ); 
 				}

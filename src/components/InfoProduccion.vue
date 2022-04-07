@@ -50,7 +50,7 @@
 
 						<div class="text-center">
 
-							<h4><span>{{ velocidad !== 'Calculando' ? (velocidad.toFixed(2)).replace(".",",") + ".L" : velocidad }}</span></h4>
+							<h4><span>{{ velocidad !== 'Calculando' ? (velocidad.toFixed(2)).replace(".",",") + "("+velocidadMedia.toFixed(2)+").L" : velocidad }}</span></h4>
 
 						</div>
 
@@ -119,7 +119,7 @@ export default {
 	
 	name: 'InfoProduccion',
 
-	props: [ 'velocidad', 'velocidadReal', 'metrosEncolado', 'numCortes', 'cantidadBoletin', 'cantidadProducida', 'errorPLC' ],
+	props: [ 'velocidad', 'velocidadMedia', 'velocidadReal', 'metrosEncolado', 'numCortes', 'cantidadBoletin', 'cantidadProducida', 'errorPLC' ],
 
 	methods: {
 
