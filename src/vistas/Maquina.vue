@@ -136,6 +136,7 @@ export default {
 			estadosMaquinas: [],
 			boletin: [],
 			tiempos: [],
+			registroVelocidad: [],
 	
 			producido: 0,
 			metrosEncolado: 0,
@@ -167,7 +168,7 @@ export default {
 				'DESCANSO': 'tag is-light is-primary',
 				'LIMPIEZA': 'tag is-light is-primary',
 
-			}
+			},
 
 		}
 
@@ -184,6 +185,16 @@ export default {
 		getTextoFormateadoSPIN: function (texto){
 
 			return (texto.split("=")[1]).substring(1, (texto.split("=")[1]).length-1);
+
+		},
+
+		getTiempoFormateado: function( tiempo ){
+
+			let horas = Math.floor((tiempo/3600));
+			let minutos = Math.floor((tiempo/60)%60);
+			let secs = Math.floor(tiempo%60);
+
+			return (horas < 10 ? "0" + horas : horas) + ":" + (minutos < 10 ? "0" + minutos : minutos) + ":" + (secs < 10 ? "0" + secs : secs);
 
 		},
 
