@@ -45,6 +45,21 @@
 
 						</div>
 
+						<div v-if="velocidad < 40">
+
+							<el-alert :closable="false"
+								type="warning">
+								<marquee-text :repeat="10">
+
+									&nbsp; Velocidad insuficiente: <b>{{ velocidad }}</b> &nbsp;
+
+								</marquee-text>
+							</el-alert>
+
+						</div>
+
+						<br>
+
 						<!-- 
 							TARJETAS CON VELOCIDAD, PULSOS, CANTIDAD PRODUCIDA, ETC
 						-->
@@ -128,6 +143,7 @@ import InfoProduccion from '../components/InfoProduccion.vue';
 import InfoTiempos from '../components/InfoTiempos.vue';
 import BarraVelocidad from '../components/BarraVelocidad.vue';
 import MenuMaquina from '../components/MenuMaquina.vue';
+import MarqueeText from 'vue-marquee-text-component';
 
 export default {
 	
@@ -138,7 +154,8 @@ export default {
 		InfoProduccion,
 		InfoTiempos,
 		BarraVelocidad,
-		MenuMaquina
+		MenuMaquina,
+		MarqueeText,
 
 	},
 
