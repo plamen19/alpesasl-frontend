@@ -31,7 +31,7 @@
 
 			<div class="col-12 col-sm-12 col-md-6 mx-auto mt-2">
 
-				<vs-card>
+				<vs-card :style="getStyleFromVelocidad()">
 
 						<h5><i class="bi bi-speedometer"></i> Velocidad</h5>
 

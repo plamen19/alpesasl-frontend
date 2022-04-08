@@ -8,7 +8,7 @@
 			<vs-progress class="barra-velocidad" :height="30" indeterminate color="primary">primary</vs-progress>
 		</div>
 		<div v-else>
-			<vs-progress class="barra-velocidad" :height="30" :percent="velocidad" color="success"></vs-progress>
+			<vs-progress class="barra-velocidad" :height="30" :percent="velocidad" :color="(velocidad >= 40 ? 'success' : (velocidad > 0 ? 'warning' : 'danger'))"></vs-progress>
 		</div>
 
 	</div>
@@ -29,7 +29,7 @@ export default {
 
 	.barra-velocidad{
 
-		width:60%;
+		width:40%;
 		margin:0 auto;
 		text-align:center;
 		display: block;
