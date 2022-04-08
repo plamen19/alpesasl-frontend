@@ -52,7 +52,7 @@ export default {
 
 <style scoped>
 
-	ul>li>p>span{
+	p>span{
 
 		margin-left: 5px;
 

@@ -17,10 +17,10 @@
 		<vs-card>
 
 			<div v-if="submenus[ventanaActual]">
-
+				
 				<div v-for="(boton, indice) in submenus[ventanaActual]" :key="indice">
 
-					<vs-button :color="boton.color" :type="boton.tipo" to="/components/list.html">{{ boton.texto }}</vs-button>
+					<vs-button :color="boton.color" :type="boton.tipo">{{ boton.texto }}</vs-button>
 
 					<template v-if="indice !== submenus[ventanaActual].length - 1"><br><br></template>
 

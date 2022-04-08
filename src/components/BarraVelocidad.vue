@@ -8,12 +8,41 @@
 			<vs-progress class="barra-velocidad" :height="10" indeterminate color="primary">primary</vs-progress>
 		</div>
 		<div v-else>
-			<div class="barra-velocidad">
 
-				<h4 class="text-muted">Velocidad</h4>
-				<el-progress stroke-width="12" width="160" type="dashboard" :percentage="velocidad.toFixed(2)" :color="colors" />
+			<div class="row">
+
+				<div class="col-12 col-md-6">
+					
+					<h6 class="f-4 text-muted text-center">Velocidad</h6>
+					<div class="barra-velocidad">
+
+						<el-progress :stroke-width="12" :width="160" type="dashboard" :percentage="(+velocidad.toFixed(2))" :color="colors">
+
+							<span :style="getColorTexto()" class="percentage-value">{{ velocidad.toFixed(2) }}</span>
+
+						</el-progress>
+
+					</div>
+
+				</div>
+
+				<div class="col-12 col-md-6">
+
+					<h6 class="f-4 text-muted text-center">% Merma</h6>
+					<div class="barra-velocidad">
+
+						<el-progress :stroke-width="12" :width="160" type="dashboard" :percentage="(+merma.toFixed(2))" color="#f56c6c">
+
+							<span class="percentage-value text-danger">{{ merma.toFixed(2) }}%</span>
+
+						</el-progress>
+
+					</div>
+
+				</div>				
 
 			</div>
+
 		</div>
 
 	</div>
@@ -35,11 +64,34 @@ export default {
 				{ color: '#f56c6c', percentage: 20 },
 				{ color: '#e6a23c', percentage: 40 },
 				{ color: '#5cb87a', percentage: 60 },
-				{ color: '#1989fa', percentage: 80 },
-				{ color: '#6f7ad3', percentage: 100 },
+				{ color: '#5cb87a', percentage: 70 },
+				{ color: '#5cb87a', percentage: 80 },
+				{ color: '#5cb87a', percentage: 100 },
 			]
 
 		})
+
+	},
+
+	methods: {
+
+		getColorTexto: function(){
+
+			if( this.velocidad >= 0 && this.velocidad <= 20 ){
+
+				return 'color:rgba(255, 0, 0, 0.5);';
+
+			}else if( this.velocidad > 20 && this.velocidad < 40 ){
+
+				return 'color:rgba(255, 150, 0, 0.5);';
+
+			}else if( this.velocidad >= 40 ){
+
+				return 'color:rgba(0, 150, 0, 0.5);';
+
+			}
+
+		}
 
 	}
 
