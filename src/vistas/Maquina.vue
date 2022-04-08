@@ -49,7 +49,7 @@
 
 							<el-alert :closable="false"
 								type="warning">
-								<marquee-text :repeat="10">
+								<marquee-text :duration="2" :repeat="10">
 
 									&nbsp; Velocidad insuficiente: <b>{{ velocidad }}</b> &nbsp;
 
