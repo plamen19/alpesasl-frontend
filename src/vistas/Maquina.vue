@@ -4,104 +4,117 @@
 
 		<div v-if="datos">
 
-			<vs-card id="div_con_carga" class="p-3 vs-con-loading__container">
-				<!-- 
-					NOMBRE Y ESTADO DE LA MAQUINA
-				 -->
-				<h3>{{ datos.Maquina }}
-
-					<span class="estado-maquina" v-if="estadoMaquina === 'Desconocido'"><span class="tag is-light is-secondary">Cargando estado...</span></span>
-					<span class="estado-maquina" v-else><span style="font-size:0.8em;" :class="badgeEstados[estadoMaquina]">{{ estadoMaquina }}</span></span>
-
-				</h3>
-
-				<h5><b class="tag is-info is-light">Cliente:</b> {{ operacion.Cliente }}</h5>
-				<h5><b class="tag is-info is-light">Desc.:</b> {{ operacion.Descripcion }}</h5>
-
-				<!-- 
-					VELOCIDAD DE LA MÁQUINA
-				 -->
-				<div v-if="velocidad === 'Calculando'">
-
-					<BarraVelocidad :cargando="true"/>
-
-				</div>
-				<div class="mt-3" v-else>
-
-					<BarraVelocidad :merma="merma" :velocidad="velocidad"/>
-
-				</div>
-
-				<!-- 
-					TIEMPOS DE LA MÁQUINA (PREPARACIÓN, PARADA, MARCHA...)
-				 -->
-				<div class="mt-2 text-left">
-
-					<InfoTiempos :tiempos="tiempos"/>
-
-				</div>
-
-				<!-- 
-					TARJETAS CON VELOCIDAD, PULSOS, CANTIDAD PRODUCIDA, ETC
-				 -->
-				<div class="mt-5">
-
-					<InfoProduccion :velocidadMedia="velocidadMedia" :velocidad="velocidad" :numCortes="boletin.numCortes" :cantidadBoletin="boletin.CantidadBoletin ? boletin.CantidadBoletin : 0" :cantidadProducida="producido" :metrosEncolado="metrosEncolado" :errorPLC="errorPLC" :velocidadReal="pulsosPLC"/>
-
-				</div>
-
-			</vs-card>
-
-			<br>
-
-<!-- 			<p class="text-muted">Más información de la máquina.</p>
-
 			<div class="row">
 
-				<div class="col-12 col-sm-6 col-md-6">
+				<div class="col-12 col-md-10">
 
-					<h3>Información básica</h3>
+					<vs-card id="div_con_carga" class="p-3 vs-con-loading__container">
+						<!-- 
+							NOMBRE Y ESTADO DE LA MAQUINA
+						-->
+						<h3>{{ datos.Maquina }}
 
-					<li><b>Cuchillas activas:</b> {{ datos.CuchActivas }}</li>
-					<li><b>Gramaje cola:</b> {{ datos.GramajeCola }}</li>
-					<li><b>Tara Merma:</b> {{ datos.TaraMerma }}</li>
-					<li><b>Último boletín:</b> {{ datos.UltimoBoletin }}</li>
-					<li><b>PLC Activo:</b> <span :class="datos.PLC == 1 ? 'badge bg-success' : 'badge bg-danger'">{{ datos.PLC == 1 ? 'Sí' : 'No' }}</span></li>
+							<span class="estado-maquina" v-if="estadoMaquina === 'Desconocido'"><span class="tag is-light is-secondary">Cargando estado...</span></span>
+							<span class="estado-maquina" v-else><span style="font-size:0.8em;" :class="badgeEstados[estadoMaquina]">{{ estadoMaquina }}</span></span>
 
+						</h3>
+
+						<h5><b class="tag is-info is-light">Cliente:</b> {{ operacion.Cliente }}</h5>
+						<h5><b class="tag is-info is-light">Desc.:</b> {{ operacion.Descripcion }}</h5>
+
+						<!-- 
+							VELOCIDAD DE LA MÁQUINA
+						-->
+						<div v-if="velocidad === 'Calculando'">
+
+							<BarraVelocidad :cargando="true"/>
+
+						</div>
+						<div class="mt-3" v-else>
+
+							<BarraVelocidad :merma="merma" :velocidad="velocidad"/>
+
+						</div>
+
+						<!-- 
+							TIEMPOS DE LA MÁQUINA (PREPARACIÓN, PARADA, MARCHA...)
+						-->
+						<div class="mt-2 text-left">
+
+							<InfoTiempos :tiempos="tiempos"/>
+
+						</div>
+
+						<!-- 
+							TARJETAS CON VELOCIDAD, PULSOS, CANTIDAD PRODUCIDA, ETC
+						-->
+						<div class="mt-5">
+
+							<InfoProduccion :velocidadMedia="velocidadMedia" :velocidad="velocidad" :numCortes="boletin.numCortes" :cantidadBoletin="boletin.CantidadBoletin ? boletin.CantidadBoletin : 0" :cantidadProducida="producido" :metrosEncolado="metrosEncolado" :errorPLC="errorPLC" :velocidadReal="pulsosPLC"/>
+
+						</div>
+
+					</vs-card>
+
+					<br>
+
+					<!-- <p class="text-muted">Más información de la máquina.</p>
+
+					<div class="row">
+
+						<div class="col-12 col-sm-6 col-md-6">
+
+							<h3>Información básica</h3>
+
+							<li><b>Cuchillas activas:</b> {{ datos.CuchActivas }}</li>
+							<li><b>Gramaje cola:</b> {{ datos.GramajeCola }}</li>
+							<li><b>Tara Merma:</b> {{ datos.TaraMerma }}</li>
+							<li><b>Último boletín:</b> {{ datos.UltimoBoletin }}</li>
+							<li><b>PLC Activo:</b> <span :class="datos.PLC == 1 ? 'badge bg-success' : 'badge bg-danger'">{{ datos.PLC == 1 ? 'Sí' : 'No' }}</span></li>
+
+						</div>
+
+						<div class="col-12 col-sm-6 col-md-6">
+
+							<h3>Últ. Informe velocidad</h3>
+
+							<div v-if="informeVelocidad">
+								
+								<li><b>Velocidad:</b> {{ informeVelocidad.Velocidad }}</li>
+								<li><b>Diametro min:</b> {{ informeVelocidad.DiametroMin }}</li>
+								<li><b>Diametro max:</b> {{ informeVelocidad.DiametroMax }}</li>
+								<li><b>Longitud min:</b> {{ informeVelocidad.LongitudMin }}</li>
+								<li><b>Longitud max:</b> {{ informeVelocidad.LongitudMax }}</li>
+
+							</div>
+							<div v-else>
+
+								<article class="message is-danger">
+									<div class="message-header">
+										<p>Sin datos</p>
+										<button class="delete" aria-label="delete"></button>
+									</div>
+									<div class="message-body">
+										No se pueden cargar los datos detallados de la velocidad.
+									</div>
+								</article>	
+
+							</div>
+
+						</div>
+
+					</div> -->
+
+					<br>
+							
 				</div>
 
-				<div class="col-12 col-sm-6 col-md-6">
+				<div class="col-12 col-md-2">
 
-					<h3>Últ. Informe velocidad</h3>
-
-					<div v-if="informeVelocidad">
-						
-						<li><b>Velocidad:</b> {{ informeVelocidad.Velocidad }}</li>
-						<li><b>Diametro min:</b> {{ informeVelocidad.DiametroMin }}</li>
-						<li><b>Diametro max:</b> {{ informeVelocidad.DiametroMax }}</li>
-						<li><b>Longitud min:</b> {{ informeVelocidad.LongitudMin }}</li>
-						<li><b>Longitud max:</b> {{ informeVelocidad.LongitudMax }}</li>
-
-					</div>
-					<div v-else>
-
-						<article class="message is-danger">
-							<div class="message-header">
-								<p>Sin datos</p>
-								<button class="delete" aria-label="delete"></button>
-							</div>
-							<div class="message-body">
-								No se pueden cargar los datos detallados de la velocidad.
-							</div>
-						</article>	
-
-					</div>
+					<MenuMaquina/>					
 
 				</div>
-
-			</div> -->
-
-			<br>
+			</div>
 
 		</div>
 
@@ -114,7 +127,7 @@ import axios from 'axios';
 import InfoProduccion from '../components/InfoProduccion.vue';
 import InfoTiempos from '../components/InfoTiempos.vue';
 import BarraVelocidad from '../components/BarraVelocidad.vue';
-import TabsMaquina from '../components/TabsMaquina.vue';
+import MenuMaquina from '../components/MenuMaquina.vue';
 
 export default {
 	
@@ -125,7 +138,7 @@ export default {
 		InfoProduccion,
 		InfoTiempos,
 		BarraVelocidad,
-		TabsMaquina
+		MenuMaquina
 
 	},
 
@@ -355,7 +368,7 @@ export default {
 							if( res && res.data ){
 
 								this.operacion = res.data[0]
-								console.log(this.operacion);
+
 								this.cargarDatosSpin();
 							
 							}
@@ -382,12 +395,6 @@ export default {
 
 		}
 	
-	},
-
-	create(){
-	
-
-
 	},
 
 	mounted(){
