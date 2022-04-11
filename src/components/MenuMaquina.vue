@@ -69,6 +69,7 @@ export default {
 		cambiarVentana: function(ventana){
 
 			this.ventanaActual = ventana; 
+			this.$emit( 'cambiarVentana', this.ventanaActual );
 
 		}
 

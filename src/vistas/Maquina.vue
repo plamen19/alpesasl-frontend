@@ -19,42 +19,58 @@
 
 						</h3>
 
-						<h5><b class="tag is-info is-light">Cliente:</b> {{ operacion.Cliente }}</h5>
-						<h5><b class="tag is-info is-light">Desc.:</b> {{ operacion.Descripcion }}</h5>
+						<div v-if="ventana === 1">
 
-						<!-- 
-							VELOCIDAD DE LA MÁQUINA
-						-->
-						<div v-if="velocidad === 'Calculando'">
+							<h5><b class="tag is-info is-light">Cliente:</b> {{ operacion.Cliente }}</h5>
+							<h5><b class="tag is-info is-light">Desc.:</b> {{ operacion.Descripcion }}</h5>
 
-							<BarraVelocidad :cargando="true"/>
+							<!-- 
+								VELOCIDAD DE LA MÁQUINA
+							-->
+							<div v-if="velocidad === 'Calculando'">
+
+								<BarraVelocidad :cargando="true"/>
+
+							</div>
+							<div class="mt-3" v-else>
+
+								<BarraVelocidad :merma="merma" :velocidad="velocidad"/>
+
+							</div>
+
+							<!-- 
+								TIEMPOS DE LA MÁQUINA (PREPARACIÓN, PARADA, MARCHA...)
+							-->
+							<div class="mt-2 text-left">
+
+								<InfoTiempos :tiempos="tiempos"/>
+
+							</div>
+
+							<MarqueeVelocidad :velocidad="velocidad" :velocidadBoletin="boletin.VelocidadBoletin"/>
+
+							<br>
+
+							<!-- 
+								TARJETAS CON VELOCIDAD, PULSOS, CANTIDAD PRODUCIDA, ETC
+							-->
+							<div class="mt-5">
+
+								<InfoProduccion :velocidadMedia="velocidadMedia" :velocidad="velocidad" :numCortes="boletin.numCortes" :cantidadBoletin="boletin.CantidadBoletin ? boletin.CantidadBoletin : 0" :cantidadProducida="producido" :metrosEncolado="metrosEncolado" :errorPLC="errorPLC" :velocidadReal="pulsosPLC"/>
+
+							</div>
 
 						</div>
-						<div class="mt-3" v-else>
+						<div v-else-if="ventana === 2">
 
-							<BarraVelocidad :merma="merma" :velocidad="velocidad"/>
+							<h5><b class="tag is-info is-light">Cliente:</b> {{ operacion.Cliente }}</h5>
+							<h5><b class="tag is-info is-light">Desc.:</b> {{ operacion.Descripcion }}</h5>
 
-						</div>
+							<template v-if="operariosAlta && operariosAlta.length > 0">
 
-						<!-- 
-							TIEMPOS DE LA MÁQUINA (PREPARACIÓN, PARADA, MARCHA...)
-						-->
-						<div class="mt-2 text-left">
+								<ListaOperariosAlta :listaOperarios="operariosAlta"/>
 
-							<InfoTiempos :tiempos="tiempos"/>
-
-						</div>
-
-						<MarqueeVelocidad :velocidad="velocidad" :velocidadBoletin="boletin.VelocidadBoletin"/>
-
-						<br>
-
-						<!-- 
-							TARJETAS CON VELOCIDAD, PULSOS, CANTIDAD PRODUCIDA, ETC
-						-->
-						<div class="mt-5">
-
-							<InfoProduccion :velocidadMedia="velocidadMedia" :velocidad="velocidad" :numCortes="boletin.numCortes" :cantidadBoletin="boletin.CantidadBoletin ? boletin.CantidadBoletin : 0" :cantidadProducida="producido" :metrosEncolado="metrosEncolado" :errorPLC="errorPLC" :velocidadReal="pulsosPLC"/>
+							</template>
 
 						</div>
 
@@ -115,7 +131,7 @@
 
 				<div class="col-12 col-md-2">
 
-					<MenuMaquina/>					
+					<MenuMaquina @cambiarVentana="cambiarVentana"/>					
 
 				</div>
 			</div>
@@ -133,6 +149,7 @@ import InfoTiempos from '../components/InfoTiempos.vue';
 import BarraVelocidad from '../components/BarraVelocidad.vue';
 import MenuMaquina from '../components/MenuMaquina.vue';
 import MarqueeVelocidad from '../components/MarqueeVelocidad.vue';
+import ListaOperariosAlta from '../components/ListaOperariosAlta.vue';
 
 export default {
 	
@@ -145,6 +162,7 @@ export default {
 		BarraVelocidad,
 		MenuMaquina,
 		MarqueeVelocidad,
+		ListaOperariosAlta,
 
 	},
 
@@ -153,6 +171,7 @@ export default {
 		return {
 
 			id: this.$route.params.id || null,
+			ventana: 1,
 
 			datos: [],
 			datosSpin: [],
@@ -239,6 +258,7 @@ export default {
 
 						this.anchotira = res.data[0].Anchotira;
 						this.cargarBoletin();
+						this.cargarOperarios();
 
 					}
 
@@ -383,9 +403,7 @@ export default {
 
 								this.operacion = res.data[0]
 
-								this.cargarDatosSpin();
-								this.cargarOperarios();
-							
+								this.cargarDatosSpin();							
 							}
 
 						} ).catch( err => {
@@ -414,13 +432,19 @@ export default {
 
 			axios.get( "http://192.168.1.10:3000/maquina/" + this.id + "/operarios" ).then( res => {
 
-				console.log(res.data);
+				this.operariosAlta = res.data;
 
 			} ).catch( err =>{
 
 				console.log( "[ERROR] No se han podido obtener los operarios dados de alta en la maquina. Error detallado: " + err );
 
 			} )
+
+		},
+
+		cambiarVentana: function(nueva){
+
+			this.ventana = nueva
 
 		}
 	
