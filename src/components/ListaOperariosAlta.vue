@@ -2,24 +2,11 @@
 	
 	<div>
 
-		
-		<el-button-group class="mt-2 mb-2">
-
-			<el-button size="large" type="primary" class="p-3">Alta</el-button>
-			<el-button size="large" type="primary" class="p-3">Baja</el-button>
-			<el-button size="large" type="primary" class="p-3">Capacidad</el-button>
-
-		</el-button-group>
-
-		<el-button-group class="ml-2 mt-2 mb-2">
-
-
-
-		</el-button-group>
+		<OpcionesEquipo/>
 
 		<div class="row">
 
-			<div class="col-12 col-md-10">
+			<div class="col-12 col-md-9">
 
 				<table>
 
@@ -44,7 +31,7 @@
 				</table>
 
 			</div>
-			<div class="col-12 col-md-2">
+			<div class="col-12 col-md-3">
 
 				<el-button size="large" type="primary" class="p-3 w-100" plain>Descanso</el-button>
 				<br><br>
@@ -63,10 +50,18 @@
 </template>
 
 <script>
+import OpcionesEquipo from './OpcionesEquipo.vue'
+
 export default {
 	
 	name: 'ListaOperariosAlta',
-	props: [ 'listaOperarios' ],
+	props: ['listaOperarios'],
+	components: {
+
+		OpcionesEquipo,
+
+	}
+
 
 }
 </script>

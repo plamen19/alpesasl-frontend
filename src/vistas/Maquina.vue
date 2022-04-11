@@ -66,7 +66,30 @@
 							<h5><b class="tag is-info is-light">Cliente:</b> {{ operacion.Cliente }}</h5>
 							<h5><b class="tag is-info is-light">Desc.:</b> {{ operacion.Descripcion }}</h5>
 
-							<template v-if="operariosAlta && operariosAlta.length > 0">
+							<!-- 
+								VELOCIDAD DE LA MÁQUINA
+							-->
+							<div v-if="velocidad === 'Calculando'">
+
+								<BarraVelocidad :cargando="true"/>
+
+							</div>
+							<div class="mt-3" v-else>
+
+								<BarraVelocidad :merma="merma" :velocidad="velocidad"/>
+
+							</div>
+
+							<!-- 
+								TIEMPOS DE LA MÁQUINA (PREPARACIÓN, PARADA, MARCHA...)
+							-->
+							<div class="mt-2 text-left">
+
+								<InfoTiempos :tiempos="tiempos"/>
+
+							</div>
+
+							<template class="mt-2" v-if="operariosAlta && operariosAlta.length > 0">
 
 								<ListaOperariosAlta :listaOperarios="operariosAlta"/>
 
