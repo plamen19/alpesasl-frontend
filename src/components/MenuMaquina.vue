@@ -56,7 +56,17 @@ export default {
 					{ texto: '% Merma', color: 'primary', tipo: 'filled' }, 
 					{ texto: 'Kgph', color: 'primary', tipo: 'filled' },
 					{ texto: 'OEE', color: 'primary', tipo: 'filled' }
-				],				
+				],		
+				
+				3: [ 
+					{ texto: 'Fabricación', color: 'primary', tipo: 'filled' }, 
+					{ texto: 'Lotes', color: 'primary', tipo: 'filled' },
+					{ texto: 'Rechazo', color: 'primary', tipo: 'filled' },
+					{ texto: 'Calidad', color: 'warning', tipo: 'filled' },
+					{ texto: 'Comentarios', color: 'warning', tipo: 'filled' },
+					{ texto: 'Tiras', color: 'primary', tipo: 'filled' },
+					{ texto: 'Tiras Teóricas', color: 'primary', tipo: 'filled' },
+				],		
 
 			}
 
