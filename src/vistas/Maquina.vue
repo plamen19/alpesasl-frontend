@@ -45,7 +45,7 @@
 
 						</div>
 
-						<div v-if="velocidad < 40">
+						<div v-if="velocidad < boletin.VelocidadBoletin">
 
 							<el-alert :closable="false"
 								type="warning">
@@ -192,6 +192,8 @@ export default {
 			temporizadorDatosReales: null,
 			temporizadorSpin: null,
 
+			debug: true, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
+
 			badgeEstados: {
 
 				'SIN ESTADO': 'tag is-light is-secondary',
@@ -301,7 +303,9 @@ export default {
 
 					this.pulsosPLC = res.data[7];
 
-					this.temporizadorDatosReales = setTimeout( ()=>{ this.cargarDatosReales() }, 2000 )
+					if( !this.debug ){
+						this.temporizadorDatosReales = setTimeout( ()=>{ this.cargarDatosReales() }, 2000 )
+					}
 
 				} ).catch( err => {
 
@@ -354,9 +358,12 @@ export default {
 
 					this.merma = 100 * ((this.metrosEncolado) - (this.mtslincorte)) / this.metrosEncolado;
 
-					this.temporizadorSpin = setTimeout( () => { this.cargarDatosSpin() }, 1200 ); 
-
 					this.$vs.loading.close('#div_con_carga > .con-vs-loading')
+
+					if( !this.debug ){
+						this.temporizadorSpin = setTimeout( () => { this.cargarDatosSpin() }, 1200 ); 
+					}
+
 				}
 
 
