@@ -15,7 +15,7 @@
 						<h3>{{ datos.Maquina }}
 
 							<span class="estado-maquina" v-if="estadoMaquina === 'Desconocido'"><span class="tag is-light is-secondary">Cargando estado...</span></span>
-							<span class="estado-maquina" v-else><span style="font-size:0.8em;" :class="badgeEstados[estadoMaquina]">{{ estadoMaquina }}</span></span>
+							<span class="estado-maquina" v-else><span style="font-size:0.8em;" :class="badgeEstados[estadoMaquina]">{{ estadoMaquina.toLowerCase().charAt(0).toUpperCase() + estadoMaquina.toLowerCase().slice(1) }}</span></span>
 
 						</h3>
 
@@ -45,18 +45,7 @@
 
 						</div>
 
-						<div v-if="velocidad < boletin.VelocidadBoletin">
-
-							<el-alert :closable="false"
-								type="warning">
-								<marquee-text :duration="2" :repeat="10">
-
-									&nbsp; Velocidad insuficiente: <b>{{ velocidad }}</b> &nbsp;
-
-								</marquee-text>
-							</el-alert>
-
-						</div>
+						<MarqueeVelocidad :velocidad="velocidad" :velocidadBoletin="boletin.VelocidadBoletin"/>
 
 						<br>
 
@@ -143,7 +132,7 @@ import InfoProduccion from '../components/InfoProduccion.vue';
 import InfoTiempos from '../components/InfoTiempos.vue';
 import BarraVelocidad from '../components/BarraVelocidad.vue';
 import MenuMaquina from '../components/MenuMaquina.vue';
-import MarqueeText from 'vue-marquee-text-component';
+import MarqueeVelocidad from '../components/MarqueeVelocidad.vue';
 
 export default {
 	
@@ -155,7 +144,7 @@ export default {
 		InfoTiempos,
 		BarraVelocidad,
 		MenuMaquina,
-		MarqueeText,
+		MarqueeVelocidad,
 
 	},
 
