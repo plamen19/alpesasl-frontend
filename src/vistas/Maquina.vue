@@ -224,7 +224,7 @@ export default {
 			temporizadorDatosReales: null,
 			temporizadorSpin: null,
 
-			debug: true, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
+			debug: false, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
 
 			badgeEstados: {
 

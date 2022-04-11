@@ -17,6 +17,7 @@
     "vue": "^3.2.13",
     "vue-marquee-text-component": "^2.0.1",
     "vue-router": "^4.0.3",
+    "vue-sidebar-menu": "^5.2.2",
     "vuesax3": "^4.0.20"
   },
   "devDependencies": {
