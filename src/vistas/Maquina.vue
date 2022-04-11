@@ -161,6 +161,7 @@ export default {
 			tiempos: [],
 			registroVelocidad: [],
 			operacion: [],
+			operariosAlta: [],
 	
 			producido: 0,
 			metrosEncolado: 0,
@@ -383,6 +384,7 @@ export default {
 								this.operacion = res.data[0]
 
 								this.cargarDatosSpin();
+								this.cargarOperarios();
 							
 							}
 
@@ -403,6 +405,20 @@ export default {
 			} ).catch( err => {
 
 				console.log( "[ERROR] No se ha podido obtener el boletín de la máquina. Error detallado: " + err );
+
+			} )
+
+		},
+
+		cargarOperarios: function(e){
+
+			axios.get( "http://192.168.1.10:3000/maquina/" + this.id + "/operarios" ).then( res => {
+
+				console.log(res.data);
+
+			} ).catch( err =>{
+
+				console.log( "[ERROR] No se han podido obtener los operarios dados de alta en la maquina. Error detallado: " + err );
 
 			} )
 
