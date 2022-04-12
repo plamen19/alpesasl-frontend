@@ -27,7 +27,7 @@
 						
 							</div>
 
-							<button class="button is-success is-small is-light"><i class="bi bi-search mx-1"></i> Ficha</button>
+							<button class="button is-info is-small is-light"><i class="bi bi-search mx-1"></i> Ficha</button>
 						</div>
 					</article>
 

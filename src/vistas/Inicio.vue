@@ -9,12 +9,7 @@
 		<p>Sistema de gestión y maquinaria.</p>
 
 		<br>
-
-		<h3>Último boletín</h3>
-		<p>Último boletín iniciado registrado en el sistema.</p>
-
-		<UltBoletin :data="ultBoletinIniciado"/>
-
+		
 		<h3>Operaciones</h3>
 		<p>Últimas operaciones registradas en el sistema.</p>
 
