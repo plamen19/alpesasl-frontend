@@ -2,7 +2,7 @@
        <div class="container-fluid">
               <div class="row flex-nowrap">
 			<div class="col-1">
-              		<sidebar-menu collapsed="true" width="220px" :menu="menu" />
+              		<Menu/>
 			</div>
                      <div class="col py-3">
                             <div class="container">
@@ -15,51 +15,20 @@
 </template>
 
 <script>
+import Menu from './components/Menu.vue';
+
 export default {
+       components: { Menu },
        name: "App",
 
        data() {
               return {
+
                      ubicacion: 0,
 
-                     menu: [
-							
-                            {
-                                   href: "/",
-                                   title: "Inicio",
-                                   icon: "bi bi-house-fill",
-                            },
-
-                            {
-                                   href: "/maquinas",
-                                   title: "Maquinas",
-                                   icon: "bi bi-pc-display",
-                            },	
-                            {
-                                   href: "/operarios",
-                                   title: "Operarios",
-                                   icon: "bi bi-people-fill",
-                            },
-                            {
-                                   href: "/operaciones",
-                                   title: "Operaciones",
-                                   icon: "bi bi-journals",
-                            },	
-                            {
-                                   href: "/boletines",
-                                   title: "Boletines",
-                                   icon: "bi bi-journal",
-                            },	
-
-                     ],
               };
        },
 
-       methods: {
-              cambiarUbicacion: function (ubi) {
-                     this.ubicacion = ubi;
-              },
-       },
 };
 </script>
 

@@ -56,7 +56,7 @@ export default {
 
 		cargarBoletines: function(e){
 
-			axios.get( "http://localhost:3000/boletines" ).then( res => {
+			axios.get( "http://192.168.1.10:3000/boletines" ).then( res => {
 
 				this.boletines = res.data;
 
