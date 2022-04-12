@@ -38,6 +38,8 @@
 
 							</div>
 
+<!-- 							<GraficoVelocidad :velocidad="velocidad" :tiempos="getTiempoFormateado(tiempos[1])"/>
+ -->
 							<!-- 
 								TIEMPOS DE LA MÁQUINA (PREPARACIÓN, PARADA, MARCHA...)
 							-->
@@ -224,7 +226,7 @@ export default {
 			temporizadorDatosReales: null,
 			temporizadorSpin: null,
 
-			debug: true, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
+			debug: false, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
 
 			badgeEstados: {
 
@@ -394,7 +396,7 @@ export default {
 					this.$vs.loading.close('#div_con_carga > .con-vs-loading')
 
 					if( !this.debug ){
-						this.temporizadorSpin = setTimeout( () => { this.cargarDatosSpin() }, 1200 ); 
+						this.temporizadorSpin = setTimeout( () => { this.cargarDatosSpin(); }, 1200 ); 
 					}
 
 				}
@@ -482,7 +484,7 @@ export default {
 
 		this.cargarEstadosMaquina();
 		this.cargarDatos();
-		
+
 	},
 
 	beforeUnmount(){
@@ -499,7 +501,7 @@ export default {
 		this.temporizadorDatosReales = null;
 		this.temporizadorSpin = null;
 
-	}
+	},
 
 }
 </script>
