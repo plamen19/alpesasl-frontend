@@ -283,13 +283,13 @@ export default {
 
 		cargarDatos: function(e){
 
-			axios.get( "http://192.168.1.10:3000/maquina/" + this.id ).then( res => {
+			axios.get( "http://"+ process.env.VUE_APP_API +":3000/maquina/" + this.id ).then( res => {
 
 				this.datos = res.data[0];
 
 				this.codMaquina = (this.datos.Maquina).substring((this.datos.Maquina).lastIndexOf(" ") + 1)
 
-				axios.get( "http://192.168.1.10:3000/maquina/" + this.id + "/anchotira" ).then( res => {
+				axios.get( "http://"+ process.env.VUE_APP_API +":3000/maquina/" + this.id + "/anchotira" ).then( res => {
 
 					if( res && res.data && res.data[0].Anchotira ){
 
@@ -318,7 +318,7 @@ export default {
 
 		cargarEstadosMaquina: function(e){
 
-			axios.get( "http://192.168.1.10:3000/maquinas/estados" ).then( res => {
+			axios.get( "http://"+ process.env.VUE_APP_API +":3000/maquinas/estados" ).then( res => {
 
 				res.data.forEach(tipo => {
 					
@@ -338,7 +338,7 @@ export default {
 
 			try{
 
-				axios.get( "http://192.168.1.10:3000/modbus/" + this.datos.Maquina.replace(/\s/g, '') ).then( res => {
+				axios.get( "http://"+ process.env.VUE_APP_API +":3000/modbus/" + this.datos.Maquina.replace(/\s/g, '') ).then( res => {
 
 					if( res.data && res.data.err ){
 
@@ -376,7 +376,7 @@ export default {
 
 			try{
 
-				let response = await axios.get( "http://192.168.1.10:3000/spincliente/" + this.codMaquina + "/datos" );
+				let response = await axios.get( "http://"+ process.env.VUE_APP_API +":3000/spincliente/" + this.codMaquina + "/datos" );
 
 				if( response.data && response.data.datos ){
 
@@ -443,17 +443,17 @@ export default {
 
 		cargarBoletin: function(e){
 
-			axios.get( "http://192.168.1.10:3000/maquina/" + this.id + "/boletinID" ).then( res => {
+			axios.get( "http://"+ process.env.VUE_APP_API +":3000/maquina/" + this.id + "/boletinID" ).then( res => {
 
 				if( res && res.data[0].Boletin ){
 					
 					let boletinID = res.data[0].Boletin
 
-					axios.get( "http://192.168.1.10:3000/boletines/" + boletinID ).then( res => {
+					axios.get( "http://"+ process.env.VUE_APP_API +":3000/boletines/" + boletinID ).then( res => {
 
 						this.boletin = res.data[0];
 
-						axios.get( "http://192.168.1.10:3000/operacion/" + this.boletin.idOperacion ).then( res => {
+						axios.get( "http://"+ process.env.VUE_APP_API +":3000/operacion/" + this.boletin.idOperacion ).then( res => {
 
 							if( res && res.data ){
 
@@ -486,7 +486,7 @@ export default {
 
 		cargarOperarios: function(e){
 
-			axios.get( "http://192.168.1.10:3000/maquina/" + this.id + "/operarios" ).then( res => {
+			axios.get( "http://"+ process.env.VUE_APP_API +":3000/maquina/" + this.id + "/operarios" ).then( res => {
 
 				this.operariosAlta = res.data;
 

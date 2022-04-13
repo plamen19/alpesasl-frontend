@@ -34,7 +34,7 @@ export default {
 
 		cargarOperaciones: function(e){
 
-			axios.get( "http://192.168.1.10:3000/operaciones" ).then( res => {
+			axios.get( "http://"+ process.env.VUE_APP_API +":3000/operaciones" ).then( res => {
 
 				this.operaciones = res.data
 

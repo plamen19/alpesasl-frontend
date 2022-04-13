@@ -4,7 +4,7 @@
 
 		<h3>Boletines</h3>
 		<p>Información detallada de los boletines.</p>
-		
+
 		<table class="table">
 
 			<thead>
@@ -56,7 +56,7 @@ export default {
 
 		cargarBoletines: function(e){
 
-			axios.get( "http://192.168.1.10:3000/boletines" ).then( res => {
+			axios.get( "http://"+ process.env.VUE_APP_API +":3000/boletines" ).then( res => {
 
 				this.boletines = res.data;
 

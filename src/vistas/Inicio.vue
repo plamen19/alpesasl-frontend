@@ -58,7 +58,7 @@ export default {
 
 		cargarUltimosBoletines: function(e){
 
-			axios.get( "http://192.168.1.10:3000/boletines/ultimoIniciado" ).then( res => {
+			axios.get( "http://" + process.env.VUE_APP_API + ":3000/boletines/ultimoIniciado" ).then( res => {
 
 				this.ultBoletinIniciado = res.data;
 

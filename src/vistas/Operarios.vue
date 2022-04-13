@@ -54,7 +54,7 @@ export default {
 
        methods: {
               cargarOperarios: function (e) {
-                     axios.get("http://192.168.1.10:3000/operarios")
+                     axios.get("http://"+ process.env.VUE_APP_API +":3000/operarios")
                             .then((res) => {
                                    this.operarios = res.data.sort( (a,b)=>{ return a.TUR !== b.TUR } );
                             })
@@ -65,7 +65,7 @@ export default {
 
 		cargarGruposOperarios: function(e){
 
-			axios.get( "http://192.168.1.10:3000/operarios/grupos" ).then( res => {
+			axios.get( "http://"+ process.env.VUE_APP_API +":3000/operarios/grupos" ).then( res => {
 
 				res.data.forEach(grupo => {
 					

@@ -39,7 +39,7 @@ export default {
 
 		cargarMaquinas: function(e){
 
-			axios.get( "http://192.168.1.10:3000/maquinas" ).then( res => {
+			axios.get( "http://"+ process.env.VUE_APP_API +":3000/maquinas" ).then( res => {
 
 				this.maquinas = ( res.data.sort( (a,b)=>{ return a.PLC < b.PLC } ) )
 
@@ -53,7 +53,7 @@ export default {
 
 		cargarTiposMaquina: function(e){
 
-			axios.get( "http://192.168.1.10:3000/maquinas/tipos" ).then( res => {
+			axios.get( "http://"+ process.env.VUE_APP_API +":3000/maquinas/tipos" ).then( res => {
 
 				res.data.forEach(tipo => {
 					
