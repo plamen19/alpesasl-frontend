@@ -9,20 +9,15 @@
 				<div class="col-12 col-md-10">
 
 					<vs-card id="div_con_carga" class="p-3 vs-con-loading__container">
+						
 						<!-- 
 							NOMBRE Y ESTADO DE LA MAQUINA
 						-->
-						<h3>{{ datos.Maquina }}
-
-							<span class="estado-maquina" v-if="estadoMaquina === 'Desconocido'"><span class="tag is-light is-secondary">Cargando estado...</span></span>
-							<span class="estado-maquina" v-else><span style="font-size:0.8em;" :class="badgeEstados[estadoMaquina]">{{ estadoMaquina.toLowerCase().charAt(0).toUpperCase() + estadoMaquina.toLowerCase().slice(1) }}</span></span>
-
-						</h3>
+						<h3>{{ datos.Maquina }} <InfoEstadoMaquina :estadoMaquina="estadoMaquina"/></h3>
 
 						<div v-if="ventana === 1">
 
-							<h5><b class="tag is-info is-light">Cliente:</b> {{ operacion.Cliente }}</h5>
-							<h5><b class="tag is-info is-light">Desc.:</b> {{ operacion.Descripcion }}</h5>
+							<InfoCliente :cliente="operacion.Cliente" :descripcion="operacion.Descripcion"/>
 
 							<!-- 
 								VELOCIDAD DE LA MÁQUINA
@@ -36,10 +31,8 @@
 
 								<BarraVelocidad :merma="merma" :velocidad="velocidad"/>
 
-							</div>
+							</div>				
 
-<!-- 							<GraficoVelocidad :velocidad="velocidad" :tiempos="getTiempoFormateado(tiempos[1])"/>
- -->
 							<!-- 
 								TIEMPOS DE LA MÁQUINA (PREPARACIÓN, PARADA, MARCHA...)
 							-->
@@ -62,11 +55,18 @@
 
 							</div>
 
+							<el-collapse accordion>
+								<el-collapse-item title="Gráfico velocidad" name="2">
+
+									<LineChart :height="100" :chartData="testData" />
+
+								</el-collapse-item>
+							</el-collapse>								
+
 						</div>
 						<div v-else-if="ventana === 2">
 
-							<h5><b class="tag is-info is-light">Cliente:</b> {{ operacion.Cliente }}</h5>
-							<h5><b class="tag is-info is-light">Desc.:</b> {{ operacion.Descripcion }}</h5>
+							<InfoCliente :cliente="operacion.Cliente" :descripcion="operacion.Descripcion"/>
 
 							<!-- 
 								VELOCIDAD DE LA MÁQUINA
@@ -175,6 +175,13 @@ import BarraVelocidad from '../components/BarraVelocidad.vue';
 import MenuMaquina from '../components/MenuMaquina.vue';
 import MarqueeVelocidad from '../components/MarqueeVelocidad.vue';
 import ListaOperariosAlta from '../components/ListaOperariosAlta.vue';
+import InfoCliente from '../components/InfoCliente.vue';
+import InfoEstadoMaquina from '../components/InfoEstadoMaquina.vue';
+
+import { LineChart } from 'vue-chart-3';
+import { Chart, registerables } from "chart.js";
+
+Chart.register(...registerables);
 
 export default {
 	
@@ -188,6 +195,9 @@ export default {
 		MenuMaquina,
 		MarqueeVelocidad,
 		ListaOperariosAlta,
+		LineChart,
+		InfoCliente,
+		InfoEstadoMaquina
 
 	},
 
@@ -228,17 +238,17 @@ export default {
 
 			debug: false, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
 
-			badgeEstados: {
-
-				'SIN ESTADO': 'tag is-light is-secondary',
-				'PREPARACION': 'tag is-light is-info',
-				'MARCHA': 'tag is-light is-success',
-				'TEST PARO': 'tag is-light is-secondary',
-				'PARO': 'tag is-light is-danger',
-				'TEST MARCHA': 'tag is-light is-secondary',
-				'DESCANSO': 'tag is-light is-primary',
-				'LIMPIEZA': 'tag is-light is-primary',
-
+			testData: {
+				labels: [],
+				datasets: [
+					{
+						label: 'Velocidad',
+						data: [],
+						backgroundColor: ['#123E6B', '#123E6B', '#123E6B', '#123E6B', '#123E6B'],
+						tension: 0
+					},
+				],	
+				
 			},
 
 		}
@@ -393,6 +403,14 @@ export default {
 
 					this.merma = 100 * ((this.metrosEncolado) - (this.mtslincorte)) / this.metrosEncolado;
 
+					if( this.testData.labels.length >= 15 ){
+						this.testData.labels.shift(0,5);
+						this.testData.datasets[0].data.shift(0,5);
+					}
+
+					this.testData.labels = [...this.testData.labels, this.getTiempoFormateado( this.tiempos[1] )]; 
+					this.testData.datasets[0].data = [...this.testData.datasets[0].data, this.velocidad.toFixed(2)];
+					
 					this.$vs.loading.close('#div_con_carga > .con-vs-loading')
 
 					if( !this.debug ){
@@ -531,12 +549,6 @@ export default {
 		margin:0 auto;
 
 		transition: all .3s;
-	}
-
-	h5{
-
-		font-size: 0.8em;
-
 	}
 
 </style>

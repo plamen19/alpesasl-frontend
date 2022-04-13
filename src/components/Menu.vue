@@ -18,7 +18,13 @@ export default {
 		return({
 
                      menu: [
-							
+
+				{
+					header: 'Alpesa SL - Gestión',
+					hidden: false,
+					hiddenOnCollapse: true,
+				},
+				
                             {
                                    href: "/",
                                    title: "Inicio",
