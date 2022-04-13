@@ -31,9 +31,9 @@
 					<h6 class="f-4 text-muted text-center">% Merma</h6>
 					<div class="barra-velocidad">
 
-						<el-progress :stroke-width="12" :width="160" type="dashboard" :percentage="((+merma.toFixed(2) > 0 ? +merma.toFixed(2) : 0))" color="#f56c6c">
+						<el-progress v-if="merma" :stroke-width="12" :width="160" type="dashboard" :percentage="((+merma > 0 ? +merma : 0))" color="#f56c6c">
 
-							<span class="percentage-value text-danger">{{ merma.toFixed(2) }}%</span>
+							<span class="percentage-value text-danger">{{ Math.ceil( merma ) }}%</span>
 
 						</el-progress>
 
@@ -92,6 +92,11 @@ export default {
 			}
 
 		}
+
+	},
+
+	mounted(){
+
 
 	}
 

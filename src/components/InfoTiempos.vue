@@ -6,15 +6,15 @@
 
 			<div class="col-12 col-md-6 text-center">
 
-				<p class="tag is-light is-secondary"><b>Tiemp.:</b> <span>{{ getTiempoFormateado( tiempos[1] ) }}</span></p>
+				<p class="tag is-light is-secondary"><b>Tiemp.:</b> <span>{{ getTiempoFormateado( tiempos[1] ) }} | <b>Conc.:</b> {{ getTiempoFormateado( tiempos[5] + tiempos[6] ) }}</span></p>
 				<br>
-				<p class="tag is-light is-success"><b>TPrep.:</b> <span>{{ getTiempoFormateado( tiempos[2] ) }}</span></p>
+				<p class="tag is-light is-success"><b>TMarcha.:</b> <span>{{ getTiempoFormateado( tiempos[3] ) }} | <b>Conc.:</b> {{ getTiempoFormateado( tiempos[5] ) }}</span></p>
 
 			</div>
 
 			<div class="col-12 col-md-6 text-center">
 
-				<p class="tag is-light is-secondary"><b>TMarcha:</b> <span>{{ getTiempoFormateado( tiempos[3] ) }}</span></p>
+				<p class="tag is-light is-secondary"><b>TPrep:</b> <span>{{ getTiempoFormateado( tiempos[2] ) }} | <b>Conc.:</b> {{  getTiempoFormateado( tiempos[6] ) }}</span></p>
 				<br>
 				<p class="tag is-light is-danger"><b>TParada:</b> <span>{{ getTiempoFormateado( tiempos[4] ) }}</span></p>
 

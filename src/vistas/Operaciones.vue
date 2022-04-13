@@ -3,6 +3,9 @@
 	<div>
 
 		<h3>Operaciones</h3>
+		<p>Las últimas 10 operaciones registradas en la base de datos.</p>
+
+		<ListaOperaciones :operaciones="operaciones"/>
 
 	</div>
 
@@ -10,12 +13,20 @@
 
 <script>
 import axios from 'axios';
+import ListaOperaciones from '../components/ListaOperaciones.vue';
 
 export default {
+       components: { ListaOperaciones },
 	
 	name: 'Operaciones',
 
 	data(){
+
+		return({
+
+			operaciones: []
+
+		})
 
 	},
 
@@ -23,9 +34,9 @@ export default {
 
 		cargarOperaciones: function(e){
 
-			axios.get( "http://localhost:3000/operaciones" ).then( res => {
+			axios.get( "http://192.168.1.10:3000/operaciones" ).then( res => {
 
-				console.log(res.data);
+				this.operaciones = res.data
 
 			} ).catch( err => {
 

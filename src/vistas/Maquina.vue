@@ -9,7 +9,7 @@
 				<div class="col-12 col-md-10">
 
 					<vs-card id="div_con_carga" class="p-3 vs-con-loading__container">
-						
+
 						<!-- 
 							NOMBRE Y ESTADO DE LA MAQUINA
 						-->
@@ -51,7 +51,7 @@
 							-->
 							<div class="mt-5">
 
-								<InfoProduccion :velocidadMedia="velocidadMedia" :velocidad="velocidad" :numCortes="boletin.numCortes" :cantidadBoletin="boletin.CantidadBoletin ? boletin.CantidadBoletin : 0" :cantidadProducida="producido" :metrosEncolado="metrosEncolado" :errorPLC="errorPLC" :velocidadReal="pulsosPLC"/>
+								<InfoProduccion :velocidadMedia="datos.idTipoMaquina == 1 ? velocidadMediaCorrea : velocidadMedia" :velocidad="velocidad" :numCortes="boletin.numCortes" :cantidadBoletin="boletin.CantidadBoletin ? boletin.CantidadBoletin : 0" :cantidadProducida="producido" :metrosEncolado="metrosEncolado" :errorPLC="errorPLC" :velocidadReal="pulsosPLC"/>
 
 							</div>
 
@@ -227,6 +227,8 @@ export default {
 			velocidadMediaCorrea: 0,
 			anchotira: 0,
 			merma: 0,
+			mtsafabricar: 0,
+			vlinealconc: 0,
 
 			velocidad: 'Calculando',
 			codMaquina: '?',
@@ -236,7 +238,7 @@ export default {
 			temporizadorDatosReales: null,
 			temporizadorSpin: null,
 
-			debug: false, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
+			debug: true, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
 
 			testData: {
 				labels: [],
@@ -292,6 +294,7 @@ export default {
 					if( res && res.data && res.data[0].Anchotira ){
 
 						this.anchotira = res.data[0].Anchotira;
+
 						this.cargarBoletin();
 						this.cargarOperarios();
 
@@ -378,43 +381,53 @@ export default {
 				if( response.data && response.data.datos ){
 
 					let datosXML = (response.data).datos.replace(/(\r\n|\n|\r|\t|\u0002|\u0003)/gm,"");
-					let datosArray = datosXML.split(" ");
 
-					this.datosSpin = datosArray;
+					if( datosXML ){
 
-					this.velocidad = this.getNumeroFormateadoSPIN( this.datosSpin[4] );
+						let datosArray = datosXML.split(" ");
 
-					this.metrosEncolado = this.getNumeroFormateadoSPIN(this.datosSpin[5]);
-					this.producido = this.getNumeroFormateadoSPIN(this.datosSpin[3]);
+						this.datosSpin = datosArray;
 
-					this.mtslinencoder = (this.metrosEncolado) * this.anchotira / ( 3.1416 * this.boletin.DiametroInt )
-					this.mtslincorte = ( this.producido ) * this.boletin.numCortes * this.boletin.Longitud / 1000
+						this.tiempos[0] = this.getNumeroFormateadoSPIN(this.datosSpin[10]);
+						this.tiempos[1] = this.getNumeroFormateadoSPIN(this.datosSpin[11]);
+						this.tiempos[2] = this.getNumeroFormateadoSPIN(this.datosSpin[12]);
+						this.tiempos[3] = this.getNumeroFormateadoSPIN(this.datosSpin[13]);
+						this.tiempos[4] = this.getNumeroFormateadoSPIN(this.datosSpin[14].replace("/></DETALLEMAQUINA>", ""));
 
-					this.tiempos[0] = this.getNumeroFormateadoSPIN(this.datosSpin[10]);
-					this.tiempos[1] = this.getNumeroFormateadoSPIN(this.datosSpin[11]);
-					this.tiempos[2] = this.getNumeroFormateadoSPIN(this.datosSpin[12]);
-					this.tiempos[3] = this.getNumeroFormateadoSPIN(this.datosSpin[13]);
-					this.tiempos[4] = this.getNumeroFormateadoSPIN(this.datosSpin[14].replace("/></DETALLEMAQUINA>", ""));
+						this.velocidad = this.getNumeroFormateadoSPIN( this.datosSpin[4] );
 
-					this.velocidadMedia = this.mtslincorte / (this.tiempos[1]/60);
-					this.velocidadMediaCorrea = this.velocidadMedia * 3.1416 * (this.boletin.DiametroInt / this.anchotira)
+						this.metrosEncolado = this.getNumeroFormateadoSPIN(this.datosSpin[5]);
+						this.producido = this.getNumeroFormateadoSPIN(this.datosSpin[3]);
 
-					this.estadoMaquina = ( this.datosSpin[2] ? this.getTextoFormateadoSPIN(this.datosSpin[2]): 'Desconocido' )
+						this.mtslinencoder = ( this.datos.idTipoMaquina == 1 ? (this.metrosEncolado) * this.anchotira / ( 3.1416 * this.boletin.DiametroInt ) : this.metrosEncolado );
+						this.mtslincorte = ( this.producido ) * this.boletin.numCortes * this.boletin.Longitud / 1000
+						this.mtsafabricar = this.boletin.CantidadBoletin * this.boletin.Longitud / 1000;
 
-					this.merma = 100 * ((this.metrosEncolado) - (this.mtslincorte)) / this.metrosEncolado;
+						this.velocidadMedia = isFinite(( this.datos.idTipoMaquina == 1 ? (this.mtslincorte / (this.tiempos[3]/60)) : ((this.producido) * this.boletin.Longitud / 1000) / (this.tiempos[3]/60) )) ? Math.ceil(( this.datos.idTipoMaquina == 1 ? (this.mtslincorte / (this.tiempos[3]/60)) : ((this.producido) * this.boletin.Longitud / 1000) / (this.tiempos[3]/60) )) : 0;
+						this.velocidadMediaCorrea = isFinite(Math.ceil(this.velocidadMedia * 3.1416 * this.boletin.DiametroInt / this.anchotira)) ? Math.ceil(this.velocidadMedia * 3.1416 * this.boletin.DiametroInt / this.anchotira) : 0;
+						this.vlinealconc = this.boletin.VelocidadBoletin * (this.anchotira / (3.1416 * this.boletin.DiametroInt))
 
-					if( this.testData.labels.length >= 15 ){
-						this.testData.labels.shift(0,5);
-						this.testData.datasets[0].data.shift(0,5);
-					}
+						this.estadoMaquina = ( this.datosSpin[2] ? this.getTextoFormateadoSPIN(this.datosSpin[2]): 'Desconocido' )
 
-					this.testData.labels = [...this.testData.labels, this.getTiempoFormateado( this.tiempos[1] )]; 
-					this.testData.datasets[0].data = [...this.testData.datasets[0].data, this.velocidad.toFixed(2)];
-					
-					this.$vs.loading.close('#div_con_carga > .con-vs-loading')
+						this.merma = 100 * ((this.mtslinencoder) - (this.mtslincorte)) / this.mtslinencoder;
 
-					if( !this.debug ){
-						this.temporizadorSpin = setTimeout( () => { this.cargarDatosSpin(); }, 1200 ); 
+						this.tiempos[5] = 60 * this.mtsafabricar / this.vlinealconc
+						this.tiempos[6] = this.boletin.TiempoPreparacionConcedido * 3600;
+
+						if( this.testData.labels.length >= 15 ){
+							this.testData.labels.shift(0,5);
+							this.testData.datasets[0].data.shift(0,5);
+						}
+
+						this.testData.labels = [...this.testData.labels, this.getTiempoFormateado( this.tiempos[1] )]; 
+						this.testData.datasets[0].data = [...this.testData.datasets[0].data, this.velocidad.toFixed(2)];
+						
+						this.$vs.loading.close('#div_con_carga > .con-vs-loading')
+
+						if( !this.debug ){
+							this.temporizadorSpin = setTimeout( () => { this.cargarDatosSpin(); }, 1200 ); 
+						}
+
 					}
 
 				}

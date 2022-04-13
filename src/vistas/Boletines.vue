@@ -4,7 +4,7 @@
 
 		<h3>Boletines</h3>
 		<p>Información detallada de los boletines.</p>
-
+		
 		<table class="table">
 
 			<thead>
