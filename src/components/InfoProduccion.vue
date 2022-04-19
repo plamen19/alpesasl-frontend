@@ -31,15 +31,25 @@
 
 			<div class="col-12 col-sm-12 col-md-6 mx-auto mt-2">
 
-				<vs-card :style="getStyleFromVelocidad()">
+				<vs-card @click="cambiarTipoVelocidad()" :style="getStyleFromVelocidad()">
 
 						<h5><i class="bi bi-speedometer"></i> Velocidad</h5>
 
-
-
 						<div class="text-center">
 
-							<h4><span>{{ velocidad !== 'Calculando' ? (velocidad.toFixed(2)).replace(".",",") + "("+velocidadMedia.toFixed(2)+").L" : velocidad }}</span></h4>
+							<h4><span>{{ 
+
+								esMandriladora ? (
+
+									tipoVelocidad === 1 ? 
+									velocidad !== 'Calculando' ? ( velocidadCorrea.toFixed(2)).replace(".",",") + "("+ Math.floor( velocidadMedia ) +").L" : velocidad :
+									velocidad !== 'Calculando' ? ( velocidad.toFixed(2).replace(".",",") + "("+ Math.floor(velocidadMediaCorrea) +").c" ) : velocidad
+
+								) :
+								velocidad !== 'Calculando' ? ( velocidad.toFixed(2).replace(".",",") + "("+ Math.floor(velocidadMedia) +").L" ) : velocidad
+
+								
+							}}</span></h4>
 
 						</div>
 
@@ -90,7 +100,17 @@ export default {
 	
 	name: 'InfoProduccion',
 
-	props: [ 'velocidad', 'velocidadMedia', 'velocidadReal', 'metrosEncolado', 'numCortes', 'cantidadBoletin', 'cantidadProducida', 'errorPLC' ],
+	props: [ 'velocidad', 'velocidadMedia', 'velocidadCorrea', 'velocidadMediaCorrea', 'velocidadReal', 'metrosEncolado', 'numCortes', 'cantidadBoletin', 'cantidadProducida', 'errorPLC', 'esMandriladora' ],
+
+	data(){
+
+		return({
+
+			tipoVelocidad: 1,
+
+		})
+
+	},
 
 	methods: {
 
@@ -109,6 +129,13 @@ export default {
 				return 'background-color:rgba(0,255,0,0.08); color:rgba(0,150,0,0.5);'
 
 			}
+
+		},
+
+		cambiarTipoVelocidad: function(){
+
+			(this.esMandriladora && this.tipoVelocidad === 1) ? (this.tipoVelocidad = 2) : this.tipoVelocidad = 1;
+			this.$emit( 'cambiarTipoVelocidad', this.tipoVelocidad )
 
 		}
 

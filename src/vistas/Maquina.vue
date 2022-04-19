@@ -22,16 +22,20 @@
 							<!-- 
 								VELOCIDAD DE LA MÁQUINA
 							-->
-							<div v-if="velocidad === 'Calculando'">
+							<div v-if="datos.idTipoMaquina < 3">
 
-								<BarraVelocidad :cargando="true"/>
+								<div v-if="velocidad === 'Calculando'">
 
-							</div>
-							<div class="mt-3" v-else>
+									<BarraVelocidad :cargando="true"/>
 
-								<BarraVelocidad :merma="merma" :velocidad="velocidad"/>
+								</div>
+								<div class="mt-3" v-else>
+									
+									<BarraVelocidad :merma="merma" :velocidad="(tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
 
-							</div>				
+								</div>
+
+							</div>			
 
 							<!-- 
 								TIEMPOS DE LA MÁQUINA (PREPARACIÓN, PARADA, MARCHA...)
@@ -51,7 +55,7 @@
 							-->
 							<div class="mt-5">
 
-								<InfoProduccion :velocidadMedia="datos.idTipoMaquina == 1 ? velocidadMediaCorrea : velocidadMedia" :velocidad="velocidad" :numCortes="boletin.numCortes" :cantidadBoletin="boletin.CantidadBoletin ? boletin.CantidadBoletin : 0" :cantidadProducida="producido" :metrosEncolado="metrosEncolado" :errorPLC="errorPLC" :velocidadReal="pulsosPLC"/>
+								<InfoProduccion @cambiarTipoVelocidad="cambiarTipoVelocidad" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :velocidadMediaCorrea="velocidadMediaCorrea" :velocidadMedia="velocidadMedia" :velocidadCorrea="velocidadActual" :velocidad="velocidad" :numCortes="boletin.numCortes" :cantidadBoletin="boletin.CantidadBoletin ? boletin.CantidadBoletin : 0" :cantidadProducida="producido" :metrosEncolado="metrosEncolado" :errorPLC="errorPLC" :velocidadReal="pulsosPLC"/>
 
 							</div>
 
@@ -71,14 +75,18 @@
 							<!-- 
 								VELOCIDAD DE LA MÁQUINA
 							-->
-							<div v-if="velocidad === 'Calculando'">
+							<div v-if="datos.idTipoMaquina < 3">
 
-								<BarraVelocidad :cargando="true"/>
+								<div v-if="velocidad === 'Calculando'">
 
-							</div>
-							<div class="mt-3" v-else>
+									<BarraVelocidad :cargando="true"/>
 
-								<BarraVelocidad :merma="merma" :velocidad="velocidad"/>
+								</div>
+								<div class="mt-3" v-else>
+
+									<BarraVelocidad :merma="merma" :velocidad="(tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
+
+								</div>
 
 							</div>
 
@@ -217,6 +225,7 @@ export default {
 			operacion: [],
 			operariosAlta: [],
 	
+			tipoVelocidad: 1,
 			producido: 0,
 			metrosEncolado: 0,
 			pulsosPLC: 0,
@@ -225,20 +234,20 @@ export default {
 			mtslincorte: 0,
 			velocidadMedia: 0,
 			velocidadMediaCorrea: 0,
+			velocidadActual: 0,
 			anchotira: 0,
 			merma: 0,
 			mtsafabricar: 0,
 			vlinealconc: 0,
 
 			velocidad: 'Calculando',
-			codMaquina: '?',
 			estadoMaquina: 'Desconocido',
 			
 			temporizadorDatos: null,
 			temporizadorDatosReales: null,
 			temporizadorSpin: null,
 
-			debug: false, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
+			debug: true, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
 
 			testData: {
 				labels: [],
@@ -295,19 +304,96 @@ export default {
 
 		},
 
+		calcularTiempos: function(arrayTiempos){ 
+			this.tiempos = [
+
+				this.getNumeroFormateadoSPIN( arrayTiempos[0] ),
+				this.getNumeroFormateadoSPIN( arrayTiempos[1] ),
+				this.getNumeroFormateadoSPIN( arrayTiempos[2] ),
+				this.getNumeroFormateadoSPIN( arrayTiempos[3] ),
+				this.getNumeroFormateadoSPIN( arrayTiempos[4] ),
+				!isFinite(60 * this.mtsafabricar / this.vlinealconc) ? 0 : 60 * this.mtsafabricar / this.vlinealconc,
+				!isFinite(this.boletin.TiempoPreparacionConcedido * 3600) ? 0 : this.boletin.TiempoPreparacionConcedido * 3600,
+			];
+		},
+
+		calcularMetros: function(){
+
+			this.mtslinencoder = ( this.datos.idTipoMaquina == 1 ? (this.metrosEncolado) * this.anchotira / ( 3.1416 * this.boletin.DiametroInt ) : this.metrosEncolado );
+			this.mtslincorte = ( this.producido ) * this.boletin.numCortes * this.boletin.Longitud / 1000
+			this.mtsafabricar = this.boletin.CantidadBoletin * this.boletin.Longitud / 1000;
+			
+		},
+
+		calcularVelocidades: function(){
+
+			this.velocidadMedia = isFinite(( this.datos.idTipoMaquina == 1 ? (this.mtslincorte / (this.tiempos[3]/60)) : ((this.producido) * this.boletin.Longitud / 1000) / (this.tiempos[3]/60) )) ? Math.ceil(( this.datos.idTipoMaquina == 1 ? (this.mtslincorte / (this.tiempos[3]/60)) : ((this.producido) * this.boletin.Longitud / 1000) / (this.tiempos[3]/60) )) : 0;
+			this.velocidadMediaCorrea = isFinite(Math.floor(this.velocidadMedia * 3.1416 * this.boletin.DiametroInt / this.anchotira)) ? Math.floor(this.velocidadMedia * 3.1416 * this.boletin.DiametroInt / this.anchotira) : 0;
+			this.velocidadActual = this.velocidad * ( this.anchotira / ( 3.1416 * this.boletin.DiametroInt ) )
+			this.vlinealconc = this.boletin.VelocidadBoletin * (this.anchotira / (3.1416 * this.boletin.DiametroInt))
+
+		},
+
+		calcularMerma: function(){
+			this.merma = 100 * ((this.mtslinencoder) - (this.mtslincorte)) / this.mtslinencoder;
+		},
+
+		insertarDatosGrafico: function(){
+
+			this.testData.labels = [...this.testData.labels, this.getTiempoFormateado( this.tiempos[1] )]; 
+			this.testData.datasets[0].data = [...this.testData.datasets[0].data, this.velocidad.toFixed(2)];
+			this.testData.datasets[1].data = [...this.testData.datasets[1].data, this.producido];
+			this.testData.datasets[2].data = [...this.testData.datasets[2].data, this.merma];
+
+		},
+
+		resetearGrafico: function(){  
+
+			this.testData.labels.shift(0,5);
+			this.testData.datasets[0].data.shift(0,5);
+			this.testData.datasets[1].data.shift(0,5);
+
+		},
+
+		cargarEstadosMaquina: function(e){
+
+			axios.get( "http://"+ process.env.VUE_APP_API +":3000/maquinas/estados" ).then( res => {
+
+				res.data.forEach(tipo => {
+					
+					this.estadosMaquinas[ tipo.codEstado ] = tipo.Estado;
+
+				});
+
+			} ).catch( err => {
+
+				console.log("[ERROR] No se han podido cargar las máquinas. Error detallado: " + err);
+
+			} )			
+
+		},
+
 		cargarDatos: function(e){
 
 			axios.get( "http://"+ process.env.VUE_APP_API +":3000/maquina/" + this.id ).then( res => {
 
 				this.datos = res.data[0];
 
-				this.codMaquina = (this.datos.Maquina).substring((this.datos.Maquina).lastIndexOf(" ") + 1)
+				if( this.datos.idTipoMaquina >= 3 ){
+
+					this.cargarBoletin();
+					this.cargarOperarios();
+					return;
+
+				}
 
 				axios.get( "http://"+ process.env.VUE_APP_API +":3000/maquina/" + this.id + "/anchotira" ).then( res => {
 
 					if( res && res.data && res.data[0].Anchotira ){
 
 						this.anchotira = res.data[0].Anchotira;
+
+						console.log( "Ancho tira cargado" );
 
 						this.cargarBoletin();
 						this.cargarOperarios();
@@ -330,29 +416,11 @@ export default {
 
 		},
 
-		cargarEstadosMaquina: function(e){
-
-			axios.get( "http://"+ process.env.VUE_APP_API +":3000/maquinas/estados" ).then( res => {
-
-				res.data.forEach(tipo => {
-					
-					this.estadosMaquinas[ tipo.codEstado ] = tipo.Estado;
-
-				});
-
-			} ).catch( err => {
-
-				console.log("[ERROR] No se han podido cargar las máquinas. Error detallado: " + err);
-
-			} )			
-
-		},
-
 		cargarDatosReales: async function(e){
 
 			try{
 
-				axios.get( "http://"+ process.env.VUE_APP_API +":3000/modbus/" + this.datos.Maquina.replace(/\s/g, '') ).then( res => {
+				axios.get( "http://"+ process.env.VUE_APP_API +":3000/modbus/" + this.datos.codMaquina ).then( res => {
 
 					if( res.data && res.data.err ){
 
@@ -390,9 +458,7 @@ export default {
 
 			try{
 
-				let response = await axios.get( "http://"+ process.env.VUE_APP_API +":3000/spincliente/" + this.codMaquina + "/datos" );
-
-				console.log(response.data);
+				let response = await axios.get( "http://"+ process.env.VUE_APP_API +":3000/spincliente/" + this.datos.codMaquina + "/datos" );
 
 				if( response.data && response.data.datos ){
 
@@ -400,48 +466,22 @@ export default {
 
 					if( datosXML ){
 
-						let datosArray = datosXML.split(" ");
-
-						this.datosSpin = datosArray;
-
-						this.tiempos[0] = this.getNumeroFormateadoSPIN(this.datosSpin[10]);
-						this.tiempos[1] = this.getNumeroFormateadoSPIN(this.datosSpin[11]);
-						this.tiempos[2] = this.getNumeroFormateadoSPIN(this.datosSpin[12]);
-						this.tiempos[3] = this.getNumeroFormateadoSPIN(this.datosSpin[13]);
-						this.tiempos[4] = this.getNumeroFormateadoSPIN(this.datosSpin[14].replace("/></DETALLEMAQUINA>", ""));
+						this.datosSpin = datosXML.split(" ");
 
 						this.velocidad = this.getNumeroFormateadoSPIN( this.datosSpin[4] );
-
 						this.metrosEncolado = this.getNumeroFormateadoSPIN(this.datosSpin[5]);
 						this.producido = this.getNumeroFormateadoSPIN(this.datosSpin[3]);
-
-						this.mtslinencoder = ( this.datos.idTipoMaquina == 1 ? (this.metrosEncolado) * this.anchotira / ( 3.1416 * this.boletin.DiametroInt ) : this.metrosEncolado );
-						this.mtslincorte = ( this.producido ) * this.boletin.numCortes * this.boletin.Longitud / 1000
-						this.mtsafabricar = this.boletin.CantidadBoletin * this.boletin.Longitud / 1000;
-
-						this.velocidadMedia = isFinite(( this.datos.idTipoMaquina == 1 ? (this.mtslincorte / (this.tiempos[3]/60)) : ((this.producido) * this.boletin.Longitud / 1000) / (this.tiempos[3]/60) )) ? Math.ceil(( this.datos.idTipoMaquina == 1 ? (this.mtslincorte / (this.tiempos[3]/60)) : ((this.producido) * this.boletin.Longitud / 1000) / (this.tiempos[3]/60) )) : 0;
-						this.velocidadMediaCorrea = isFinite(Math.ceil(this.velocidadMedia * 3.1416 * this.boletin.DiametroInt / this.anchotira)) ? Math.ceil(this.velocidadMedia * 3.1416 * this.boletin.DiametroInt / this.anchotira) : 0;
-						this.vlinealconc = this.boletin.VelocidadBoletin * (this.anchotira / (3.1416 * this.boletin.DiametroInt))
-
 						this.estadoMaquina = ( this.datosSpin[2] ? this.getTextoFormateadoSPIN(this.datosSpin[2]): 'Desconocido' )
 
-						this.merma = 100 * ((this.mtslinencoder) - (this.mtslincorte)) / this.mtslinencoder;
+						this.calcularMerma();
+						this.calcularMetros();
+						this.calcularTiempos( [ this.datosSpin[10], this.datosSpin[11], this.datosSpin[12], this.datosSpin[13], this.datosSpin[14].replace("/></DETALLEMAQUINA>", "") ] );
+						this.calcularVelocidades();
+						this.insertarDatosGrafico();
 
-						this.tiempos[5] = 60 * this.mtsafabricar / this.vlinealconc
-						this.tiempos[6] = this.boletin.TiempoPreparacionConcedido * 3600;
-
-						if( this.testData.labels.length >= 15 ){
-							this.testData.labels.shift(0,5);
-							this.testData.datasets[0].data.shift(0,5);
-							this.testData.datasets[1].data.shift(0,5);
-						}
-
-						this.testData.labels = [...this.testData.labels, this.getTiempoFormateado( this.tiempos[1] )]; 
-						this.testData.datasets[0].data = [...this.testData.datasets[0].data, this.velocidad.toFixed(2)];
-						this.testData.datasets[1].data = [...this.testData.datasets[1].data, this.producido];
-						this.testData.datasets[2].data = [...this.testData.datasets[2].data, this.merma];
+						if( this.testData.labels.length >= 15 ){ this.resetearGrafico(); }
 						
-						this.$vs.loading.close('#div_con_carga > .con-vs-loading')
+						this.$vs.loading.close('#div_con_carga > .con-vs-loading');
 
 						if( !this.debug ){
 							this.temporizadorSpin = setTimeout( () => { this.cargarDatosSpin(); }, 1200 ); 
@@ -463,6 +503,11 @@ export default {
 		cargarBoletin: function(e){
 
 			axios.get( "http://"+ process.env.VUE_APP_API +":3000/maquina/" + this.id + "/boletinID" ).then( res => {
+
+				if( this.datos.idTipoMaquina >= 3 ){
+					this.cargarDatosSpin();
+					return;
+				}
 
 				if( res && res.data[0].Boletin ){
 					
@@ -520,6 +565,12 @@ export default {
 		cambiarVentana: function(nueva){
 
 			this.ventana = nueva
+
+		},
+
+		cambiarTipoVelocidad: function(tipo_velocidad){
+
+			this.tipoVelocidad = tipo_velocidad;
 
 		}
 	
