@@ -16,9 +16,9 @@
 					<h6 class="f-4 text-muted text-center">Velocidad</h6>
 					<div class="barra-velocidad">
 
-						<el-progress :stroke-width="12" :width="160" type="dashboard" :percentage="(+velocidad.toFixed(2))" :color="colors">
+						<el-progress :stroke-width="12" :width="160" type="dashboard" :percentage="(isFinite((+velocidad.toFixed(2))) ? (+velocidad.toFixed(2)) : 0)" :color="colors">
 
-							<span :style="getColorTexto()" class="percentage-value">{{ velocidad.toFixed(2) }}</span>
+							<span :style="getColorTexto()" class="percentage-value">{{ (isFinite((+velocidad.toFixed(2))) ? (+velocidad.toFixed(2)) : 0) }}</span>
 
 						</el-progress>
 

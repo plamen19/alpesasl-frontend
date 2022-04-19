@@ -13,7 +13,6 @@
 		<h3>Operaciones</h3>
 		<p>Últimas operaciones registradas en el sistema.</p>
 
-
 		<UltOperaciones :data="ultOperaciones"/>
 
        </div>

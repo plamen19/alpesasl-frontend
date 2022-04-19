@@ -110,55 +110,6 @@
 					</vs-card>
 
 					<br>
-
-					<!-- <p class="text-muted">Más información de la máquina.</p>
-
-					<div class="row">
-
-						<div class="col-12 col-sm-6 col-md-6">
-
-							<h3>Información básica</h3>
-
-							<li><b>Cuchillas activas:</b> {{ datos.CuchActivas }}</li>
-							<li><b>Gramaje cola:</b> {{ datos.GramajeCola }}</li>
-							<li><b>Tara Merma:</b> {{ datos.TaraMerma }}</li>
-							<li><b>Último boletín:</b> {{ datos.UltimoBoletin }}</li>
-							<li><b>PLC Activo:</b> <span :class="datos.PLC == 1 ? 'badge bg-success' : 'badge bg-danger'">{{ datos.PLC == 1 ? 'Sí' : 'No' }}</span></li>
-
-						</div>
-
-						<div class="col-12 col-sm-6 col-md-6">
-
-							<h3>Últ. Informe velocidad</h3>
-
-							<div v-if="informeVelocidad">
-								
-								<li><b>Velocidad:</b> {{ informeVelocidad.Velocidad }}</li>
-								<li><b>Diametro min:</b> {{ informeVelocidad.DiametroMin }}</li>
-								<li><b>Diametro max:</b> {{ informeVelocidad.DiametroMax }}</li>
-								<li><b>Longitud min:</b> {{ informeVelocidad.LongitudMin }}</li>
-								<li><b>Longitud max:</b> {{ informeVelocidad.LongitudMax }}</li>
-
-							</div>
-							<div v-else>
-
-								<article class="message is-danger">
-									<div class="message-header">
-										<p>Sin datos</p>
-										<button class="delete" aria-label="delete"></button>
-									</div>
-									<div class="message-body">
-										No se pueden cargar los datos detallados de la velocidad.
-									</div>
-								</article>	
-
-							</div>
-
-						</div>
-
-					</div> -->
-
-					<br>
 							
 				</div>
 
@@ -247,7 +198,7 @@ export default {
 			temporizadorDatosReales: null,
 			temporizadorSpin: null,
 
-			debug: true, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
+			debug: false, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
 
 			testData: {
 				labels: [],
