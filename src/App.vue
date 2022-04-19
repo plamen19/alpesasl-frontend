@@ -7,7 +7,7 @@
                      <div class="col py-3">
                             <div class="container">
                                    <br />
-                                   <router-view />
+                                   <router-view class="ml-4 ml-sm-0" />
                             </div>
                      </div>
               </div>

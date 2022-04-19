@@ -82,7 +82,7 @@ export default {
 
 	.card:hover .card-header{
 
-		background-color: rgba(100,150,100,0.6);
+		background-color: rgba(253,79,0,0.6);
 		color: #fff;
 
 	}
@@ -107,7 +107,8 @@ export default {
 
 	.card-header{
 
-		background-color: rgba(100, 150, 100,0.2);
+		background-color: rgba(42, 42, 46, 0.8);
+		color:#fff;
 
 		transition: all .3s;
 
@@ -116,12 +117,6 @@ export default {
 	.card li{
 
 		font-size: 0.8em;
-
-	}
-
-	.sinplc{
-
-		background-color: rgba(200,0,0,0.15);
 
 	}
 

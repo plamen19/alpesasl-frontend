@@ -5,6 +5,8 @@
 
 		<br><br>
 
+		<img class="d-block mx-auto mb-3" src="logo-alpesa.png" alt="">
+
 		<h3>Principal</h3>
 		<p>Sistema de gestión y maquinaria.</p>
 
@@ -92,12 +94,6 @@ export default {
 	.col h5{
 
 		font-size: 0.85em;
-
-	}
-
-	.card-header{
-
-		background-color: rgba(100,150,100,0.2);
 
 	}
 

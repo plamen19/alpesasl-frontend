@@ -23,7 +23,7 @@
 
 						<br>
 
-						<button class="button is-small is-light is-rounded is-success"><i style="margin-right:5px;" class="bi bi-eye-fill"></i>Detalles</button>
+						<button class="button is-small is-light is-light"><i style="margin-right:5px;" class="bi bi-eye-fill"></i>Ver más...</button>
 
 					</div>
 
@@ -63,7 +63,8 @@ export default {
 
 	.card-header{
 
-		background-color: rgba(100,150,100,0.2);
+		background-color: rgba(42,42,46,0.8);
+		color:#fff;
 
 	}
 

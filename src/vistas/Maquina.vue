@@ -62,7 +62,7 @@
 							<el-collapse accordion>
 								<el-collapse-item title="Gráfico general">
 
-									<LineChart :height="200" :chartData="testData" />
+									<LineChart class="h-25" :chartData="testData" />
 
 								</el-collapse-item>
 							</el-collapse>												
