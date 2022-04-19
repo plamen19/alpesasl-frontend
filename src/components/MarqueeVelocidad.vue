@@ -1,12 +1,12 @@
 <template>
 	
-	<div v-if="velocidad < velocidadBoletin">
+	<div v-if="Math.ceil(velocidad) < velocidadBoletin">
 
 		<el-alert :closable="false"
 			type="warning">
 			<marquee-text :duration="2" :repeat="10">
 
-				&nbsp; Velocidad insuficiente: <b>{{ velocidad }} de {{ velocidadBoletin }}</b> &nbsp;
+				&nbsp; Velocidad insuficiente: <b>{{ Math.ceil(velocidad) }} de {{ velocidadBoletin }}</b> &nbsp;
 
 			</marquee-text>
 		</el-alert>

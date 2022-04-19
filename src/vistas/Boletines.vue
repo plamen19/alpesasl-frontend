@@ -5,6 +5,18 @@
 		<h3>Boletines</h3>
 		<p>Información detallada de los boletines.</p>
 
+		<el-alert v-if="boletinesFiltrados.length == 0 && boletinBuscar.length > 0" class="mb-2" title="No se han encontrado resultados." type="error" />
+
+		<div class="row">
+
+			<div class="col-12 col-md-4">
+
+				<input v-model="boletinBuscar" @input="buscarBoletin" placeholder="ID de Boletín u Operación" type="text" class="form-control">
+
+			</div>
+
+		</div>
+
 		<table class="table">
 
 			<thead>
@@ -18,14 +30,30 @@
 
 			<tbody>
 
-				<tr v-for="(boletin) in boletines" :key="boletin.idBoletin">
+				<template v-if="boletinesFiltrados && boletinesFiltrados.length > 0">
 
-					<td>{{ boletin.idBoletin }}</td>
-					<td>{{ boletin.idOperacion }}</td>
-					<td>{{ boletin.idMaquina }}</td>
-					<td>{{ boletin.DireccionCliente }}</td>
+					<tr v-for="(boletin) in boletinesFiltrados" :key="boletin.idBoletin">
 
-				</tr>
+						<td>{{ boletin.idBoletin }}</td>
+						<td>{{ boletin.idOperacion }}</td>
+						<td>{{ boletin.idMaquina }}</td>
+						<td>{{ boletin.DireccionCliente }}</td>
+
+					</tr>
+
+				</template>
+				<template v-else>
+
+					<tr v-for="(boletin) in boletines" :key="boletin.idBoletin">
+
+						<td>{{ boletin.idBoletin }}</td>
+						<td>{{ boletin.idOperacion }}</td>
+						<td>{{ boletin.idMaquina }}</td>
+						<td>{{ boletin.DireccionCliente }}</td>
+
+					</tr>
+
+				</template>
 
 			</tbody>
 
@@ -46,7 +74,10 @@ export default {
 
 		return({
 
-			boletines: []
+			boletines: [],
+			boletinesFiltrados: [],
+
+			boletinBuscar: "",
 
 		})
 
@@ -63,6 +94,16 @@ export default {
 			} ).catch( err => {
 
 				console.log( "[ERROR] No se han podido obtener los boletines. Error detallado: " + err );
+
+			} )
+
+		},
+
+		buscarBoletin: function(e){
+			
+			this.boletinesFiltrados = this.boletines.filter( el => {
+
+				return ((el.idBoletin + "").includes(this.boletinBuscar)) || ( (el.idOperacion + "").includes(this.boletinBuscar) );
 
 			} )
 

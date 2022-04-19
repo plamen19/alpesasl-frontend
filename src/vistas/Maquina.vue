@@ -56,12 +56,12 @@
 							</div>
 
 							<el-collapse accordion>
-								<el-collapse-item title="Gráfico velocidad" name="2">
+								<el-collapse-item title="Gráfico general">
 
-									<LineChart :height="100" :chartData="testData" />
+									<LineChart :height="200" :chartData="testData" />
 
 								</el-collapse-item>
-							</el-collapse>								
+							</el-collapse>												
 
 						</div>
 						<div v-else-if="ventana === 2">
@@ -238,7 +238,7 @@ export default {
 			temporizadorDatosReales: null,
 			temporizadorSpin: null,
 
-			debug: true, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
+			debug: false, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
 
 			testData: {
 				labels: [],
@@ -246,9 +246,23 @@ export default {
 					{
 						label: 'Velocidad',
 						data: [],
-						backgroundColor: ['#123E6B', '#123E6B', '#123E6B', '#123E6B', '#123E6B'],
+						backgroundColor: '#33beff',
+						borderColor: '#33beff',
 						tension: 0
 					},
+					{
+						label: 'C. Producida',
+						data: [],
+						backgroundColor: ['#33ffa8', '#33ffa8', '#33ffa8', '#33ffa8', '#33ffa8'],
+						borderColor: '#33ffa8',
+						tension: 0
+					},	
+					{
+						label: '% Merma',
+						data: [],
+						backgroundColor: ['#ff3633', '#ff3633', '#ff3633', '#ff3633', '#ff3633'],
+						tension: 0
+					},					
 				],	
 				
 			},
@@ -378,6 +392,8 @@ export default {
 
 				let response = await axios.get( "http://"+ process.env.VUE_APP_API +":3000/spincliente/" + this.codMaquina + "/datos" );
 
+				console.log(response.data);
+
 				if( response.data && response.data.datos ){
 
 					let datosXML = (response.data).datos.replace(/(\r\n|\n|\r|\t|\u0002|\u0003)/gm,"");
@@ -417,10 +433,13 @@ export default {
 						if( this.testData.labels.length >= 15 ){
 							this.testData.labels.shift(0,5);
 							this.testData.datasets[0].data.shift(0,5);
+							this.testData.datasets[1].data.shift(0,5);
 						}
 
 						this.testData.labels = [...this.testData.labels, this.getTiempoFormateado( this.tiempos[1] )]; 
 						this.testData.datasets[0].data = [...this.testData.datasets[0].data, this.velocidad.toFixed(2)];
+						this.testData.datasets[1].data = [...this.testData.datasets[1].data, this.producido];
+						this.testData.datasets[2].data = [...this.testData.datasets[2].data, this.merma];
 						
 						this.$vs.loading.close('#div_con_carga > .con-vs-loading')
 

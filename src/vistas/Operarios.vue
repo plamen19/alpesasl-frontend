@@ -8,6 +8,8 @@
               <h3>Operarios</h3>
               <p>Listado de todos los operarios registrados en el sistema. <span style="float:right; font-size:0.75em;" class="text-muted d-none d-md-inline-block d-xl-inline-block">Total {{ operarios.length }}</span></p>
 
+		<el-alert v-if="operariosMostrar.length == 0 && textoBuscar.length > 0" class="mb-2" title="No se han encontrado resultados." type="error" />
+
 		<form>
 
 			<div class="row">
