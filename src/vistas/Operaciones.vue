@@ -2,6 +2,8 @@
 	
 	<div>
 
+		<img style="width:30%; display:block; margin:0 auto;" src="../assets/operation.svg" alt="">
+
 		<h3>Operaciones</h3>
 		<p>Las últimas 10 operaciones registradas en la base de datos.</p>
 
