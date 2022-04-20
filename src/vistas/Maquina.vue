@@ -31,7 +31,7 @@
 								</div>
 								<div class="mt-3" v-else>
 									
-									<BarraVelocidad :merma="merma" :velocidad="(tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
+									<BarraVelocidad :merma="merma" :velocidad="(datos.idTipoMaquina == 1 && tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
 
 								</div>
 
@@ -101,7 +101,7 @@
 
 							<template class="mt-2" v-if="operariosAlta && operariosAlta.length > 0">
 
-								<ListaOperariosAlta :listaOperarios="operariosAlta"/>
+								<ListaOperariosAlta :idMaquina="id" :listaOperarios="operariosAlta"/>
 
 							</template>
 
@@ -165,7 +165,7 @@ export default {
 		return {
 
 			id: this.$route.params.id || null,
-			ventana: 1,
+			ventana: 2,
 
 			datos: [],
 			datosSpin: [],
@@ -198,7 +198,7 @@ export default {
 			temporizadorDatosReales: null,
 			temporizadorSpin: null,
 
-			debug: false, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
+			debug: true, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
 
 			testData: {
 				labels: [],
@@ -343,8 +343,6 @@ export default {
 					if( res && res.data && res.data[0].Anchotira ){
 
 						this.anchotira = res.data[0].Anchotira;
-
-						console.log( "Ancho tira cargado" );
 
 						this.cargarBoletin();
 						this.cargarOperarios();

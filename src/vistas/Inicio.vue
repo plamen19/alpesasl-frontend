@@ -6,11 +6,6 @@
 		<br><br>
 
 		<img class="d-block mx-auto mb-3" src="logo-alpesa.png" alt="">
-
-		<h3>Principal</h3>
-		<p>Sistema de gestión y maquinaria.</p>
-
-		<br>
 		
 		<h3>Operaciones</h3>
 		<p>Últimas operaciones registradas en el sistema.</p>

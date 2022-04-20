@@ -6,12 +6,26 @@
 
 		<div class="row">
 
-			<div class="col-12 col-md-9">
+			<div class="col-12 col-md-9 mt-2 mb-3 mb-md-0">
+
+				<table v-if="infoTurno">
+
+					<tbody class="text-muted">
+
+						<td>{{ (new Date(infoTurno.FechaTurno).toLocaleDateString('es-ES')) }}</td>
+						<td>{{ infoTurno.Turno }}</td>
+						<td>{{ getHoraFormateada( infoTurno.InicioTurno ) }}</td>
+						<td>{{ getHoraFormateada( infoTurno.FinalTurno ) }}</td>
+
+					</tbody>
+
+				</table>
 
 				<table>
 
 					<thead>
 
+						<th>Marcaje</th>
 						<th>Cod.</th>
 						<th>Operario</th>
 
@@ -21,6 +35,7 @@
 
 						<tr v-for="(operario, indice) in listaOperarios" :key="indice">
 							
+							<td>{{ getHoraFormateada( operario.Marcaje ) }}</td>
 							<td>{{ operario.codOperario }}</td>
 							<td>{{ operario.Operario }}</td>
 
@@ -50,15 +65,59 @@
 </template>
 
 <script>
-import OpcionesEquipo from './OpcionesEquipo.vue'
+import OpcionesEquipo from './OpcionesEquipo.vue';
+import axios from 'axios';
 
 export default {
 	
 	name: 'ListaOperariosAlta',
-	props: ['listaOperarios'],
+	props: ['listaOperarios', 'idMaquina'],
 	components: {
 
 		OpcionesEquipo,
+
+	},
+
+	data(){
+
+		return({
+
+			infoTurno: null,
+
+		})
+
+	},
+
+	methods: {
+
+		getHoraFormateada: function(hora){
+
+			return (new Date(hora).toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'}));
+
+		},
+
+		cargarEquipoProduccion: function(){
+
+			console.log( "Cargando equipo de produccion." );
+
+			axios.get( "http://" + process.env.VUE_APP_API + ":3000/maquina/" + this.idMaquina + "/equipoprod" ).then( res => {
+
+				this.infoTurno = res.data[0];
+				console.log(this.infoTurno);
+
+			} ).catch( err => {
+
+				console.log( "[ERROR] Error al cargar el equipo de producción. Error detallado: " + err );
+
+			} )
+
+		}
+
+	},
+
+	mounted(){
+
+		this.cargarEquipoProduccion();
 
 	}
 
