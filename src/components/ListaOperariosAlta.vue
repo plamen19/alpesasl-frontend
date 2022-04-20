@@ -16,6 +16,7 @@
 						<td>{{ infoTurno.Turno }}</td>
 						<td>{{ getHoraFormateada( infoTurno.InicioTurno ) }}</td>
 						<td>{{ getHoraFormateada( infoTurno.FinalTurno ) }}</td>
+						<td>{{ infoTurno.Rotacion.replace( "Rotación", "Rot." ) }}</td>
 
 					</tbody>
 

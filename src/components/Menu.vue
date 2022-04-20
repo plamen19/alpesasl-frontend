@@ -50,7 +50,12 @@ export default {
                                    href: "/boletines",
                                    title: "Boletines",
                                    icon: "bi bi-journal",
-                            },	
+                            },
+                            {
+                                   href: "/logs",
+                                   title: "Logs",
+                                   icon: "bi bi-body-text",
+                            },
 
                      ],
 

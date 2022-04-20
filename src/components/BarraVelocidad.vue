@@ -31,9 +31,9 @@
 					<h6 class="f-4 text-muted text-center">% Merma</h6>
 					<div class="barra-velocidad">
 
-						<el-progress v-if="merma" :stroke-width="12" :width="160" type="dashboard" :percentage="((+merma > 0 ? +merma : 0))" color="#f56c6c">
+						<el-progress :stroke-width="12" :width="160" type="dashboard" :percentage="((merma && +merma > 0 ? +merma : 0))" color="#f56c6c">
 
-							<span class="percentage-value text-danger">{{ Math.ceil( merma ) }}%</span>
+							<span class="percentage-value text-danger">{{ merma ? Math.ceil( merma ) : 0 }}%</span>
 
 						</el-progress>
 

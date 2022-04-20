@@ -165,7 +165,7 @@ export default {
 		return {
 
 			id: this.$route.params.id || null,
-			ventana: 2,
+			ventana: 1,
 
 			datos: [],
 			datosSpin: [],
@@ -198,7 +198,7 @@ export default {
 			temporizadorDatosReales: null,
 			temporizadorSpin: null,
 
-			debug: true, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
+			debug: false, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
 
 			testData: {
 				labels: [],

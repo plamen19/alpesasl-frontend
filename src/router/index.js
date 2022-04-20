@@ -5,6 +5,8 @@ import Maquina from '../vistas/Maquina.vue'
 import Operarios from '../vistas/Operarios.vue'
 import Operaciones from '../vistas/Operaciones.vue'
 import Boletines from '../vistas/Boletines.vue'
+import Logs from '../vistas/Logs.vue'
+import Log from '../vistas/Log.vue'
 
 const routes = [
 
@@ -43,6 +45,26 @@ const routes = [
 		path: '/boletines',
 		name: 'Boletines',
 		component: Boletines
+	},
+
+	{
+		path: '/logs',
+		name: 'Logs',
+		component: Logs
+	},
+
+	{
+		path: '/log/:de',
+		name: 'Log',
+		component: Log,
+		props:true
+	},
+
+	{
+		path: '/log/:de/error',
+		name: 'LogError',
+		component: Log,
+		props:true
 	},
 
 ]

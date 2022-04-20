@@ -143,3 +143,13 @@ export default {
 
 }
 </script>
+
+<style scoped>
+
+	h4{
+
+		font-weight:100
+
+	}
+
+</style>

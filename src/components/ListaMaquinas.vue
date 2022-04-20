@@ -24,12 +24,11 @@
 						<li><b>Ult. Boletín:</b> {{ maquina.UltimoBoletin ? maquina.UltimoBoletin : '?' }}</li>
 
 						<br>
+						
+						<router-link :to="{ name: 'Maquina', params: { id: maquina.idMaquina } }" >
 
-						<router-link 
-							class="button is-light is-small is-rounded" 
-							:to="{ name: 'Maquina', params: { id: maquina.idMaquina } }" 
-							:class="maquina.PLC == 1 ? 'is-success' : ' is-secondary'">
-								<i style="margin-right:10px;" class="bi bi-box-arrow-in-right"></i> Acceder
+							<el-button class="w-25" type="success" plain>Acceder</el-button>
+
 						</router-link>
 
 					</div>
@@ -82,7 +81,7 @@ export default {
 
 	.card:hover .card-header{
 
-		background-color: rgba(253,79,0,0.6);
+		background-color: rgba(0,0,0,0.85);
 		color: #fff;
 
 	}
