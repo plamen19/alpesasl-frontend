@@ -3,7 +3,7 @@
 	<div class="col-12 col-md-8 mx-auto">
 
 		<h3>Logs de {{ de }}</h3>
-		<p>Registro de logs de <b>{{ de }}.</b></p>
+		<p>Registro de logs de <b>{{ de }}.</b> <span class="text-muted" style="font-size:0.7em;">(Total {{ logs.length }})</span></p>
 
 		<el-button v-if="!cargando" @click="cargarLogs()" class="mt-1 mb-4 float-end" type="primary" plain><i class="bi bi-arrow-clockwise"></i></el-button>
 
@@ -24,9 +24,11 @@
 		</div>
 		<div class="ml-4 ml-sm-0" v-else>
 
+			<p>Mostrar los últimos <el-input-number v-model="numeroLogs" :min="1" :max="logs.length" @change="filtrarLogs" /> logs.</p>
+
 			<div v-if="logs && logs.length > 0">
 				
-				<div v-for="(log, key) in logs" :key="key">
+				<div v-for="(log, key) in (logsMostrar ? logsMostrar : logs)" :key="key">
 
 					<p style="font-size:0.8em;" class="text-muted">
 						<span :class="log.level == 'info' ? 'tag is-info is-light' : 'tag is-danger is-light'"><i :class="log.level == 'info' ? 'bi bi-info' : 'bi bi-x'"></i> {{ log.level == 'info' ? 'Info' : 'Error' }}</span>
@@ -62,7 +64,9 @@ export default {
 
 			de: this.$route.params.de || null,
 			logs: [],
-			cargando: false,
+			logsMostrar: null,
+			cargando: true,
+			numeroLogs: 1,
 
 		})
 
@@ -93,6 +97,20 @@ export default {
 				}
 
 			}, 1200 )
+
+		},
+
+		filtrarLogs: function( num ){
+
+			if( num > this.logs.length ){
+
+				this.logsMostrar = null;
+
+			}else{
+
+				this.logsMostrar = this.logs.slice( -num )
+
+			}
 
 		}
 

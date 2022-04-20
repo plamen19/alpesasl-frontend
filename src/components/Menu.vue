@@ -37,6 +37,11 @@ export default {
                                    icon: "bi bi-pc-display",
                             },	
                             {
+                                   href: "/plantas",
+                                   title: "Plantas",
+                                   icon: "bi bi-diagram-3",
+                            },					
+                            {
                                    href: "/operarios",
                                    title: "Operarios",
                                    icon: "bi bi-people-fill",

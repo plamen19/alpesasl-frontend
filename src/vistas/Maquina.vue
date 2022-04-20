@@ -70,8 +70,6 @@
 						</div>
 						<div v-else-if="ventana === 2">
 
-							<InfoCliente :cliente="operacion.Cliente" :descripcion="operacion.Descripcion"/>
-
 							<!-- 
 								VELOCIDAD DE LA MÁQUINA
 							-->
@@ -104,6 +102,110 @@
 								<ListaOperariosAlta :idMaquina="id" :listaOperarios="operariosAlta"/>
 
 							</template>
+
+						</div>
+						<div v-else-if="ventana === 2.1">
+
+							<!-- 
+								VELOCIDAD DE LA MÁQUINA
+							-->
+							<div v-if="datos.idTipoMaquina < 3">
+
+								<div v-if="velocidad === 'Calculando'">
+
+									<BarraVelocidad :cargando="true"/>
+
+								</div>
+								<div class="mt-3" v-else>
+
+									<BarraVelocidad :merma="merma" :velocidad="(tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
+
+								</div>
+
+							</div>
+
+							<!-- 
+								TIEMPOS DE LA MÁQUINA (PREPARACIÓN, PARADA, MARCHA...)
+							-->
+							<div class="mt-2 text-left">
+
+								<InfoTiempos :tiempos="tiempos"/>
+
+							</div>	
+
+							<h3>% Merma</h3>
+							<p>Determina el % de la merma respecto del total producido.</p>
+
+							<table>
+
+								<thead>
+
+									<th>Fecha</th>
+									<th></th>
+									<th>Turno</th>
+
+								</thead>
+
+								<tbody>
+
+									<tr>
+
+										<td>
+
+											<el-date-picker
+												v-model="fecha"
+												type="date"
+												placeholder="Fecha"
+												:default-value="(new Date())"
+											/>
+
+										</td>
+										<td></td>
+										<td>
+
+											<el-select @change="mostrarMerma" v-model="selectorTurno" placeholder="Turno">												
+
+												<el-option
+													key="1"
+													label="T1-Mañana"
+													value="T1-Mañana"
+												/>
+												<el-option
+													key="2"
+													label="T2-Tarde"
+													value="T2-Tarde"
+												/>
+												<el-option
+													key="3"
+													label="T3-Noche"
+													value="T3-Noche"
+												/>																								
+
+											</el-select>
+
+										</td>
+
+									</tr>
+
+								</tbody>
+
+							</table>
+
+							<div class="mt-2">
+
+								<div v-if="datosIndicadores.length > 0">
+									
+									<br>
+									<h5 class="text-center"><b>% Merma:</b> {{ 100 * ( datosIndicadores[0].SumMtsEnc - datosIndicadores[0].SumMtsFab ) / datosIndicadores[0].SumMtsEnc }}</h5>
+
+								</div>
+								<div v-else>
+
+									<el-alert title="No hay datos del % Merma generado para esa fecha y ese turno." type="warning" show-icon />
+
+								</div>
+
+							</div>
 
 						</div>
 
@@ -165,10 +267,12 @@ export default {
 		return {
 
 			id: this.$route.params.id || null,
-			ventana: 1,
+			selectorTurno: null,
+			ventana: 2.1,
 
 			datos: [],
 			datosSpin: [],
+			datosIndicadores: [],
 			estadosMaquinas: [],
 			boletin: [],
 			tiempos: [],
@@ -197,6 +301,7 @@ export default {
 			temporizadorDatos: null,
 			temporizadorDatosReales: null,
 			temporizadorSpin: null,
+			fecha: "",
 
 			debug: false, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
 
@@ -520,6 +625,28 @@ export default {
 		cambiarTipoVelocidad: function(tipo_velocidad){
 
 			this.tipoVelocidad = tipo_velocidad;
+
+		},
+
+		mostrarMerma: function(){
+
+			if( this.fecha && this.selectorTurno ){
+
+				axios.post( "http://" + process.env.VUE_APP_API + ":3000/maquina/" + this.id + "/merma",{
+					
+					fecha: new Date(this.fecha).toLocaleDateString('en-US').replace("/","-"),
+					turno: this.selectorTurno
+
+				} ).then( res => {
+
+					this.datosIndicadores = res.data;
+
+				} ).catch( err => {
+
+					console.log( "[ERROR] No se ha podido obtener el % Merma. Error detallado: " + err );
+
+				} )
+			}
 
 		}
 	

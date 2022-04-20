@@ -16,13 +16,13 @@
 
 		<vs-card>
 
-			<div v-if="submenus[ventanaActual]">
+			<div v-if="submenus[Math.floor(ventanaActual)]">
 				
-				<div v-for="(boton, indice) in submenus[ventanaActual]" :key="indice">
+				<div v-for="(boton, indice) in submenus[Math.floor(ventanaActual)]" :key="indice">
 
-					<vs-button :color="boton.color" :type="boton.tipo">{{ boton.texto }}</vs-button>
+					<vs-button @click="cambiarVentana(boton.ventana)" :color="boton.color" :type="boton.tipo">{{ boton.texto }}</vs-button>
 
-					<template v-if="indice !== submenus[ventanaActual].length - 1"><br><br></template>
+					<template v-if="indice !== submenus[Math.floor(ventanaActual)].length - 1"><br><br></template>
 
 				</div>
 
@@ -53,7 +53,7 @@ export default {
 				],
 
 				2: [ 
-					{ texto: '% Merma', color: 'primary', tipo: 'filled' }, 
+					{ texto: '% Merma', color: 'primary', tipo: 'filled', ventana: 2.1 }, 
 					{ texto: 'Kgph', color: 'primary', tipo: 'filled' },
 					{ texto: 'OEE', color: 'primary', tipo: 'filled' }
 				],		
