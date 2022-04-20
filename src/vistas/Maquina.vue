@@ -501,7 +501,7 @@ export default {
 
 			axios.get( "http://"+ process.env.VUE_APP_API +":3000/maquina/" + this.id + "/operarios" ).then( res => {
 
-				this.operariosAlta = res.data;
+				this.operariosAlta = res.data.sort((a,b)=>{ return a.Puesto < 1 });
 
 			} ).catch( err =>{
 

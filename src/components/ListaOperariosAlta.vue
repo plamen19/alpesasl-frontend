@@ -28,6 +28,7 @@
 						<th>Marcaje</th>
 						<th>Cod.</th>
 						<th>Operario</th>
+						<th>Puesto</th>
 
 					</thead>
 
@@ -38,6 +39,7 @@
 							<td>{{ getHoraFormateada( operario.Marcaje ) }}</td>
 							<td>{{ operario.codOperario }}</td>
 							<td>{{ operario.Operario }}</td>
+							<td>{{ operario.Puesto == 1 ? 'Jefe de Máquina' : 'Operario' }}</td>
 
 						</tr>
 
@@ -71,7 +73,9 @@ import axios from 'axios';
 export default {
 	
 	name: 'ListaOperariosAlta',
+
 	props: ['listaOperarios', 'idMaquina'],
+	
 	components: {
 
 		OpcionesEquipo,
@@ -103,7 +107,6 @@ export default {
 			axios.get( "http://" + process.env.VUE_APP_API + ":3000/maquina/" + this.idMaquina + "/equipoprod" ).then( res => {
 
 				this.infoTurno = res.data[0];
-				console.log(this.infoTurno);
 
 			} ).catch( err => {
 
