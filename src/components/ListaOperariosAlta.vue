@@ -103,8 +103,6 @@ export default {
 
 		cargarEquipoProduccion: function(){
 
-			console.log( "Cargando equipo de produccion." );
-
 			axios.get( "http://" + process.env.VUE_APP_API + ":3000/maquina/" + this.idMaquina + "/equipoprod" ).then( res => {
 
 				this.infoTurno = res.data[0];

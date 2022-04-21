@@ -2,7 +2,7 @@
 	
 	<div>
 
-              <sidebar-menu :collapsed="true" width="220px" :menu="menu" />
+              <sidebar-menu :disableHover="true" style="height:100vh;" :collapsed="true" width="220px" :menu="menu" />
 
 	</div>
 

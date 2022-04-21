@@ -136,63 +136,35 @@
 							<h3>% Merma</h3>
 							<p>Determina el % de la merma respecto del total producido.</p>
 
-							<div class="table-responsive">
+							<div class="text-center">
 
-								<table class="table borderless">
+								<el-date-picker
+									v-model="fecha"
+									type="date"
+									placeholder="Fecha"
+									:default-value="(new Date())"
+									@change="mostrarMerma"
+								/>
+								
+								<el-select class="ml-2 mt-2" @change="mostrarMerma" v-model="selectorTurno" placeholder="Turno">												
 
-									<thead>
+									<el-option
+										key="1"
+										label="T1-Mañana"
+										value="T1-Mañana"
+									/>
+									<el-option
+										key="2"
+										label="T2-Tarde"
+										value="T2-Tarde"
+									/>
+									<el-option
+										key="3"
+										label="T3-Noche"
+										value="T3-Noche"
+									/>																								
 
-										<th>Fecha</th>
-										<th></th>
-										<th>Turno</th>
-
-									</thead>
-
-									<tbody>
-
-										<tr>
-
-											<td>
-
-												<el-date-picker
-													v-model="fecha"
-													type="date"
-													placeholder="Fecha"
-													:default-value="(new Date())"
-													@change="mostrarMerma"
-												/>
-
-											</td>
-											<td></td>
-											<td>
-
-												<el-select @change="mostrarMerma" v-model="selectorTurno" placeholder="Turno">												
-
-													<el-option
-														key="1"
-														label="T1-Mañana"
-														value="T1-Mañana"
-													/>
-													<el-option
-														key="2"
-														label="T2-Tarde"
-														value="T2-Tarde"
-													/>
-													<el-option
-														key="3"
-														label="T3-Noche"
-														value="T3-Noche"
-													/>																								
-
-												</el-select>
-
-											</td>
-
-										</tr>
-
-									</tbody>
-
-								</table>
+								</el-select>
 
 							</div>
 
@@ -716,20 +688,8 @@ export default {
 		transition: all .3s;
 	}
 
-	.borderless > tbody > tr > td,
-	.borderless > tbody > tr > th,
-	.borderless > tfoot > tr > td,
-	.borderless > tfoot > tr > th,
-	.borderless > thead > tr > td,
-	.borderless > thead > tr > th {
-		border: none;
-	}	
-
-	.borderless{
-
-		overflow-x: auto;
-		overflow-y: hidden;
-
-	}
+	.table > :not(:first-child){ border:none; }
+	.table th{ border:none; }
+	.table-responsive { overflow-x: hidden; }
 
 </style>
