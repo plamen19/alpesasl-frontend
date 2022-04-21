@@ -10,19 +10,15 @@
 
 		<el-alert v-if="operariosMostrar.length == 0 && textoBuscar.length > 0" class="mb-2" title="No se han encontrado resultados." type="error" />
 
-		<form>
+		<div class="row">
 
-			<div class="row">
+			<div class="col-12 col-md-5">
 
-				<div class="col-12 col-md-5">
-
-					<input v-model="textoBuscar" @input="buscarOperario" placeholder="Nombre o código de operario" type="text" class="form-control">
-
-				</div>
+				<input v-model="textoBuscar" @input="buscarOperario" placeholder="Nombre o código de operario" type="text" class="form-control">
 
 			</div>
 
-		</form>
+		</div>
 
 		<br>
 

@@ -4,7 +4,9 @@
 
 		<div class="row">
 
-			<div v-for="maquina in data" :key="maquina.idMaquina" class="col-12 col-sm-6 col-md-4">
+			
+
+			<div v-for="maquina in (maquinasActualizadas ? maquinasActualizadas : data)" :key="maquina.idMaquina" class="col-12 col-sm-6 col-md-4">
 
 				<div class="card">
 
@@ -17,7 +19,7 @@
 					<div class="card-body">
 
 						<li><b>Planta</b>: {{ maquina.Planta }}</li>
-						<li v-if="tiposMaquinas.length > 0"><b>Tipo:</b> {{ tiposMaquinas[ maquina.idTipoMaquina ].nombre }}</li>
+						<li v-if="tiposMaquinas.length > 0"><b>Tipo:</b> {{ tiposMaquinas.filter( el => { return el.id == maquina.idTipoMaquina } )[0].nombre || "?" }}</li>
 						<li><b>PLC:</b> <span :class="maquina.PLC == 1 ? 'tag is-success is-light' : 'tag is-danger is-light'">
 							{{ maquina.PLC == 1 ? 'Activo' : 'Inactivo' }}	
 						</span></li>
@@ -49,7 +51,27 @@ export default {
 
 	name: 'ListaMaquinas',
 
-	props: [ "data", "tiposMaquinas" ]
+	props: [ "data", "tiposMaquinas" ],
+	
+	data(){
+
+		return({
+
+			maquinasActualizadas: null,
+
+		})
+
+	},
+
+	methods: {
+
+		filtrarMaquinas: function( ndata ){
+
+			this.maquinasActualizadas = ndata;
+
+		}
+
+	}
 
 }
 </script>
