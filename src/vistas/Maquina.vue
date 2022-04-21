@@ -157,6 +157,7 @@
 												type="date"
 												placeholder="Fecha"
 												:default-value="(new Date())"
+												@change="mostrarMerma"
 											/>
 
 										</td>
@@ -268,7 +269,7 @@ export default {
 
 			id: this.$route.params.id || null,
 			selectorTurno: null,
-			ventana: 2.1,
+			ventana: 1,
 
 			datos: [],
 			datosSpin: [],
