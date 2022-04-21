@@ -11,7 +11,7 @@
 			<br>
 			<router-link :to="'/log/' + tipoLog + '/error'"><el-button class="w-100 mb-2" type="danger" plain><i class="bi bi-x-circle-fill mr-2"></i> Errores</el-button></router-link>
 			<br>
-			<router-link :to="'/log/' + tipoLog"><el-button class="w-100" type="secondary" plain>Todos</el-button></router-link>
+			<router-link :to="'/log/' + tipoLog"><el-button class="w-100" plain>Todos</el-button></router-link>
 			
 		</vs-card>
 
@@ -34,3 +34,9 @@ export default {
 
 }
 </script>
+
+<style scoped>
+
+a { text-decoration: none; }
+
+</style>

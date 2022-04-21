@@ -11,7 +11,7 @@
 
               <div class="row flex-nowrap">
                      <div class="col-1" :class="mostrarMenu ? '' : 'd-none'">
-                            <Menu />
+                            <Menu id="menu" />
                      </div>
                      <div :class="this.mostrarMenu ? 'mt-4 mt-md-0' : ''" class="col ml-2 ml-md-0">
                             <div class="container">
@@ -38,6 +38,7 @@ export default {
 		abrirCerrarMenu: function(){
 			this.mostrarMenu = !this.mostrarMenu;
 		}
-	}
+	},
+
 };
 </script>

@@ -8,6 +8,10 @@
 
 				<div class="col-12 col-md-10">
 
+					<div v-if="datosDesactualizados">
+						<el-alert :closable="false" title="La información de la máquina no está actualizada. Este cuadro desaparecerá cuando se actualice." class="mb-2" type="warning" show-icon />
+					</div>
+
 					<vs-card id="div_con_carga" class="p-3 vs-con-loading__container">
 
 						<!-- 
@@ -59,13 +63,7 @@
 
 							</div>
 
-							<el-collapse accordion>
-								<el-collapse-item title="Gráfico general">
-
-									<LineChart class="h-25" :chartData="testData" />
-
-								</el-collapse-item>
-							</el-collapse>												
+							<GraficoGeneral :datosGrafico="testData"/>										
 
 						</div>
 						<div v-else-if="ventana === 2">
@@ -215,11 +213,7 @@ import MarqueeVelocidad from '../components/MarqueeVelocidad.vue';
 import ListaOperariosAlta from '../components/ListaOperariosAlta.vue';
 import InfoCliente from '../components/InfoCliente.vue';
 import InfoEstadoMaquina from '../components/InfoEstadoMaquina.vue';
-
-import { LineChart } from 'vue-chart-3';
-import { Chart, registerables } from "chart.js";
-
-Chart.register(...registerables);
+import GraficoGeneral from '../components/GraficoGeneral.vue';
 
 export default {
 	
@@ -233,9 +227,9 @@ export default {
 		MenuMaquina,
 		MarqueeVelocidad,
 		ListaOperariosAlta,
-		LineChart,
 		InfoCliente,
-		InfoEstadoMaquina
+		InfoEstadoMaquina,
+		GraficoGeneral,
 
 	},
 
@@ -281,6 +275,8 @@ export default {
 			fecha: "",
 
 			debug: false, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
+
+			datosDesactualizados: false,
 
 			testData: {
 				labels: [],
@@ -518,13 +514,26 @@ export default {
 							this.temporizadorSpin = setTimeout( () => { this.cargarDatosSpin(); }, 1200 ); 
 						}
 
+						if( this.datosDesactualizados ){ this.datosDesactualizados = false; }
+
 					}
+
+				}else if( response.data.err ){
+
+					console.log( response.data.err );
 
 				}
 
 
 			}catch( err ){
 
+				this.datosDesactualizados = true;
+
+				setTimeout( function( _self ){
+					_self.cargarDatosSpin();
+				}, 5000, this )
+
+				console.log( "[ERROR] La consulta a SPIN ha fallado. Se realizará reintento en 5 segundos..." );
 				console.log( "[ERROR] No se han podido obtener los datos de SPIN. Error detallado: " + err );
 
 			}
@@ -642,15 +651,11 @@ export default {
 
 	},
 
-	beforeUnmount(){
+	unmounted(){
 
 		clearInterval( this.temporizadorDatos )
 		clearInterval( this.temporizadorDatosReales )
 		clearInterval( this.temporizadorSpin )
-
-	},
-
-	unmounted(){
 
 		this.temporizadorDatos = null;
 		this.temporizadorDatosReales = null;

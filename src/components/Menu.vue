@@ -1,10 +1,6 @@
 <template>
 	
-	<div>
-
-              <sidebar-menu :disableHover="true" style="height:100vh;" :collapsed="true" width="220px" :menu="menu" />
-
-	</div>
+       <sidebar-menu :disableHover="true" style="height:100vh;" :collapsed="true" width="220px" :menu="menu" />
 
 </template>
 

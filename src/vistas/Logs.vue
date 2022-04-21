@@ -33,21 +33,11 @@ export default {
 	
 	name: 'Logs',
 
-	methods: {
-
-
-
-	},
-
-	mounted(){
-
-
-
-	}
-
 }
 </script>
 
 <style scoped>
+
+	a { text-decoration: none; }
 
 </style>

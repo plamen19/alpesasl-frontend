@@ -85,6 +85,7 @@ export default {
 					axios.get( "http://" + process.env.VUE_APP_API + ":3000/logs/" + this.de ).then( res => {
 
 						this.logs = (res.data.logs).map( log => { return JSON.parse(log) } );
+						this.logsMostrar = this.logs.slice( -50 );
 
 						this.cargando = false;
 

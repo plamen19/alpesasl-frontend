@@ -17,47 +17,51 @@
 
 		</div>
 
-		<table class="table">
+		<div class="table-responsive">
 
-			<thead>
+			<table class="table">
 
-				<th>ID</th>
-				<th>Operacion</th>
-				<th>Maquina</th>
-				<th>Direccion</th>
+				<thead>
 
-			</thead>
+					<th>ID</th>
+					<th>Operacion</th>
+					<th>Maquina</th>
+					<th>Direccion</th>
 
-			<tbody>
+				</thead>
 
-				<template v-if="boletinesFiltrados && boletinesFiltrados.length > 0">
+				<tbody>
 
-					<tr v-for="(boletin) in boletinesFiltrados" :key="boletin.idBoletin">
+					<template v-if="boletinesFiltrados && boletinesFiltrados.length > 0">
 
-						<td>{{ boletin.idBoletin }}</td>
-						<td>{{ boletin.idOperacion }}</td>
-						<td>{{ boletin.idMaquina }}</td>
-						<td>{{ boletin.DireccionCliente }}</td>
+						<tr v-for="(boletin) in boletinesFiltrados" :key="boletin.idBoletin">
 
-					</tr>
+							<td>{{ boletin.idBoletin }}</td>
+							<td>{{ boletin.idOperacion }}</td>
+							<td>{{ boletin.idMaquina }}</td>
+							<td>{{ boletin.DireccionCliente }}</td>
 
-				</template>
-				<template v-else>
+						</tr>
 
-					<tr v-for="(boletin) in boletines" :key="boletin.idBoletin">
+					</template>
+					<template v-else>
 
-						<td>{{ boletin.idBoletin }}</td>
-						<td>{{ boletin.idOperacion }}</td>
-						<td>{{ boletin.idMaquina }}</td>
-						<td>{{ boletin.DireccionCliente }}</td>
+						<tr v-for="(boletin) in boletines" :key="boletin.idBoletin">
 
-					</tr>
+							<td>{{ boletin.idBoletin }}</td>
+							<td>{{ boletin.idOperacion }}</td>
+							<td>{{ boletin.idMaquina }}</td>
+							<td>{{ boletin.DireccionCliente }}</td>
 
-				</template>
+						</tr>
 
-			</tbody>
+					</template>
 
-		</table>
+				</tbody>
+
+			</table>
+
+		</div>
 
 	</div>
 
