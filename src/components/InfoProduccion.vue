@@ -31,7 +31,7 @@
 
 			<div class="col-12 col-sm-12 col-md-6 mx-auto mt-2">
 
-				<vs-card @click="cambiarTipoVelocidad()" :style="getStyleFromVelocidad()">
+				<vs-card :style="getStyleFromVelocidad()">
 
 						<h5><i class="bi bi-speedometer"></i> Velocidad</h5>
 
@@ -135,7 +135,6 @@ export default {
 		cambiarTipoVelocidad: function(){
 
 			(this.esMandriladora && this.tipoVelocidad === 1) ? (this.tipoVelocidad = 2) : this.tipoVelocidad = 1;
-			this.$emit( 'cambiarTipoVelocidad', this.tipoVelocidad )
 
 		}
 

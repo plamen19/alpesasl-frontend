@@ -1,6 +1,6 @@
 <template>
 	
-	<div>
+	<div style="user-select:none">
 
 		<div v-if="datos">
 
@@ -31,7 +31,7 @@
 								</div>
 								<div class="mt-3" v-else>
 									
-									<BarraVelocidad :merma="merma" :velocidad="(datos.idTipoMaquina == 1 && tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
+									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(datos.idTipoMaquina == 1 && tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
 
 								</div>
 
@@ -55,7 +55,7 @@
 							-->
 							<div class="mt-5">
 
-								<InfoProduccion @cambiarTipoVelocidad="cambiarTipoVelocidad" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :velocidadMediaCorrea="velocidadMediaCorrea" :velocidadMedia="velocidadMedia" :velocidadCorrea="velocidadActual" :velocidad="velocidad" :numCortes="boletin.numCortes" :cantidadBoletin="boletin.CantidadBoletin ? boletin.CantidadBoletin : 0" :cantidadProducida="producido" :metrosEncolado="metrosEncolado" :errorPLC="errorPLC" :velocidadReal="pulsosPLC"/>
+								<InfoProduccion ref="infoProd" @cambiarTipoVelocidad="cambiarTipoVelocidad" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :velocidadMediaCorrea="velocidadMediaCorrea" :velocidadMedia="velocidadMedia" :velocidadCorrea="velocidadActual" :velocidad="velocidad" :numCortes="boletin.numCortes" :cantidadBoletin="boletin.CantidadBoletin ? boletin.CantidadBoletin : 0" :cantidadProducida="producido" :metrosEncolado="metrosEncolado" :errorPLC="errorPLC" :velocidadReal="pulsosPLC"/>
 
 							</div>
 
@@ -82,7 +82,7 @@
 								</div>
 								<div class="mt-3" v-else>
 
-									<BarraVelocidad :merma="merma" :velocidad="(tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
+									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(datos.idTipoMaquina == 1 && tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
 
 								</div>
 
@@ -118,7 +118,7 @@
 								</div>
 								<div class="mt-3" v-else>
 
-									<BarraVelocidad :merma="merma" :velocidad="(tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
+									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
 
 								</div>
 
@@ -136,61 +136,65 @@
 							<h3>% Merma</h3>
 							<p>Determina el % de la merma respecto del total producido.</p>
 
-							<table>
+							<div class="table-responsive">
 
-								<thead>
+								<table class="table borderless">
 
-									<th>Fecha</th>
-									<th></th>
-									<th>Turno</th>
+									<thead>
 
-								</thead>
+										<th>Fecha</th>
+										<th></th>
+										<th>Turno</th>
 
-								<tbody>
+									</thead>
 
-									<tr>
+									<tbody>
 
-										<td>
+										<tr>
 
-											<el-date-picker
-												v-model="fecha"
-												type="date"
-												placeholder="Fecha"
-												:default-value="(new Date())"
-												@change="mostrarMerma"
-											/>
+											<td>
 
-										</td>
-										<td></td>
-										<td>
-
-											<el-select @change="mostrarMerma" v-model="selectorTurno" placeholder="Turno">												
-
-												<el-option
-													key="1"
-													label="T1-Mañana"
-													value="T1-Mañana"
+												<el-date-picker
+													v-model="fecha"
+													type="date"
+													placeholder="Fecha"
+													:default-value="(new Date())"
+													@change="mostrarMerma"
 												/>
-												<el-option
-													key="2"
-													label="T2-Tarde"
-													value="T2-Tarde"
-												/>
-												<el-option
-													key="3"
-													label="T3-Noche"
-													value="T3-Noche"
-												/>																								
 
-											</el-select>
+											</td>
+											<td></td>
+											<td>
 
-										</td>
+												<el-select @change="mostrarMerma" v-model="selectorTurno" placeholder="Turno">												
 
-									</tr>
+													<el-option
+														key="1"
+														label="T1-Mañana"
+														value="T1-Mañana"
+													/>
+													<el-option
+														key="2"
+														label="T2-Tarde"
+														value="T2-Tarde"
+													/>
+													<el-option
+														key="3"
+														label="T3-Noche"
+														value="T3-Noche"
+													/>																								
 
-								</tbody>
+												</el-select>
 
-							</table>
+											</td>
+
+										</tr>
+
+									</tbody>
+
+								</table>
+
+							</div>
 
 							<div class="mt-2">
 
@@ -623,9 +627,10 @@ export default {
 
 		},
 
-		cambiarTipoVelocidad: function(tipo_velocidad){
+		cambiarTipoVelocidad: function(){
 
-			this.tipoVelocidad = tipo_velocidad;
+			this.tipoVelocidad = (this.tipoVelocidad == 1 ? 2 : 1);
+			this.$refs.infoProd.cambiarTipoVelocidad()
 
 		},
 
@@ -709,6 +714,22 @@ export default {
 		margin:0 auto;
 
 		transition: all .3s;
+	}
+
+	.borderless > tbody > tr > td,
+	.borderless > tbody > tr > th,
+	.borderless > tfoot > tr > td,
+	.borderless > tfoot > tr > th,
+	.borderless > thead > tr > td,
+	.borderless > thead > tr > th {
+		border: none;
+	}	
+
+	.borderless{
+
+		overflow-x: auto;
+		overflow-y: hidden;
+
 	}
 
 </style>

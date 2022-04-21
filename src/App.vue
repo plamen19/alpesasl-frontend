@@ -4,10 +4,10 @@
 			<div class="col-1">
               		<Menu/>
 			</div>
-                     <div class="col py-3">
+                     <div class="col ml-2 ml-md-0">
                             <div class="container">
                                    <br />
-                                   <router-view class="ml-4 ml-sm-0" />
+                                   <router-view/>
                             </div>
                      </div>
               </div>

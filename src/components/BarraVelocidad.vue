@@ -5,20 +5,20 @@
 		<!-- <p class="text-center"><b>Velocidad:</b> <span :class="velocidad > 1 ? (velocidad > 40 ? 'tag is-success' : 'tag is-warning has-text-dark') : 'tag is-danger'">{{ velocidad }}</span> | <b>(%) Merma:</b> <span class="tag is-danger">{{ merma.toFixed(0) }}%</span></p> -->
 
 		<div v-if="cargando">
-			<vs-progress class="barra-velocidad" :class="'w-50'" :height="10" indeterminate color="primary">primary</vs-progress>
+			<vs-progress class="barra-velocidad" :class="'w-50'" :height="10" indeterminate color="primary"></vs-progress>
 		</div>
 		<div v-else>
 
 			<div class="row">
 
 				<div class="col-12 col-md-6">
-					
+
 					<h6 class="f-4 text-muted text-center">Velocidad</h6>
 					<div class="barra-velocidad">
 
-						<el-progress :stroke-width="12" :width="160" type="dashboard" :percentage="(isFinite((+velocidad.toFixed(2))) ? (+velocidad.toFixed(2)) : 0)" :color="colors">
-
-							<span :style="getColorTexto()" class="percentage-value">{{ (isFinite((+velocidad.toFixed(2))) ? (+velocidad.toFixed(2)) : 0) }}</span>
+						<el-progress @click="cambiarIndicador" :stroke-width="12" :width="160" type="dashboard" :percentage="(isFinite((+velocidad.toFixed(2))) ? (+velocidad.toFixed(2)) : 0)" :color="colors">
+							
+							<span v-if="indicadorVelocidad" :style="getColorTexto()" class="percentage-value">{{ (isFinite((+velocidad.toFixed(2))) ? ((+velocidad.toFixed(2)) + (indicadorVelocidad == 1 ? '.L' : '.c') ) : 0) }}</span>
 
 						</el-progress>
 
@@ -54,7 +54,7 @@ export default {
 	
 	name: 'BarraVelocidad',
 
-	props: ['cargando', 'velocidad', 'merma'],
+	props: ['cargando', 'velocidad', 'merma', 'indicadorVelocidad', 'esMandriladora'],
 
 	data(){
 
@@ -89,6 +89,14 @@ export default {
 
 				return 'color:rgba(0, 150, 0, 0.5);';
 
+			}
+
+		},
+
+		cambiarIndicador: function(){
+
+			if( this.esMandriladora ){
+				this.$emit( 'cambiarTipoVelocidad' );
 			}
 
 		}
