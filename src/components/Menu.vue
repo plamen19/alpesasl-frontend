@@ -31,6 +31,12 @@ export default {
                                    href: "/maquinas",
                                    title: "Maquinas",
                                    icon: "bi bi-pc-display",
+					child: [
+						{
+						href: '/areas',
+						title: 'Areas'
+						}
+					]
                             },	
                             {
                                    href: "/plantas",

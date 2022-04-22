@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Inicio from '../vistas/Inicio.vue'
 import Maquinas from '../vistas/Maquinas.vue'
 import Maquina from '../vistas/Maquina.vue'
+import Areas from '../vistas/Areas.vue'
 import Plantas from '../vistas/Plantas.vue'
 import Operarios from '../vistas/Operarios.vue'
 import Operaciones from '../vistas/Operaciones.vue'
@@ -29,6 +30,12 @@ const routes = [
 		component: Maquina,
 		props: true,
 	},
+
+	{
+		path: '/areas',
+		name: 'Areas',
+		component: Areas,
+	},	
 
 	{
 		path: '/plantas',
