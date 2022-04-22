@@ -33,9 +33,13 @@ export default {
                                    icon: "bi bi-pc-display",
 					child: [
 						{
-						href: '/areas',
-						title: 'Areas'
-						}
+							href: '/areas',
+							title: 'Areas'
+						},
+						{
+							href: '/tipos-maquinas',
+							title: 'Tipos máquina'
+						},						
 					]
                             },	
                             {
@@ -47,7 +51,58 @@ export default {
                                    href: "/operarios",
                                    title: "Operarios",
                                    icon: "bi bi-people-fill",
+					child: [
+
+						{
+							href: '/categorias',
+							title: 'Categorias'
+						},
+
+						{
+							href: '/grupos',
+							title: 'Grupos'
+						}						
+
+					]
                             },
+                            {
+                                   href: "/calendarios",
+                                   title: "Calendarios",
+                                   icon: "bi bi-calendar4-week",
+                            },
+                            {
+                                   title: "Intervenciones",
+                                   icon: "bi bi-tools",
+					child: [
+					
+						{
+							href: '/tipos-intervenciones',
+							title: 'Tipos'
+						},
+						{
+							href: '/motivos-intervenciones',
+							title: 'Motivos'
+						},
+						{
+							href: '/actividades-intervenciones',
+							title: 'Actividades'
+						},																	
+
+					]
+                            },
+                            {
+                                   href: "/embalajes",
+                                   title: "Embalajes",
+                                   icon: "bi bi-box",
+					child: [
+
+						{
+							href: '/subfamilias-embalajes',
+							title: 'SubFamílias'
+						},															
+
+					]					
+                            },													
                             {
                                    href: "/operaciones",
                                    title: "Operaciones",

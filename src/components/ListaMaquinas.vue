@@ -24,6 +24,8 @@
 							{{ maquina.PLC == 1 ? 'Activo' : 'Inactivo' }}	
 						</span></li>
 						<li><b>Ult. Boletín:</b> {{ maquina.UltimoBoletin ? maquina.UltimoBoletin : '?' }}</li>
+						<li><b>KMetros:</b> {{ maquina.KMetros }}</li>
+						<li><b>KKilos:</b> {{ maquina.KKilos }}</li>
 
 						<br>
 						
