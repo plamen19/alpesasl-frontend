@@ -21,7 +21,7 @@
 								
 								<p class="nombre-operario"><b>{{ operario.Operario }}</b></p>
 								<li><b>ID:</b> {{ operario.idOperario }}</li>
-								<li><b>Grupo:</b> [{{ gruposOperarios[ operario.idGrupoOperarios ].codGrupoOperarios }}] {{ gruposOperarios[ operario.idGrupoOperarios ].GrupoOperarios }}</li>
+								<li><b>Grupo:</b> {{ gruposOperarios.filter(el=>{ return el.idGrupoOperarios == operario.idGrupoOperarios })[0].GrupoOperarios }}</li>
 								<li><b>Turno:</b> {{ ( operario.TUR == "A" ? 'Mañana' : operario.TUR == 'B' ? 'Tarde' : 'Noche' ) }}</li>
 								<li><b>Cod.:</b> {{ operario.codOperario }}</li>
 						

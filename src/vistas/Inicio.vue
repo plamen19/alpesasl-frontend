@@ -12,6 +12,8 @@
 
 		<UltOperaciones :data="ultOperaciones"/>
 
+		<DialogOperario></DialogOperario>
+
        </div>
 </template>
 
@@ -19,9 +21,10 @@
 import axios from 'axios';
 import UltBoletin from '../components/UltBoletin.vue';
 import UltOperaciones from '../components/UltOperaciones.vue';
+import DialogOperario from '../components/DialogOperario.vue';
 
 export default {
-       components: { UltBoletin, UltOperaciones },
+       components: { UltBoletin, UltOperaciones, DialogOperario },
 
        name: "Inicio",
 

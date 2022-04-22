@@ -11,11 +11,11 @@
 
 		<div class="row justify-content-center">
 
-			<TarjetaPlanta nombre="Tavernes" />
-			<TarjetaPlanta nombre="Tavernes Corte" />
-			<TarjetaPlanta nombre="Barcelona" />
-			<TarjetaPlanta nombre="Pte. Genil" />
-			<TarjetaPlanta nombre="UPalet" />
+			<TarjetaPlanta nombre="Tavernes" :numMaquinas="34" />
+			<TarjetaPlanta nombre="Tavernes Corte" :numMaquinas="2" />
+			<TarjetaPlanta nombre="Barcelona" :numMaquinas="6" />
+			<TarjetaPlanta nombre="Pte. Genil" :numMaquinas="8" />
+			<TarjetaPlanta nombre="UPalet" :numMaquinas="1" />
 
 		</div>
 

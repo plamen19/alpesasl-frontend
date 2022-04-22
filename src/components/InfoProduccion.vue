@@ -61,7 +61,7 @@
 
 				<vs-card>
 
-					<h5><i class="bi bi-speedometer2"></i> M. Encolado</h5>
+					<h5><i class="bi bi-speedometer2"></i> M. Encoder</h5>
 
 					<div class="text-center">
 

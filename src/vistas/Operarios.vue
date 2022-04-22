@@ -18,6 +18,26 @@
 
 			</div>
 
+			<div class="col-12 col-md-6 mt-2 mt-md-0">
+
+				<el-select @change="buscarOperario" placeholder="Grupo operarios" v-model="selectGrupo" size="large">
+
+					<el-option
+						key="0"
+						label="Todos"
+						value="0"
+					/>
+					<el-option
+						v-for="grupo in gruposOperarios"
+						:key="grupo.idGrupoOperarios"
+						:label="grupo.GrupoOperarios"
+						:value="grupo.idGrupoOperarios"
+					/>					
+
+				</el-select>
+
+			</div>
+
 		</div>
 
 		<br>
@@ -47,6 +67,7 @@ export default {
 			operariosMostrar: [],
 			gruposOperarios: [],
 			textoBuscar: '',
+			selectGrupo: '',
               };
        },
 
@@ -67,7 +88,7 @@ export default {
 
 				res.data.forEach(grupo => {
 					
-					this.gruposOperarios[ grupo.idGrupoOperarios ] = grupo;
+					this.gruposOperarios.push( grupo );
 
 				});
 
@@ -81,9 +102,19 @@ export default {
 
 		buscarOperario: function(e){
 			
-			this.operariosMostrar = this.operarios.filter( el => {
-				return (el.Operario.toLowerCase()).includes( (this.textoBuscar.toLowerCase()) ) || (el.codOperario).includes(this.textoBuscar)
-			} );
+			if( this.selectGrupo != 0 ){
+
+				this.operariosMostrar = this.operarios.filter( el => {
+					return ((el.Operario.toLowerCase()).includes( (this.textoBuscar.toLowerCase()) ) || (el.codOperario).includes(this.textoBuscar)) && el.idGrupoOperarios == this.selectGrupo
+				} );
+
+			}else{
+
+				this.operariosMostrar = this.operarios.filter( el => {
+					return ((el.Operario.toLowerCase()).includes( (this.textoBuscar.toLowerCase()) ) || (el.codOperario).includes(this.textoBuscar))
+				} );
+
+			}
 
 		}
 
