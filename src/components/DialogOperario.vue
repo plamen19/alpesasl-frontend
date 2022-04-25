@@ -7,7 +7,7 @@
 
 		<div class="row">
 
-			<div class="col-12 col-md-9">
+			<div class="col-12 col-md-8">
 
 				<h5 class="text-muted d-none d-md-block">
 
@@ -18,7 +18,7 @@
 
 			</div>
 
-			<div class="col-12 col-md-3">
+			<div class="col-12 col-md-4">
 
 				<div @click="introducirDigito('1')" class="button w-25">1</div>
 				<div @click="introducirDigito('2')" class="button w-25">2</div>
