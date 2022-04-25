@@ -89,3 +89,13 @@ export default {
 
 }
 </script>
+
+<style scoped>
+
+	td, th{
+
+		font-size: 0.8em;
+
+	}
+
+</style>

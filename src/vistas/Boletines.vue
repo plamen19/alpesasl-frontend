@@ -5,11 +5,11 @@
 		<h3>Boletines</h3>
 		<p>Información detallada de los boletines.</p>
 
-		<el-alert v-if="boletinesFiltrados.length == 0 && boletinBuscar.length > 0" class="mb-2" title="No se han encontrado resultados." type="error" />
+		<el-alert v-if="boletinesFiltrados.length == 0 && boletinBuscar.length > 0" class="mb-4" title="No se han encontrado resultados." type="error" />
 
 		<div class="row">
 
-			<div class="col-12 col-md-4">
+			<div class="col-12 col-md-2">
 
 				<input v-model="boletinBuscar" @input="buscarBoletin" placeholder="ID de Boletín u Operación" type="text" class="form-control">
 
@@ -17,7 +17,7 @@
 
 		</div>
 
-		<div class="table-responsive">
+		<div class="table-responsive mt-3">
 
 			<table class="table">
 
@@ -123,3 +123,13 @@ export default {
 
 }
 </script>
+
+<style scoped>
+
+	td, th{
+
+		font-size:0.8em;
+
+	}
+
+</style>

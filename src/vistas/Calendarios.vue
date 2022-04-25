@@ -79,7 +79,59 @@
 
 				</table>
 
-			</div>			
+			</div>		
+
+			<div class="col mt-3">
+
+				<h3>Calendario actual</h3>
+				<p>Todos los turnos generados para el calendario actual.</p>
+				
+				<template v-if="calendario.length == 0">
+
+					<p class="text-muted text-center">No hay turnos creados para este calendario.</p>
+
+				</template>
+				<template v-else>
+
+					<div class="table-responsive">
+
+						<table class="table">
+
+							<thead>
+
+								<th>Turno</th>
+								<th>Rotación</th>
+								<th>Fecha</th>
+								<th>Inicio</th>
+								<th>Fin</th>
+								<th>Limpieza</th>
+								<th>Descanso</th>
+
+							</thead>
+							
+							<tbody>
+
+								<tr v-for="c in calendario" :key="c.idTurnoCalendario">
+
+									<td>{{ turnos[c.idTurno] }}</td>
+									<td>{{ rotaciones[c.idRotacion] }}</td>
+									<td>{{ (new Date(c.FechaTurno)).toLocaleDateString() }}</td>
+									<td>{{ (new Date(c.InicioTurno)).toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'}) }}</td>
+									<td>{{ (new Date(c.FinalTurno)).toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'}) }}</td>
+									<td>{{ c.Limpieza }}</td>
+									<td>{{ c.Descanso }}</td>
+
+								</tr>
+
+							</tbody>
+
+						</table>
+
+					</div>
+
+				</template>
+				
+			</div>	
 
 		</div>
 
@@ -87,11 +139,55 @@
 
 </template>
 
+<script>
+import axios from 'axios';
+
+export default {
+	
+	name: 'Calendarios',
+
+	data(){
+		return({
+			calendario: [],
+			turnos: { '1': 'T1-Mañana', '2': 'T2-Tarde', '3': 'T3-Noche' },
+			rotaciones: { '1': 'ROTA', '2': 'ROTB', '4': 'ROTC' },
+		})
+	},
+
+	methods: {
+
+		cargarCalendario: function(){
+
+			axios.get( "http://" + process.env.VUE_APP_API + ":3000/calendario" ).then( res => {
+
+				this.calendario = res.data
+
+			} ).catch( err => {
+
+				console.log( "[ERROR] No se han podido cargar los turnos del calendario actual. Error detallado: " + err );
+
+			} )
+
+		}
+
+	},
+
+	mounted(){
+
+		this.cargarCalendario();
+
+	}
+
+
+}
+</script>
+
 <style scoped>
 
 	th, td{
 
 		padding:10px;
+		font-size:0.8em;
 
 	}
 

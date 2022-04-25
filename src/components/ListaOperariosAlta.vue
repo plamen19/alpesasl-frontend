@@ -2,8 +2,6 @@
 	
 	<div>
 
-		<OpcionesEquipo/>
-
 		<div class="row">
 
 			<div class="col-12 col-md-9 mt-2 mb-3 mb-md-0">
@@ -68,7 +66,6 @@
 </template>
 
 <script>
-import OpcionesEquipo from './OpcionesEquipo.vue';
 import axios from 'axios';
 
 export default {
@@ -76,12 +73,6 @@ export default {
 	name: 'ListaOperariosAlta',
 
 	props: ['listaOperarios', 'idMaquina'],
-	
-	components: {
-
-		OpcionesEquipo,
-
-	},
 
 	data(){
 

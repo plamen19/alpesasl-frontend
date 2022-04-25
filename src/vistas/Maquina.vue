@@ -100,6 +100,15 @@
 								<ListaOperariosAlta :idMaquina="id" :listaOperarios="operariosAlta"/>
 
 							</template>
+							<template v-else>
+
+								<OpcionesEquipo/>
+
+								<br>
+
+								<p class="text-muted text-center">No hay operarios dados de alta.</p>
+
+							</template>
 
 						</div>
 						<div v-else-if="ventana === 2.1">
@@ -214,6 +223,7 @@ import ListaOperariosAlta from '../components/ListaOperariosAlta.vue';
 import InfoCliente from '../components/InfoCliente.vue';
 import InfoEstadoMaquina from '../components/InfoEstadoMaquina.vue';
 import GraficoGeneral from '../components/GraficoGeneral.vue';
+import OpcionesEquipo from '../components/OpcionesEquipo.vue';
 
 export default {
 	
@@ -230,6 +240,7 @@ export default {
 		InfoCliente,
 		InfoEstadoMaquina,
 		GraficoGeneral,
+		OpcionesEquipo,
 
 	},
 
