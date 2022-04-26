@@ -18,7 +18,7 @@
 
 						<el-progress @click="cambiarIndicador" :stroke-width="12" :width="160" type="dashboard" :percentage="(isFinite((+velocidad.toFixed(2))) ? (+velocidad.toFixed(2)) : 0)" :color="getColorMaquina()">
 							
-							<span v-if="indicadorVelocidad" class="percentage-value">{{ (isFinite((+velocidad.toFixed(2))) ? ((+velocidad.toFixed(2)) + (indicadorVelocidad == 1 ? '.L' : '.c') ) : 0) }}</span>
+							<span v-if="indicadorVelocidad" class="percentage-value">{{ (estado == "PARO" ? "PARO" : (isFinite((+velocidad.toFixed(2))) ? ((+velocidad.toFixed(2)) + (indicadorVelocidad == 1 ? '.L' : '.c') ) : 0)) }}</span>
 
 						</el-progress>
 
@@ -79,7 +79,7 @@ export default {
 
 			}else if( this.estado == "PARO" ){
 
-				return "#C0C0FF"
+				return "#cc0f35"
 
 			}else if( this.estado == "E.TUBO" ){
 
