@@ -14,7 +14,7 @@
 
 					<li><b>Orden:</b> {{ operacion.codOrden }}</li>
 					<li><b>Familia:</b> {{ operacion.codFamilia }}</li>
-					<li><b>Estado:</b> <span :class="operacion.EstadoOperacion == 1 ? 'tag is-light is-success' : 'tag is-light is-info'">{{ operacion.EstadoOperacion == 1 ? 'Finalizada' : 'En proceso' }}</span></li>
+					<li><b>Estado:</b> <span :class="operacion.EstadoOperacion == 1 ? 'tag is-light is-success' : 'tag is-light is-info'">{{ operacion.EstadoOperacion == 1 || operacion.EstadoOperacion == 0 ? 'En proceso' : 'Cerrada' }}</span></li>
 					<li><b>Descripcion:</b> {{ operacion.Descripcion }}</li>
 					<li><b>Cantidad:</b> {{ operacion.CantidadOperacion }}</li>
 

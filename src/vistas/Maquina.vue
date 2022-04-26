@@ -97,6 +97,10 @@
 
 							<template class="mt-2" v-if="operariosAlta && operariosAlta.length > 0">
 
+								<br>
+
+								<OpcionesEquipo/>
+
 								<ListaOperariosAlta :idMaquina="id" :listaOperarios="operariosAlta"/>
 
 							</template>
@@ -560,9 +564,9 @@ export default {
 					return;
 				}
 
-				if( res && res.data[0].Boletin ){
+				if( res && res.data[0].idBoletin ){
 					
-					let boletinID = res.data[0].Boletin
+					let boletinID = res.data[0].idBoletin
 
 					axios.get( "http://"+ process.env.VUE_APP_API +":3000/boletines/" + boletinID ).then( res => {
 
