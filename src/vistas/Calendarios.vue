@@ -164,7 +164,7 @@
 
 					<div v-if="(filtro_turno !== '' || filtro_rotacion !== '') && calendario_filtrado.length == 0">
 
-						<p class="text-muted text-center">No hay resultados de la búsqueda.</p>
+						<p class="text-muted text-center mt-2">No hay resultados de la búsqueda.</p>
 
 					</div>
 					<div v-else-if="calendario_filtrado.length > 0">
@@ -207,7 +207,7 @@
 
 					</div>
 
-					<div v-else class="table-responsive">
+					<div v-else class="table-responsive mt-2">
 
 						<table class="table text-center">
 

@@ -35,7 +35,7 @@
 								</div>
 								<div class="mt-3" v-else>
 									
-									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(datos.idTipoMaquina == 1 && tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
+									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :estado="estadoMaquina" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(datos.idTipoMaquina == 1 && tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
 
 								</div>
 
@@ -63,6 +63,7 @@
 
 							</div>
 
+							<Comentarios/>
 							<GraficoGeneral :datosGrafico="testData"/>										
 
 						</div>
@@ -80,7 +81,7 @@
 								</div>
 								<div class="mt-3" v-else>
 
-									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(datos.idTipoMaquina == 1 && tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
+									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :estado="estadoMaquina" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(datos.idTipoMaquina == 1 && tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
 
 								</div>
 
@@ -129,7 +130,7 @@
 								</div>
 								<div class="mt-3" v-else>
 
-									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
+									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :estado="estadoMaquina" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
 
 								</div>
 
@@ -196,6 +197,168 @@
 							</div>
 
 						</div>
+						<div v-else-if="ventana === 2.2">
+
+							<!-- 
+								VELOCIDAD DE LA MÁQUINA
+							-->
+							<div v-if="datos.idTipoMaquina < 3">
+
+								<div v-if="velocidad === 'Calculando'">
+
+									<BarraVelocidad :cargando="true"/>
+
+								</div>
+								<div class="mt-3" v-else>
+
+									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :estado="estadoMaquina" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
+
+								</div>
+
+							</div>
+
+							<!-- 
+								TIEMPOS DE LA MÁQUINA (PREPARACIÓN, PARADA, MARCHA...)
+							-->
+							<div class="mt-2 text-left">
+
+								<InfoTiempos :tiempos="tiempos"/>
+
+							</div>	
+
+							<h3>Kgph</h3>
+							<p>Determina los KG de producción que sería capaz de realizar una persona en una hora.</p>
+
+							<div class="text-center">
+
+								<el-date-picker
+									v-model="fecha"
+									type="date"
+									placeholder="Fecha"
+									:default-value="(new Date())"
+									@change="mostrarMerma"
+								/>
+								
+								<el-select class="ml-2 mt-2" @change="mostrarMerma" v-model="selectorTurno" placeholder="Turno">												
+
+									<el-option
+										key="1"
+										label="T1-Mañana"
+										value="T1-Mañana"
+									/>
+									<el-option
+										key="2"
+										label="T2-Tarde"
+										value="T2-Tarde"
+									/>
+									<el-option
+										key="3"
+										label="T3-Noche"
+										value="T3-Noche"
+									/>																								
+
+								</el-select>
+
+							</div>
+
+							<div class="mt-2">
+
+								<div v-if="datosIndicadores.length > 0">
+									
+									<br>
+									<h5 class="text-center"><b>Kgph:</b> {{  datosIndicadores[0].SumKgFab / ((datosIndicadores[0].HdNumOp / datosIndicadores[0].SumHd ) * datosIndicadores[0].SumHd) }}</h5>
+
+								</div>
+								<div v-else>
+
+									<el-alert title="No hay datos de Kgph generados para esa fecha y ese turno." type="warning" show-icon />
+
+								</div>
+
+							</div>
+
+						</div>
+						<div v-else-if="ventana === 2.3">
+
+							<!-- 
+								VELOCIDAD DE LA MÁQUINA
+							-->
+							<div v-if="datos.idTipoMaquina < 3">
+
+								<div v-if="velocidad === 'Calculando'">
+
+									<BarraVelocidad :cargando="true"/>
+
+								</div>
+								<div class="mt-3" v-else>
+
+									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :estado="estadoMaquina" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
+
+								</div>
+
+							</div>
+
+							<!-- 
+								TIEMPOS DE LA MÁQUINA (PREPARACIÓN, PARADA, MARCHA...)
+							-->
+							<div class="mt-2 text-left">
+
+								<InfoTiempos :tiempos="tiempos"/>
+
+							</div>	
+
+							<h3>OEE</h3>
+							<p>Determina la eficiencia de los equipos.</p>
+
+							<div class="text-center">
+
+								<el-date-picker
+									v-model="fecha"
+									type="date"
+									placeholder="Fecha"
+									:default-value="(new Date())"
+									@change="mostrarMerma"
+								/>
+								
+								<el-select class="ml-2 mt-2" @change="mostrarMerma" v-model="selectorTurno" placeholder="Turno">												
+
+									<el-option
+										key="1"
+										label="T1-Mañana"
+										value="T1-Mañana"
+									/>
+									<el-option
+										key="2"
+										label="T2-Tarde"
+										value="T2-Tarde"
+									/>
+									<el-option
+										key="3"
+										label="T3-Noche"
+										value="T3-Noche"
+									/>																								
+
+								</el-select>
+
+							</div>
+
+							<div class="mt-2">
+
+								<div v-if="datosIndicadores.length > 0">
+									
+									<br>
+									<h5 class="text-center"><b>OEE:</b> {{  datosIndicadores[0].SumKgFab / ((datosIndicadores[0].HdNumOp / datosIndicadores[0].SumHd ) * datosIndicadores[0].SumHd) }}</h5>
+
+								</div>
+								<div v-else>
+
+									<el-alert title="No hay datos de Kgph generados para esa fecha y ese turno." type="warning" show-icon />
+
+								</div>
+
+							</div>
+
+						</div>										
 
 					</vs-card>
 
@@ -227,6 +390,7 @@ import ListaOperariosAlta from '../components/ListaOperariosAlta.vue';
 import InfoCliente from '../components/InfoCliente.vue';
 import InfoEstadoMaquina from '../components/InfoEstadoMaquina.vue';
 import GraficoGeneral from '../components/GraficoGeneral.vue';
+import Comentarios from '../components/Comentarios.vue';
 import OpcionesEquipo from '../components/OpcionesEquipo.vue';
 
 export default {
@@ -245,6 +409,7 @@ export default {
 		InfoEstadoMaquina,
 		GraficoGeneral,
 		OpcionesEquipo,
+		Comentarios,
 
 	},
 
@@ -626,7 +791,12 @@ export default {
 		cambiarTipoVelocidad: function(){
 
 			this.tipoVelocidad = (this.tipoVelocidad == 1 ? 2 : 1);
-			this.$refs.infoProd.cambiarTipoVelocidad()
+
+			if( this.$refs && this.$refs.infoProd ){
+
+				this.$refs.infoProd.cambiarTipoVelocidad();
+
+			}
 
 		},
 
@@ -634,7 +804,7 @@ export default {
 
 			if( this.fecha && this.selectorTurno ){
 
-				axios.post( "http://" + process.env.VUE_APP_API + ":3000/maquina/" + this.id + "/merma",{
+				axios.post( "http://" + process.env.VUE_APP_API + ":3000/maquina/" + this.id + "/indicadores",{
 					
 					fecha: new Date(this.fecha).toLocaleDateString('en-US').replace("/","-"),
 					turno: this.selectorTurno
@@ -650,7 +820,7 @@ export default {
 				} )
 			}
 
-		}
+		},
 	
 	},
 

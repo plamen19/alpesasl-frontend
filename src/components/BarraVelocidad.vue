@@ -16,9 +16,9 @@
 					<h6 class="f-4 text-muted text-center">Velocidad</h6>
 					<div class="barra-velocidad">
 
-						<el-progress @click="cambiarIndicador" :stroke-width="12" :width="160" type="dashboard" :percentage="(isFinite((+velocidad.toFixed(2))) ? (+velocidad.toFixed(2)) : 0)" :color="colors">
+						<el-progress @click="cambiarIndicador" :stroke-width="12" :width="160" type="dashboard" :percentage="(isFinite((+velocidad.toFixed(2))) ? (+velocidad.toFixed(2)) : 0)" :color="getColorMaquina()">
 							
-							<span v-if="indicadorVelocidad" :style="getColorTexto()" class="percentage-value">{{ (isFinite((+velocidad.toFixed(2))) ? ((+velocidad.toFixed(2)) + (indicadorVelocidad == 1 ? '.L' : '.c') ) : 0) }}</span>
+							<span v-if="indicadorVelocidad" class="percentage-value">{{ (isFinite((+velocidad.toFixed(2))) ? ((+velocidad.toFixed(2)) + (indicadorVelocidad == 1 ? '.L' : '.c') ) : 0) }}</span>
 
 						</el-progress>
 
@@ -54,20 +54,11 @@ export default {
 	
 	name: 'BarraVelocidad',
 
-	props: ['cargando', 'velocidad', 'merma', 'indicadorVelocidad', 'esMandriladora'],
+	props: ['cargando', 'velocidad', 'estado', 'merma', 'indicadorVelocidad', 'esMandriladora'],
 
 	data(){
 
 		return({
-
-			colors: [
-				{ color: '#f56c6c', percentage: 20 },
-				{ color: '#e6a23c', percentage: 40 },
-				{ color: '#5cb87a', percentage: 60 },
-				{ color: '#5cb87a', percentage: 70 },
-				{ color: '#5cb87a', percentage: 80 },
-				{ color: '#5cb87a', percentage: 100 },
-			]
 
 		})
 
@@ -75,19 +66,32 @@ export default {
 
 	methods: {
 
-		getColorTexto: function(){
+		getColorMaquina: function(){
 
-			if( this.velocidad >= 0 && this.velocidad <= 20 ){
 
-				return 'color:rgba(255, 0, 0, 0.5);';
+			if( this.estado == "PREPARACION" ){
 
-			}else if( this.velocidad > 20 && this.velocidad < 40 ){
+				return "#FFCOCO"
 
-				return 'color:rgba(255, 150, 0, 0.5);';
+			}else if( this.estado == "MARCHA" ){
 
-			}else if( this.velocidad >= 40 ){
+				return "#60b40f";
 
-				return 'color:rgba(0, 150, 0, 0.5);';
+			}else if( this.estado == "PARO" ){
+
+				return "#C0C0FF"
+
+			}else if( this.estado == "E.TUBO" ){
+
+				return "#e4e402"
+
+			}else if( this.estado == "E.CAJA" ){
+
+				return "#60080f"
+
+			}else{
+
+				return "#0f0f0f"
 
 			}
 

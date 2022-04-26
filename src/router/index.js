@@ -57,6 +57,7 @@ const routes = [
 		name: 'Plantas',
 		component: Plantas
 	},
+
 	{
 		path: '/operarios',
 		name: 'Operarios',

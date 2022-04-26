@@ -116,15 +116,7 @@ export default {
 
 		getStyleFromVelocidad: function( ){
 
-			if( this.velocidad === 0 || this.velocidad <= 0 || this.velocidad < 20 ){
-
-				return 'background-color:rgba(255,0,0,0.08); color:rgba(150,0,0,0.5);'
-
-			}else if( this.velocidad >= 20 && this.velocidad < 40 ){
-
-				return 'background-color:rgba(255,150,0,0.08); color:rgba(255,150,0,0.5);'
-
-			}else{
+			if( this.velocidad > 0 ){
 
 				return 'background-color:rgba(0,255,0,0.08); color:rgba(0,150,0,0.5);'
 

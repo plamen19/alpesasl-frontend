@@ -54,8 +54,8 @@ export default {
 
 				2: [ 
 					{ texto: '% Merma', color: 'primary', tipo: 'filled', ventana: 2.1 }, 
-					{ texto: 'Kgph', color: 'primary', tipo: 'filled' },
-					{ texto: 'OEE', color: 'primary', tipo: 'filled' }
+					{ texto: 'Kgph', color: 'primary', tipo: 'filled', ventana: 2.2 },
+					{ texto: 'OEE', color: 'primary', tipo: 'filled', ventana: 2.3 },
 				],		
 				
 				3: [ 
