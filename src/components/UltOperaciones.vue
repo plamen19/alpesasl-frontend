@@ -18,6 +18,7 @@
 
 						<li><b>Cliente:</b> {{ operacion.Cliente }}</li>
 						<li><b>Pedido:</b> <span style="color:rgb(200,150,0);">{{ operacion.codPedido }}</span></li>
+						<li><b>Dirección:</b> {{ operacion.DireccionCliente }}</li>
 						<li><b>Población:</b> {{ operacion.PoblacionCliente }}</li>
 						<li><b>Provincia:</b> {{ operacion.ProvinciaCliente }}</li>
 
