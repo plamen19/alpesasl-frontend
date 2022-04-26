@@ -17,6 +17,7 @@
 					<li><b>Estado:</b> <span :class="operacion.EstadoOperacion == 1 ? 'tag is-light is-success' : 'tag is-light is-info'">{{ operacion.EstadoOperacion == 1 || operacion.EstadoOperacion == 0 ? 'En proceso' : 'Cerrada' }}</span></li>
 					<li><b>Descripcion:</b> {{ operacion.Descripcion }}</li>
 					<li><b>Cantidad:</b> {{ operacion.CantidadOperacion }}</li>
+					<li><b>Área:</b> {{ areas.filter( el => { return el.idArea == operacion.idArea } )[0].Area }}</li>
 
 					<br>
 
@@ -33,11 +34,47 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
 	
 	name: 'ListaOperaciones',
 
 	props: [ 'operaciones' ],
+
+	data(){
+
+		return({
+
+			areas: []
+
+		})
+
+	},
+
+	methods: {
+
+		cargarAreas: function(){
+
+			axios.get( "http://" + process.env.VUE_APP_API + ":3000/areas" ).then( res => {
+
+				this.areas = res.data
+
+			} ).catch( err => {
+
+				console.log( "[ERROR] No se han podido cargar los datos de las áreas. Error detallado: " + err );
+
+			} )
+
+		}
+
+	},
+
+	mounted(){
+
+		this.cargarAreas();
+
+	}
 
 }
 </script>
