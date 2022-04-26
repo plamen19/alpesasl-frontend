@@ -834,6 +834,8 @@ export default {
 		this.cargarEstadosMaquina();
 		this.cargarDatos();
 
+		this.$emit( "cerrarMenu" );
+
 	},
 
 	unmounted(){

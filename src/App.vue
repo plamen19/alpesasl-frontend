@@ -16,7 +16,7 @@
                      <div :class="this.mostrarMenu ? 'mt-4 mt-md-0' : ''" class="col ml-2 ml-md-0">
                             <div class="container">
                                    <br />
-                                   <router-view />
+                                   <router-view @cerrarMenu="()=>{ this.mostrarMenu = false }" />
                             </div>
                      </div>
               </div>
