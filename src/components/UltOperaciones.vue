@@ -17,14 +17,14 @@
 					<div class="card-body">
 
 						<li><b>Cliente:</b> {{ operacion.Cliente }}</li>
-						<li><b>Pedido:</b> <span style="color:rgb(200,150,0);">{{ operacion.codPedido }}</span></li>
+						<li><b>Pedido:</b> <span style="color:rgb(230, 120, 70);">{{ operacion.codPedido }}</span></li>
 						<li><b>Dirección:</b> {{ operacion.DireccionCliente }}</li>
 						<li><b>Población:</b> {{ operacion.PoblacionCliente }}</li>
 						<li><b>Provincia:</b> {{ operacion.ProvinciaCliente }}</li>
 
 						<br>
 
-						<button class="button is-small is-light is-light"><i style="margin-right:5px;" class="bi bi-eye-fill"></i>Ver más...</button>
+						<router-link style="text-decoration:none;" :to="{ name: 'Operacion', params: { id: operacion.idOperacion } }" class="button is-small is-light is-light"><i style="margin-right:5px;" class="bi bi-eye-fill"></i>Ver más...</router-link>
 
 					</div>
 

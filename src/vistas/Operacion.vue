@@ -11,8 +11,7 @@
 		<div v-else>
 
 			<h3>{{ datos.codOperacion }}</h3>
-			<p>Información detallada sobre la operación {{ id }} - {{ datos.codOperacion }}</p>
-			
+			<p>Información detallada sobre la operación {{ datos.codOperacion }}</p>
 
 		</div>
 

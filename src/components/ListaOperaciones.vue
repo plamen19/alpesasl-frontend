@@ -6,7 +6,7 @@
 
 			<div v-for="operacion in operaciones" :key="operacion.idOperacion" class="col-12 col-sm-6 col-md-4">
 
-				<vs-card>
+				<vs-card v-if="areas && areas.length > 0">
 
 					<h5 class="text-center">{{ operacion.codOperacion }}</h5>
 
@@ -17,11 +17,11 @@
 					<li><b>Estado:</b> <span :class="operacion.EstadoOperacion == 1 ? 'tag is-light is-success' : 'tag is-light is-info'">{{ operacion.EstadoOperacion == 1 || operacion.EstadoOperacion == 0 ? 'En proceso' : 'Cerrada' }}</span></li>
 					<li><b>Descripcion:</b> {{ operacion.Descripcion }}</li>
 					<li><b>Cantidad:</b> {{ operacion.CantidadOperacion }}</li>
-					<li><b>Área:</b> {{ areas.filter( el => { return el.idArea == operacion.idArea } )[0].Area }}</li>
+					<li><b>Área:</b> {{ areas.filter( el => { return el.idArea == operacion.idArea } )[0].Area || "?" }}</li>
 
 					<br>
 
-					<el-button type="primary" plain>Ver más...</el-button>
+					<router-link style="text-decoration:none;" :to="{ name: 'Operacion', params: { id: operacion.idOperacion } }" class="button is-small is-light is-light"><i style="margin-right:5px;" class="bi bi-eye-fill"></i>Ver más...</router-link>
 
 				</vs-card>
 

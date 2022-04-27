@@ -44,23 +44,10 @@ export default {
 
 	methods:{
 
-		abrirCerrarMenu: function(){
+		abrirCerrarMenu: function(){ this.mostrarMenu = !this.mostrarMenu; },
 
-			this.mostrarMenu = !this.mostrarMenu;
-
-		},
-
-		scrollAbajo: function(){
-
-			window.scroll(0,window.scrollY + 180);
-
-		},
-
-		scrollArriba: function(){
-
-			window.scroll(0,window.scrollY - 180);
-
-		}		
+		scrollAbajo: function(){ window.scroll(0,window.scrollY + 150); },
+		scrollArriba: function(){ window.scroll(0,window.scrollY - 150); }		
 
 	},
 
