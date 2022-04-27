@@ -2,11 +2,11 @@
 	
 	<div>
 
-		<el-button id="btn_arriba" style="position:fixed; z-index:1; right:20px; width:40px; height:40px; top:20px;" type="primary" plain circle>
+		<el-button id="btn_arriba" style="position:fixed; z-index:1; right:20px; width:40px; height:40px; top:20px;" type="info" plain circle>
 			<el-icon><ArrowUpBold /></el-icon>
    		</el-button>
 
-		<el-button id="btn_abajo" style="position:fixed; z-index:1; right:20px; width:40px; height:40px; bottom:20px;" type="primary" plain circle>
+		<el-button id="btn_abajo" style="position:fixed; z-index:1; right:20px; width:40px; height:40px; bottom:20px;" type="info" plain circle>
 			<el-icon><ArrowDownBold /></el-icon>
    		</el-button>		   
 
