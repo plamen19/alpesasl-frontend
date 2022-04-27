@@ -2,7 +2,7 @@
 	
 
 	<span class="estado-maquina" v-if="estadoMaquina === 'Desconocido'"><span class="tag is-light is-secondary">Cargando estado...</span></span>
-	<span class="estado-maquina" v-else><span style="font-size:0.8em;" :class="badgeEstados[estadoMaquina]">{{ estadoMaquina.toLowerCase().charAt(0).toUpperCase() + estadoMaquina.toLowerCase().slice(1) }}</span></span>
+	<span class="estado-maquina" v-else><span style="font-size:0.8em;" :class="badgeEstados[estadoMaquina]">{{ estadoMaquina }}</span></span>
 
 
 </template>

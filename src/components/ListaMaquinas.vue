@@ -4,8 +4,6 @@
 
 		<div class="row">
 
-			
-
 			<div v-for="maquina in (maquinasActualizadas ? maquinasActualizadas : data)" :key="maquina.idMaquina" class="col-12 col-sm-6 col-md-4">
 
 				<div class="card">
@@ -20,10 +18,9 @@
 
 						<li><b>Planta</b>: {{ maquina.Planta }}</li>
 						<li v-if="tiposMaquinas.length > 0"><b>Tipo:</b> {{ tiposMaquinas.filter( el => { return el.id == maquina.idTipoMaquina } )[0].nombre || "?" }}</li>
-						<li><b>PLC:</b> <span :class="maquina.PLC == 1 ? 'tag is-success is-light' : 'tag is-danger is-light'">
-							{{ maquina.PLC == 1 ? 'Activo' : 'Inactivo' }}	
-						</span></li>
-						<li><b>Ult. Boletín:</b> {{ maquina.UltimoBoletin ? maquina.UltimoBoletin : '?' }}</li>
+						<li><b>Estado:</b> <span 
+							:class="datosSpin && datosSpin[ maquina.codMaquina ] && datosSpin[ maquina.codMaquina ].estado ? tagsEstado[ datosSpin[ maquina.codMaquina ].estado ] : 'tag is-light is-info'">
+							{{ datosSpin && datosSpin[ maquina.codMaquina ] && datosSpin[ maquina.codMaquina ].estado ? datosSpin[ maquina.codMaquina ].estado : "?" }}</span></li>
 						<li><b>KMetros:</b> {{ maquina.KMetros }}</li>
 						<li><b>KKilos:</b> {{ maquina.KKilos }}</li>
 
@@ -49,6 +46,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
 
 	name: 'ListaMaquinas',
@@ -60,6 +59,16 @@ export default {
 		return({
 
 			maquinasActualizadas: null,
+			datosSpin: [],
+
+			tagsEstado: {
+
+				"PARO" : 'tag is-light is-danger',
+				"MARCHA": 'tag is-light is-success',
+				"PREPARACION": 'tag is-light is-info',
+				"Desconocido": 'tag is-light'
+
+			}
 
 		})
 
@@ -67,11 +76,67 @@ export default {
 
 	methods: {
 
+		getTextoFormateadoSPIN: function (texto){
+
+			return (texto.split("=")[1]).substring(1, (texto.split("=")[1]).length-1);
+
+		},		
+
 		filtrarMaquinas: function( ndata ){
 
 			this.maquinasActualizadas = ndata;
 
+		},
+
+		getDatosSpin: function(){
+
+			console.log(this.data);
+
+			this.data.forEach(maq => {
+				
+				axios.get( "http://" + process.env.VUE_APP_API + ":3000/spincliente/" + maq.codMaquina + "/datos" ).then( res => {
+
+					if( res.data && !res.data.err ){
+
+
+						let datosXML = (res.data).datos.replace(/(\r\n|\n|\r|\t|\u0002|\u0003)/gm,"");
+
+						if( datosXML ){
+
+							
+							let datosSpin = datosXML.split(" ");
+
+							this.datosSpin[ maq.codMaquina ] = {
+
+								estado: ( datosSpin[2] ? this.getTextoFormateadoSPIN(datosSpin[2]): 'Desconocido' )
+
+							};
+
+						}
+
+					}
+
+				} ).catch( err => {
+
+					console.log( "[ERROR] No se han podido cargar los datos de SPIN de " + maq.codMaquina + ". Error detallado: " + err );
+
+				} )
+
+			});
+
 		}
+
+	},
+
+	mounted(){
+
+		let _self = this;
+
+		setTimeout(function(){
+
+			_self.getDatosSpin();
+
+		}, 1200)
 
 	}
 

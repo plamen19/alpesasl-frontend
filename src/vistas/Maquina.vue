@@ -113,7 +113,7 @@
 
 								<br>
 
-								<p class="text-muted text-center">No hay operarios dados de alta.</p>
+								<el-alert title="Todavía no hay operarios dados de alta en esta máquina." type="warning" />
 
 							</template>
 
@@ -158,9 +158,10 @@
 									placeholder="Fecha"
 									:default-value="(new Date())"
 									@change="mostrarMerma"
+									size="large"
 								/>
 								
-								<el-select class="ml-2 mt-2" @change="mostrarMerma" v-model="selectorTurno" placeholder="Turno">												
+								<el-select size="large" class="ml-2 mt-2" @change="mostrarMerma" v-model="selectorTurno" placeholder="Turno">												
 
 									<el-option
 										key="1"
@@ -239,9 +240,10 @@
 									placeholder="Fecha"
 									:default-value="(new Date())"
 									@change="mostrarMerma"
+									size="large"
 								/>
 								
-								<el-select class="ml-2 mt-2" @change="mostrarMerma" v-model="selectorTurno" placeholder="Turno">												
+								<el-select size="large" class="ml-2 mt-2" @change="mostrarMerma" v-model="selectorTurno" placeholder="Turno">												
 
 									<el-option
 										key="1"
@@ -320,9 +322,10 @@
 									placeholder="Fecha"
 									:default-value="(new Date())"
 									@change="mostrarMerma"
+									size="large"
 								/>
 								
-								<el-select class="ml-2 mt-2" @change="mostrarMerma" v-model="selectorTurno" placeholder="Turno">												
+								<el-select size="large" class="ml-2 mt-2" @change="mostrarMerma" v-model="selectorTurno" placeholder="Turno">												
 
 									<el-option
 										key="1"
