@@ -15,6 +15,7 @@ import SubFamiliasEmbalajes from '../vistas/SubFamiliasEmbalajes.vue'
 import Plantas from '../vistas/Plantas.vue'
 import Operarios from '../vistas/Operarios.vue'
 import Operaciones from '../vistas/Operaciones.vue'
+import Operacion from '../vistas/Operacion.vue'
 import Boletines from '../vistas/Boletines.vue'
 import Logs from '../vistas/Logs.vue'
 import Log from '../vistas/Log.vue'
@@ -118,6 +119,13 @@ const routes = [
 		name: 'Operaciones',
 		component: Operaciones
 	},
+
+	{
+		path: '/operacion/:id',
+		name: 'Operacion',
+		component: Operacion,
+		props: true,
+	},	
 
 	{
 		path: '/boletines',

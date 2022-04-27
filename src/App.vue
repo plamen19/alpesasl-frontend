@@ -52,13 +52,13 @@ export default {
 
 		scrollAbajo: function(){
 
-			window.scroll(0,window.scrollY + 150);
+			window.scroll(0,window.scrollY + 180);
 
 		},
 
 		scrollArriba: function(){
 
-			window.scroll(0,window.scrollY - 150);
+			window.scroll(0,window.scrollY - 180);
 
 		}		
 
