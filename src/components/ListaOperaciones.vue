@@ -4,7 +4,12 @@
 
 		<div class="row">
 
-			<div v-for="operacion in operaciones" :key="operacion.idOperacion" class="col-12 col-sm-6 col-md-4">
+			<div v-if="operaciones.length == 0">
+
+				<p class="text-muted text-center mt-2">No se han encontrado operaciones.</p>
+
+			</div>
+			<div v-else v-for="operacion in operaciones" :key="operacion.idOperacion" class="col-12 col-sm-6 col-md-4">
 
 				<vs-card v-if="areas && areas.length > 0">
 

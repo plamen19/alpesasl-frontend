@@ -1,12 +1,10 @@
 <template>
 	
-	<el-collapse accordion>
-		<el-collapse-item title="Comentarios">
+	<el-collapse-item title="Comentarios">
 
-			<p class="text-muted">Ejemplo de comentario...</p>
+		<p class="text-muted">Ejemplo de comentario...</p>
 
-		</el-collapse-item>
-	</el-collapse>
+	</el-collapse-item>
 
 </template>
 

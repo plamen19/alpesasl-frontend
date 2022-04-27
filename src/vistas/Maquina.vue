@@ -21,7 +21,7 @@
 
 						<div v-if="ventana === 1">
 
-							<InfoCliente :cliente="operacion.Cliente" :descripcion="operacion.Descripcion"/>
+							<InfoCliente :cliente="operacion.Cliente" :descripcion="operacion.Descripcion" :descripcionCliente="operacion.DescripcionCliente"/>
 
 							<!-- 
 								VELOCIDAD DE LA MÁQUINA
@@ -63,8 +63,10 @@
 
 							</div>
 
-							<Comentarios/>
-							<GraficoGeneral :datosGrafico="testData"/>										
+							<el-collapse accordion>
+								<Comentarios/>
+								<GraficoGeneral :datosGrafico="testData"/>
+							</el-collapse>
 
 						</div>
 						<div v-else-if="ventana === 2">

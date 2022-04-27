@@ -1,9 +1,9 @@
 <template>
 	
-	<div>
+	<div v-if="cliente && descripcion" class="mb-2">
 
 		<h5><b class="tag is-info is-light">Cliente:</b> {{ cliente }}</h5>
-		<h5><b class="tag is-info is-light">Desc.:</b> {{ descripcion }}</h5>
+		<h5><b class="tag is-info is-light">Producto:</b> {{ descripcion }} {{ descripcionCliente ? (" | " + descripcionCliente ): '' }}</h5>
 
 	</div>
 
@@ -14,7 +14,7 @@ export default {
 	
 	name: 'InfoCliente',
 
-	props: [ 'cliente', 'descripcion' ],
+	props: [ 'cliente', 'descripcion', 'descripcionCliente' ],
 
 }
 </script>
@@ -23,7 +23,7 @@ export default {
 
 	h5{
 
-		font-size: 0.8em;
+		font-size: 1em;
 
 	}
 

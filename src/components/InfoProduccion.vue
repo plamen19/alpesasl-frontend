@@ -65,7 +65,7 @@
 
 					<div class="text-center">
 
-						<h4><span>{{ metrosEncolado }}</span></h4>
+						<h4><span class="text-muted">{{ metrosEncolado }}</span></h4>
 
 					</div>
 
@@ -82,7 +82,7 @@
 
 					<div class="text-center">
 
-						<h4><span>{{ (cantidadProducida*(numCortes || 0)) + "/" + cantidadBoletin }}</span></h4>
+						<h4><span class="text-muted">{{ (cantidadProducida*(numCortes || 0)) + "/" + cantidadBoletin }}</span></h4>
 
 					</div>
 				</vs-card>

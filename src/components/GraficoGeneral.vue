@@ -1,12 +1,10 @@
 <template>
 	
-	<el-collapse accordion>
-		<el-collapse-item title="Gráfico general">
+	<el-collapse-item title="Gráfico general">
 
-			<LineChart :height="200" :chartData="datosGrafico" />
+		<LineChart :height="200" :chartData="datosGrafico" />
 
-		</el-collapse-item>
-	</el-collapse>
+	</el-collapse-item>
 
 </template>
 

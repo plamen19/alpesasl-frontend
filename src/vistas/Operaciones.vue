@@ -5,9 +5,28 @@
 		<img style="width:30%; display:block; margin:0 auto;" src="../assets/operation.svg" alt="">
 
 		<h3>Operaciones</h3>
-		<p>Las últimas 10 operaciones registradas en la base de datos.</p>
+		<p>Las últimas 50 operaciones registradas en la base de datos.</p>
 
-		<ListaOperaciones :operaciones="operaciones"/>
+		<div class="row mb-4">
+
+			<div class="col-12 col-md-5">
+
+				<input v-model="textoBuscar" @input="buscarOperacion" placeholder="Operación a buscar" type="text" class="form-control">
+
+			</div>
+
+		</div>
+
+		<div v-if="textoBuscar.length > 0">
+			
+			<ListaOperaciones :operaciones="operacionesFiltradas"/>
+		
+		</div>
+		<div v-else>
+
+			<ListaOperaciones :operaciones="operaciones"/>
+
+		</div>
 
 	</div>
 
@@ -26,7 +45,9 @@ export default {
 
 		return({
 
-			operaciones: []
+			operaciones: [],
+			operacionesFiltradas: [],
+			textoBuscar: "",
 
 		})
 
@@ -45,6 +66,16 @@ export default {
 				console.log( "[ERROR] No se han podido obtener las operaciones. Error detallado: " + err );
 
 			} )
+
+		},
+
+		buscarOperacion: function(){
+
+			this.operacionesFiltradas = this.operaciones.filter( el => {
+
+				return (el.codOperacion).includes( this.textoBuscar )
+
+			} );
 
 		}
 
