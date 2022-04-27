@@ -1,5 +1,8 @@
 <template>
        <div style="position:relative;" class="container-fluid">
+		
+		<BotonesScroll class="d-none d-md-block" @scrollArriba="scrollArriba()" @scrollAbajo="scrollAbajo()"/>
+		
               <p type="button"
                      @click="abrirCerrarMenu()"
                      style="font-size: 2em; position: absolute; z-index:1;"
@@ -25,19 +28,40 @@
 
 <script>
 import Menu from "./components/Menu.vue";
+import BotonesScroll from './components/BotonesScroll.vue';
 
 export default {
-       components: { Menu },
-       name: "App",
+       
+	components: { Menu, BotonesScroll },
+       
+	name: "App",
+
        data() {
               return {
                      mostrarMenu: true,
               };
        },
+
 	methods:{
+
 		abrirCerrarMenu: function(){
+
 			this.mostrarMenu = !this.mostrarMenu;
-		}
+
+		},
+
+		scrollAbajo: function(){
+
+			window.scroll(0,window.scrollY + 150);
+
+		},
+
+		scrollArriba: function(){
+
+			window.scroll(0,window.scrollY - 150);
+
+		}		
+
 	},
 
 };

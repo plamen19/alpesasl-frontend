@@ -13,73 +13,8 @@
 
 		<div class="row">
 
-			<div class="col-12 col-md-6">
-
-				<h4>Turnos</h4>
-
-				<table>
-
-					<thead>
-						<th>Cód.</th>
-						<th>Turno</th>
-					</thead>
-
-					<tbody>
-
-						<tr>
-							<td>T-1</td>
-							<td>T-1 Mañana</td>
-						</tr>
-
-						<tr>
-							<td>T-2</td>
-							<td>T-2 Tarde</td>
-						</tr>
-
-						<tr>
-							<td>T-3</td>
-							<td>T-3 Noche</td>
-						</tr>						
-
-					</tbody>
-
-				</table>
-
-			</div>
-
-			<div class="col-12 col-md-6 mt-4 mt-md-0">
-
-				<h4>Rotaciones</h4>
-
-				<table>
-
-					<thead>
-						<th>Cód.</th>
-						<th>Turno</th>
-					</thead>
-
-					<tbody>
-
-						<tr>
-							<td>ROTA</td>
-							<td>Rotación A</td>
-						</tr>
-
-						<tr>
-							<td>ROTB</td>
-							<td>Rotación B</td>
-						</tr>
-
-						<tr>
-							<td>ROTC</td>
-							<td>Rotación C</td>
-						</tr>						
-
-					</tbody>
-
-				</table>
-
-			</div>		
+			<ColumnaRotaciones/>
+			<ColumnaTurnos/>
 
 			<div class="col mt-3">
 
@@ -255,8 +190,11 @@
 
 <script>
 import axios from 'axios';
+import ColumnaRotaciones from '../components/ColumnaRotaciones.vue';
+import ColumnaTurnos from '../components/ColumnaTurnos.vue';
 
 export default {
+       components: { ColumnaRotaciones, ColumnaTurnos },
 	
 	name: 'Calendarios',
 
@@ -314,7 +252,7 @@ export default {
 					( this.filtro_rotacion !== "" ? el.idRotacion == this.filtro_rotacion : el ) &&
 					( this.filtro_fecha !== "" ? el.FechaTurno == this.filtro_fecha : el ); 
 
-			} );
+			} );1
 
 		}
 

@@ -12,7 +12,6 @@
 		<div class="row justify-content-center">
 
 			<TarjetaPlanta nombre="Tavernes" :numMaquinas="34" />
-			<TarjetaPlanta nombre="Tavernes Corte" :numMaquinas="2" />
 			<TarjetaPlanta nombre="Barcelona" :numMaquinas="6" />
 			<TarjetaPlanta nombre="Pte. Genil" :numMaquinas="8" />
 			<TarjetaPlanta nombre="UPalet" :numMaquinas="1" />
@@ -28,6 +27,7 @@
 import TarjetaPlanta from '../components/TarjetaPlanta.vue'
 
 export default {
+	
        components: { TarjetaPlanta },
 	
 	name: 'Plantas',
