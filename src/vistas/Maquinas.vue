@@ -2,10 +2,6 @@
 	
 	<div>
 
-		<img style="width:40%; display:block; margin:0 auto;" src="../assets/factory.svg" alt="">
-
-		<br><br>
-
 		<h3>Máquinas</h3>
 		<p>Listado de todas las máquinas en el sistema. <span style="float:right; font-size:0.75em;" class="text-muted d-none d-md-inline-block d-xl-inline-block">Registradas {{ maquinas.length }}</span></p>
 
@@ -29,7 +25,7 @@
 
 		</div>
 
-		<ListaMaquinas ref="ListaMaquinas" :data="maquinas" :tiposMaquinas="tiposMaquinas"/>
+		<ListaMaquinas :menu="menu" ref="ListaMaquinas" :data="maquinas" :tiposMaquinas="tiposMaquinas"/>
 
 	</div>
 
@@ -41,6 +37,8 @@ import ListaMaquinas from '../components/ListaMaquinas.vue';
 
 export default {
        components: { ListaMaquinas },
+
+	props: ['menu'],
 
 	name: 'Maquinas',
 

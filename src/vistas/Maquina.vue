@@ -462,6 +462,7 @@ export default {
 			debug: false, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
 
 			datosDesactualizados: false,
+			renderizado: false,
 
 			testData: {
 				labels: [],
@@ -645,9 +646,9 @@ export default {
 
 					this.pulsosPLC = res.data[7];
 
-					if( !this.debug ){
+					/* if( !this.debug ){
 						this.temporizadorDatosReales = setTimeout( ()=>{ this.cargarDatosReales() }, 2000 )
-					}
+					} */
 
 				} ).catch( err => {
 
@@ -670,7 +671,7 @@ export default {
 
 			try{
 
-				let response = await axios.get( "http://"+ process.env.VUE_APP_API +":3000/spincliente/" + this.datos.codMaquina + "/datos" );
+				let response = await axios.get( "http://"+ process.env.VUE_APP_API +":3000/spincliente/" + this.datos.codMaquina + "/datos", { timeout: 2000 } );
 
 				if( response.data && response.data.datos ){
 
@@ -696,7 +697,7 @@ export default {
 						this.$vs.loading.close('#div_con_carga > .con-vs-loading');
 
 						if( !this.debug ){
-							this.temporizadorSpin = setTimeout( () => { this.cargarDatosSpin(); }, 1200 ); 
+							this.temporizadorSpin = setTimeout( () => { if( this.renderizado ){ this.cargarDatosSpin(); } }, 1200 ); 
 						}
 
 						if( this.datosDesactualizados ){ this.datosDesactualizados = false; }
@@ -714,9 +715,13 @@ export default {
 
 				this.datosDesactualizados = true;
 
-				setTimeout( function( _self ){
-					_self.cargarDatosSpin();
-				}, 5000, this )
+				if( this.renderizado ){
+
+					setTimeout( function( _self ){
+						_self.cargarDatosSpin();
+					}, 5000, this )
+
+				}
 
 				console.log( "[ERROR] La consulta a SPIN ha fallado. Se realizará reintento en 5 segundos..." );
 				console.log( "[ERROR] No se han podido obtener los datos de SPIN. Error detallado: " + err );
@@ -841,6 +846,8 @@ export default {
 
 		this.$emit( "cerrarMenu" );
 
+		this.renderizado = true;
+
 	},
 
 	unmounted(){
@@ -852,6 +859,8 @@ export default {
 		this.temporizadorDatos = null;
 		this.temporizadorDatosReales = null;
 		this.temporizadorSpin = null;
+
+		this.renderizado = false;
 
 	},
 
