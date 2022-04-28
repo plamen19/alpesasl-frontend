@@ -19,6 +19,7 @@ import Operacion from '../vistas/Operacion.vue'
 import Boletines from '../vistas/Boletines.vue'
 import Logs from '../vistas/Logs.vue'
 import Log from '../vistas/Log.vue'
+import Notificaciones from '../vistas/Notificaciones.vue'
 
 const routes = [
 
@@ -159,6 +160,12 @@ const routes = [
 		component: Log,
 		props:true
 	},
+
+	{
+		path: '/notificaciones',
+		name: 'Notificaciones',
+		component: Notificaciones
+	},	
 
 ]
 

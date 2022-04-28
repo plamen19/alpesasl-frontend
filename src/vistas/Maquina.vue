@@ -321,11 +321,11 @@
 									type="date"
 									placeholder="Fecha"
 									:default-value="(new Date())"
-									@change="mostrarMerma"
+									@change="calcularOEE"
 									size="large"
 								/>
 								
-								<el-select size="large" class="ml-2 mt-2" @change="mostrarMerma" v-model="selectorTurno" placeholder="Turno">												
+								<el-select size="large" class="ml-2 mt-2" @change="calcularOEE" v-model="selectorTurno" placeholder="Turno">												
 
 									<el-option
 										key="1"
@@ -352,7 +352,10 @@
 								<div v-if="datosIndicadores.length > 0">
 									
 									<br>
-									<h5 class="text-center"><b>OEE:</b> {{  datosIndicadores[0].SumKgFab / ((datosIndicadores[0].HdNumOp / datosIndicadores[0].SumHd ) * datosIndicadores[0].SumHd) }}</h5>
+									<h5 class="p-1"><b>OEE:</b> {{ 100 * resultadoOEE }}</h5>
+									<h5 class="p-1"><b>Disponibilidad:</b> {{ 100 * resultadodisp }}</h5>
+									<h5 class="p-1"><b>Rendimiento:</b> {{ 100 * resultadorend }}</h5>
+									<h5 class="p-1"><b>Calidad:</b> {{ 100 * resultadocal }}</h5>
 
 								</div>
 								<div v-else>
@@ -363,7 +366,7 @@
 
 							</div>
 
-						</div>										
+						</div>			
 
 					</vs-card>
 
@@ -452,7 +455,7 @@ export default {
 			vlinealconc: 0,
 
 			velocidad: 'Calculando',
-			estadoMaquina: 'Desconocido',
+			estadoMaquina: '?',
 			
 			temporizadorDatos: null,
 			temporizadorDatosReales: null,
@@ -490,6 +493,18 @@ export default {
 				],	
 				
 			},
+
+			resultadoOEE: 0,
+
+			resultadodisp: 0,
+			resultadorend: 0,
+			resultadocal: 0,
+
+			formulaOEE: "",
+			formuladisp: "",
+			formuladisp: "",
+			formularend: "",
+			formulacal: "",			
 
 		}
 
@@ -684,6 +699,13 @@ export default {
 						this.velocidad = this.getNumeroFormateadoSPIN( this.datosSpin[4] );
 						this.metrosEncolado = this.getNumeroFormateadoSPIN(this.datosSpin[5]);
 						this.producido = this.getNumeroFormateadoSPIN(this.datosSpin[3]);
+
+						if( this.estadoMaquina !== "?" && (this.datosSpin[2] ? this.getTextoFormateadoSPIN(this.datosSpin[2]): 'Desconocido') !== this.estadoMaquina ){
+							
+							this.$emit( "enviarEstadoNuevo", this.datos.codMaquina, this.estadoMaquina, (this.datosSpin[2] ? this.getTextoFormateadoSPIN(this.datosSpin[2]): 'Desconocido') );
+
+						}
+
 						this.estadoMaquina = ( this.datosSpin[2] ? this.getTextoFormateadoSPIN(this.datosSpin[2]): 'Desconocido' )
 
 						this.calcularMerma();
@@ -831,6 +853,40 @@ export default {
 			}
 
 		},
+
+		calcularOEE: function(){
+
+			if( this.fecha && this.selectorTurno ){
+
+				axios.post( "http://" + process.env.VUE_APP_API + ":3000/maquina/" + this.id + "/indicadores",{
+					
+					fecha: new Date(this.fecha).toLocaleDateString('en-US').replace("/","-"),
+					turno: this.selectorTurno
+
+				} ).then( res => {
+
+					this.datosIndicadores = res.data
+
+					if( this.datosIndicadores && this.datosIndicadores.length > 0 ){
+						
+						let datos = this.datosIndicadores[0];
+
+						this.resultadodisp = ( datos.SumHd - datos.SumTPrep - datos.SumTParo - datos.SumTLimp ) / ( datos.SumHd + datos.SumDesc );
+						this.resultadorend = datos.SumMtsFab / datos.MaxMetros;
+						this.resultadocal = datos.SumMtsFab / datos.SumMtsEnc;
+						
+						this.resultadoOEE = this.resultadodisp * this.resultadorend * this.resultadocal;
+
+					}
+
+				} ).catch( err => {
+
+					console.log( "[ERROR] No se ha podido obtener el % Merma. Error detallado: " + err );
+
+				} )
+			}
+
+		}		
 	
 	},
 

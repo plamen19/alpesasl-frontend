@@ -119,6 +119,12 @@ export default {
                                    icon: "bi bi-body-text",
                             },
 
+                            {
+                                   href: "/notificaciones",
+                                   title: "Notificaciones",
+                                   icon: "bi bi-bell",
+                            },				
+
                      ],
 
 		});
