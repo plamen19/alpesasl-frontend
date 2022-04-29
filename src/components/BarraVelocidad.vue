@@ -5,7 +5,7 @@
 		<!-- <p class="text-center"><b>Velocidad:</b> <span :class="velocidad > 1 ? (velocidad > 40 ? 'tag is-success' : 'tag is-warning has-text-dark') : 'tag is-danger'">{{ velocidad }}</span> | <b>(%) Merma:</b> <span class="tag is-danger">{{ merma.toFixed(0) }}%</span></p> -->
 
 		<div v-if="cargando">
-			<vs-progress class="barra-velocidad" :class="'w-50'" :height="10" indeterminate color="primary"></vs-progress>
+			<vs-progress class="barra-velocidad mt-4 mb-4" :class="'w-50'" :height="10" indeterminate color="primary"></vs-progress>
 		</div>
 		<div v-else>
 

@@ -1,9 +1,9 @@
 <template>
 	
-	<div v-if="cliente && descripcion" class="mb-2">
+	<div v-if="cliente && descripcion" class="mb-4 mt-4">
 
-		<h5><b class="tag is-info is-light">Cliente:</b> {{ cliente }}</h5>
-		<h5><b class="tag is-info is-light">Producto:</b> {{ descripcion }} {{ descripcionCliente ? (" | " + descripcionCliente ): '' }}</h5>
+		<h5><b class="tag is-link is-light mr-1"><i class="bi bi-file-earmark-person-fill"></i></b> {{ cliente }}</h5>
+		<h5><b class="tag is-link is-light mr-1"><i class="bi bi-box2-fill"></i></b> {{ descripcion }} {{ descripcionCliente ? (" | " + descripcionCliente ): '' }}</h5>
 
 	</div>
 

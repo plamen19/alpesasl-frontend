@@ -19,9 +19,10 @@
 						-->
 						<h3>{{ datos.Maquina }} <InfoEstadoMaquina :estadoMaquina="estadoMaquina"/></h3>
 
-						<div v-if="ventana === 1">
+						<InfoCliente v-if="operacion && operacion.Cliente" :cliente="operacion.Cliente" :descripcion="operacion.Descripcion" :descripcionCliente="operacion.DescripcionCliente"/>
+						<br v-else>
 
-							<InfoCliente :cliente="operacion.Cliente" :descripcion="operacion.Descripcion" :descripcionCliente="operacion.DescripcionCliente"/>
+						<div v-if="ventana === 1">
 
 							<!-- 
 								VELOCIDAD DE LA MÁQUINA
@@ -39,7 +40,17 @@
 
 								</div>
 
-							</div>			
+							</div>
+							<div class="mt-4 mb-4" v-else-if="datos.idTipoMaquina == 3">
+
+								<div v-if="boletin" :style="getColorFondoCorte()" class="box text-center w-75 mx-auto">
+
+									<h5 v-if="estadoMaquina === 'MARCHA'"><b>CORTE:</b> {{ boletin.tcorte ? boletin.tcorte.toFixed(2) : '0,00' }}</h5>
+									<h5 v-else>{{ estadoMaquina }}</h5>
+
+								</div>
+								
+							</div>
 
 							<!-- 
 								TIEMPOS DE LA MÁQUINA (PREPARACIÓN, PARADA, MARCHA...)
@@ -90,11 +101,21 @@
 
 								</div>
 								<div class="mt-3" v-else>
-
+									
 									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :estado="estadoMaquina" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(datos.idTipoMaquina == 1 && tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
 
 								</div>
 
+							</div>
+							<div class="mt-4 mb-4" v-else-if="datos.idTipoMaquina == 3">
+
+								<div v-if="boletin" :style="getColorFondoCorte()" class="box text-center w-50 mx-auto">
+
+									<h4 v-if="estadoMaquina === 'MARCHA'"><b>CORTE:</b> {{ boletin.tcorte ? boletin.tcorte.toFixed(2) : '0,00' }}</h4>
+									<h4 v-else>{{ estadoMaquina }}</h4>
+
+								</div>
+								
 							</div>
 
 							<!-- 
@@ -160,11 +181,21 @@
 
 								</div>
 								<div class="mt-3" v-else>
-
+									
 									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :estado="estadoMaquina" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(datos.idTipoMaquina == 1 && tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
 
 								</div>
 
+							</div>
+							<div class="mt-4 mb-4" v-else-if="datos.idTipoMaquina == 3">
+
+								<div v-if="boletin" :style="getColorFondoCorte()" class="box text-center w-50 mx-auto">
+
+									<h4 v-if="estadoMaquina === 'MARCHA'"><b>CORTE:</b> {{ boletin.tcorte ? boletin.tcorte.toFixed(2) : '0,00' }}</h4>
+									<h4 v-else>{{ estadoMaquina }}</h4>
+
+								</div>
+								
 							</div>
 
 							<!-- 
@@ -228,11 +259,21 @@
 
 								</div>
 								<div class="mt-3" v-else>
-
+									
 									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :estado="estadoMaquina" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(datos.idTipoMaquina == 1 && tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
 
 								</div>
 
+							</div>
+							<div class="mt-4 mb-4" v-else-if="datos.idTipoMaquina == 3">
+
+								<div v-if="boletin" :style="getColorFondoCorte()" class="box text-center w-50 mx-auto">
+
+									<h4 v-if="estadoMaquina === 'MARCHA'"><b>CORTE:</b> {{ boletin.tcorte ? boletin.tcorte.toFixed(2) : '0,00' }}</h4>
+									<h4 v-else>{{ estadoMaquina }}</h4>
+
+								</div>
+								
 							</div>
 
 							<!-- 
@@ -277,11 +318,21 @@
 
 								</div>
 								<div class="mt-3" v-else>
-
-									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :estado="estadoMaquina" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
+									
+									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :estado="estadoMaquina" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(datos.idTipoMaquina == 1 && tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
 
 								</div>
 
+							</div>
+							<div class="mt-4 mb-4" v-else-if="datos.idTipoMaquina == 3">
+
+								<div v-if="boletin" :style="getColorFondoCorte()" class="box text-center w-50 mx-auto">
+
+									<h4 v-if="estadoMaquina === 'MARCHA'"><b>CORTE:</b> {{ boletin.tcorte ? boletin.tcorte.toFixed(2) : '0,00' }}</h4>
+									<h4 v-else>{{ estadoMaquina }}</h4>
+
+								</div>
+								
 							</div>
 
 							<!-- 
@@ -359,11 +410,21 @@
 
 								</div>
 								<div class="mt-3" v-else>
-
-									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :estado="estadoMaquina" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
+									
+									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :estado="estadoMaquina" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(datos.idTipoMaquina == 1 && tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
 
 								</div>
 
+							</div>
+							<div class="mt-4 mb-4" v-else-if="datos.idTipoMaquina == 3">
+
+								<div v-if="boletin" :style="getColorFondoCorte()" class="box text-center w-50 mx-auto">
+
+									<h4 v-if="estadoMaquina === 'MARCHA'"><b>CORTE:</b> {{ boletin.tcorte ? boletin.tcorte.toFixed(2) : '0,00' }}</h4>
+									<h4 v-else>{{ estadoMaquina }}</h4>
+
+								</div>
+								
 							</div>
 
 							<!-- 
@@ -441,11 +502,21 @@
 
 								</div>
 								<div class="mt-3" v-else>
-
-									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :estado="estadoMaquina" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
+									
+									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :estado="estadoMaquina" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(datos.idTipoMaquina == 1 && tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
 
 								</div>
 
+							</div>
+							<div class="mt-4 mb-4" v-else-if="datos.idTipoMaquina == 3">
+
+								<div v-if="boletin" :style="getColorFondoCorte()" class="box text-center w-50 mx-auto">
+
+									<h4 v-if="estadoMaquina === 'MARCHA'"><b>CORTE:</b> {{ boletin.tcorte ? boletin.tcorte.toFixed(2) : '0,00' }}</h4>
+									<h4 v-else>{{ estadoMaquina }}</h4>
+
+								</div>
+								
 							</div>
 
 							<!-- 
@@ -526,11 +597,21 @@
 
 								</div>
 								<div class="mt-3" v-else>
-
+									
 									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :estado="estadoMaquina" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(datos.idTipoMaquina == 1 && tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
 
 								</div>
 
+							</div>
+							<div class="mt-4 mb-4" v-else-if="datos.idTipoMaquina == 3">
+
+								<div v-if="boletin" :style="getColorFondoCorte()" class="box text-center w-50 mx-auto">
+
+									<h4 v-if="estadoMaquina === 'MARCHA'"><b>CORTE:</b> {{ boletin.tcorte ? boletin.tcorte.toFixed(2) : '0,00' }}</h4>
+									<h4 v-else>{{ estadoMaquina }}</h4>
+
+								</div>
+								
 							</div>
 
 							<!-- 
@@ -747,6 +828,28 @@ export default {
 			let secs = Math.floor(tiempo%60);
 
 			return (horas < 10 ? "0" + horas : horas) + ":" + (minutos < 10 ? "0" + minutos : minutos) + ":" + (secs < 10 ? "0" + secs : secs);
+
+		},
+
+		getColorFondoCorte: function(){
+
+			if( this.estadoMaquina == "MARCHA" ){
+
+				return 'background-color:rgba(37, 200, 83,0.1);';
+				
+			}else if( this.estadoMaquina == "E.TUBO" ){
+
+				return 'background-color:rgba(255, 250, 235);';
+
+			}else if( this.estadoMaquina == "PARO" ){
+
+				return 'background-color:rgba(255, 0, 0,0.1);'
+
+			}else if( this.estadoMaquina == "PREPARACION" ){
+
+				return 'background-color:rgba(41, 111, 168,0.1);'
+
+			}
 
 		},
 
@@ -1028,7 +1131,7 @@ export default {
 
 			axios.get( "http://"+ process.env.VUE_APP_API +":3000/maquina/" + this.id + "/boletinID" ).then( res => {
 
-				if( this.datos.idTipoMaquina >= 3 ){
+				if( this.datos.idTipoMaquina >= 4 ){
 					this.cargarDatosSpin();
 					return;
 				}

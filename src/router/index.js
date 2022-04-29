@@ -20,6 +20,7 @@ import Boletines from '../vistas/Boletines.vue'
 import Logs from '../vistas/Logs.vue'
 import Log from '../vistas/Log.vue'
 import Notificaciones from '../vistas/Notificaciones.vue'
+import Tavernes from '../vistas/Plantas/Tavernes.vue'
 
 const routes = [
 
@@ -165,7 +166,13 @@ const routes = [
 		path: '/notificaciones',
 		name: 'Notificaciones',
 		component: Notificaciones
-	},	
+	},
+
+	{
+		path: '/plantas/Tavernes',
+		name: 'Tavernes',
+		component: Tavernes
+	},		
 
 ]
 
