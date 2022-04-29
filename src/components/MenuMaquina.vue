@@ -48,8 +48,8 @@ export default {
 			submenus: {
 
 				1: [ 
-					{ texto: 'Preparación', color: 'warning', tipo: 'filled' }, 
-					{ texto: 'Intervención', color: 'danger', tipo: 'filled' }
+					{ texto: 'Preparación', color: 'warning', tipo: 'filled', ventana: 1.1 }, 
+					{ texto: 'Intervención', color: 'danger', tipo: 'filled', ventana: 1.2 }
 				],
 
 				2: [ 
@@ -66,8 +66,8 @@ export default {
 					{ texto: 'Comentarios', color: 'warning', tipo: 'filled' },
 					{ texto: 'Tiras', color: 'primary', tipo: 'filled' },
 					{ texto: 'Tiras Teóricas', color: 'primary', tipo: 'filled' },
-				],		
-
+				],
+				
 			}
 
 		} )

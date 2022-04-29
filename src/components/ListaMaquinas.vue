@@ -16,11 +16,11 @@
 
 					<div class="card-body">
 
-						<li><b>Planta</b>: {{ maquina.Planta }}</li>
-						<li v-if="tiposMaquinas.length > 0"><b>Tipo:</b> {{ tiposMaquinas.filter( el => { return el.id == maquina.idTipoMaquina } )[0].nombre || "?" }}</li>
 <!-- 						<li><b>Estado:</b> <span 
 							:class="datosSpin && datosSpin[ maquina.codMaquina ] && datosSpin[ maquina.codMaquina ].estado ? tagsEstado[ datosSpin[ maquina.codMaquina ].estado ] : 'tag is-light is-info'">
 							{{ datosSpin && datosSpin[ maquina.codMaquina ] && datosSpin[ maquina.codMaquina ].estado ? datosSpin[ maquina.codMaquina ].estado : "?" }}</span></li> -->
+						<li><b>Planta</b>: {{ maquina.Planta }}</li>
+						<li v-if="tiposMaquinas.length > 0"><b>Tipo:</b> {{ tiposMaquinas.filter( el => { return el.id == maquina.idTipoMaquina } )[0].nombre || "?" }}</li>
 						<li><b>KMetros:</b> {{ maquina.KMetros }}</li>
 						<li><b>KKilos:</b> {{ maquina.KKilos }}</li>
 						
@@ -84,7 +84,7 @@ export default {
 				"E.TUBO": 'tag is-light is-warning',
 				"Desconocido": 'tag is-light'
 
-			}
+			},
 
 		})
 
@@ -127,7 +127,7 @@ export default {
 
 			this.data.forEach(maq => {
 
-				axios.get( "http://" + process.env.VUE_APP_API + ":3000/spincliente/" + maq.codMaquina + "/datos", { timeout: 2 } ).then( res => {
+				axios.get( "http://" + process.env.VUE_APP_API + ":3000/spincliente/" + maq.codMaquina + "/datos", { timeout: 1000 } ).then( res => {
 
 					if( res.data && !res.data.err ){
 
@@ -156,7 +156,7 @@ export default {
 
 									}
 
-								}, 2000 );
+								}, 5000 );
 
 							}
 						}
@@ -168,15 +168,17 @@ export default {
 					let _self = this;
 
 					setTimeout(function(){
-
-						_self.getDatosSpin();
+						
+						if( _self.renderizado ){
+							_self.getDatosSpin();
+						}
 
 					}, 5000);
 
 				} );
 
 
-				axios.get( "http://"+ process.env.VUE_APP_API +":3000/maquina/" + maq.idMaquina + "/operarios" ).then( res => {
+/* 				axios.get( "http://"+ process.env.VUE_APP_API +":3000/maquina/" + maq.idMaquina + "/operarios" ).then( res => {
 
 					this.operariosAlta[ maq.idMaquina ] = res.data.sort((a,b)=>{ return a.Puesto < 1 });
 
@@ -184,7 +186,7 @@ export default {
 
 					console.log( "[ERROR] No se han podido obtener los operarios dados de alta en la maquina. Error detallado: " + err );
 
-				} );
+				} ); */
 
 			});
 
@@ -194,15 +196,15 @@ export default {
 
 	mounted(){
 
-/* 		let _self = this;
+		let _self = this;
 
-		setTimeout(function(){
+/* 		setTimeout(function(){
 
 			_self.getDatosSpin();
 
-		}, 1200)
+		}, 1200) */
 
-		this.renderizado = true; */
+		this.renderizado = true;
 
 	},
 

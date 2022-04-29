@@ -19,7 +19,7 @@
 
 			<br>
 
-			<el-collapse accordion>
+			<el-collapse>
 
 				<el-collapse-item title="Códigos">
 

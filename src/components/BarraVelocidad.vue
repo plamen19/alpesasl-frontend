@@ -16,7 +16,7 @@
 					<h6 class="f-4 text-muted text-center">Velocidad</h6>
 					<div class="barra-velocidad">
 
-						<el-progress @click="cambiarIndicador" :stroke-width="12" :width="160" type="dashboard" :percentage="(isFinite((+velocidad.toFixed(2))) ? (+velocidad.toFixed(2)) : 0)" :color="getColorMaquina()">
+						<el-progress @click="cambiarIndicador" :stroke-width="5" :width="120" type="dashboard" :percentage="(isFinite((+velocidad.toFixed(2))) ? (+velocidad.toFixed(2)) : 0)" :color="getColorMaquina()">
 							
 							<span v-if="indicadorVelocidad" class="percentage-value">{{ (estado == "PARO" ? "PARO" : (isFinite((+velocidad.toFixed(2))) ? ((+velocidad.toFixed(2)) + (indicadorVelocidad == 1 ? '.L' : '.c') ) : 0)) }}</span>
 
@@ -31,7 +31,7 @@
 					<h6 class="f-4 text-muted text-center">% Merma</h6>
 					<div class="barra-velocidad">
 
-						<el-progress :stroke-width="12" :width="160" type="dashboard" :percentage="((merma && +merma > 0 ? +merma : 0))" color="#f56c6c">
+						<el-progress :stroke-width="5" :width="120" type="dashboard" :percentage="((merma && +merma > 0 ? +merma : 0))" color="#f56c6c">
 
 							<span class="percentage-value text-danger">{{ merma ? Math.ceil( merma ) : 0 }}%</span>
 

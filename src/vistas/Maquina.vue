@@ -54,6 +54,13 @@
 
 							<br>
 
+							<div v-if="comentarios && comentarios.length > 0">
+								<el-collapse v-if="comentarios && comentarios.length > 0" accordion>
+									<Comentarios :comentarios="comentarios"/>
+								</el-collapse>
+								<br>
+							</div>
+
 							<!-- 
 								TARJETAS CON VELOCIDAD, PULSOS, CANTIDAD PRODUCIDA, ETC
 							-->
@@ -64,11 +71,150 @@
 							</div>
 
 							<el-collapse accordion>
-								<Comentarios/>
+
 								<GraficoGeneral :datosGrafico="testData"/>
+
 							</el-collapse>
 
 						</div>
+						<div v-else-if="ventana === 1.1">
+
+							<!-- 
+								VELOCIDAD DE LA MÁQUINA
+							-->
+							<div v-if="datos.idTipoMaquina < 3">
+
+								<div v-if="velocidad === 'Calculando'">
+
+									<BarraVelocidad :cargando="true"/>
+
+								</div>
+								<div class="mt-3" v-else>
+
+									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :estado="estadoMaquina" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(datos.idTipoMaquina == 1 && tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
+
+								</div>
+
+							</div>
+
+							<!-- 
+								TIEMPOS DE LA MÁQUINA (PREPARACIÓN, PARADA, MARCHA...)
+							-->
+							<div class="mt-2 text-left">
+
+								<InfoTiempos :tiempos="tiempos"/>
+
+							</div>
+							
+							<br>
+
+							<h3>Preparación</h3>
+							<p>Información de la preparación de la máquina.</p>
+
+							<div v-if="infoadicional.length == 0">
+								<p class="text-center text-muted mt-2">No hay intervenciones.</p>
+							</div>
+							<div v-else>
+
+								<div class="table-responsive">
+
+									<table class="table">
+
+										<thead>
+											<th>Campo</th>
+											<th>Desc.</th>
+											<th>Valor</th>
+											<th>V. Mín</th>
+											<th>V. Máx</th>
+										</thead>
+
+										<tbody>
+
+											<tr v-for="int in infoadicional" :key="int.IdInfoAdicional">
+												<td>{{ int.Campo }}</td>
+												<td>{{ int.Descripcion }}</td>
+												<td>{{ int.Valor }}</td>
+												<td>{{ int.ValorMinimo }}</td>
+												<td>{{ int.ValorMaximo }}</td>
+											</tr>
+
+										</tbody>
+
+									</table>
+
+								</div>
+
+							</div>				
+							
+						</div>	
+						<div v-else-if="ventana === 1.2">
+
+							<!-- 
+								VELOCIDAD DE LA MÁQUINA
+							-->
+							<div v-if="datos.idTipoMaquina < 3">
+
+								<div v-if="velocidad === 'Calculando'">
+
+									<BarraVelocidad :cargando="true"/>
+
+								</div>
+								<div class="mt-3" v-else>
+
+									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :estado="estadoMaquina" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(datos.idTipoMaquina == 1 && tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
+
+								</div>
+
+							</div>
+
+							<!-- 
+								TIEMPOS DE LA MÁQUINA (PREPARACIÓN, PARADA, MARCHA...)
+							-->
+							<div class="mt-2 text-left">
+
+								<InfoTiempos :tiempos="tiempos"/>
+
+							</div>
+							
+							<br>
+
+							<h3>Intervención</h3>
+							<p>Intervenciones recientes a la máquina.</p>
+
+							<div v-if="intervenciones.length == 0">
+								<p class="text-center text-muted mt-2">No hay intervenciones.</p>
+							</div>
+							<div v-else>
+
+								<div class="table-responsive">
+
+									<table class="table">
+
+										<thead>
+											<th>Cód</th>
+											<th>Inicio</th>
+											<th>Fin</th>
+											<th>Motivo</th>
+										</thead>
+
+										<tbody>
+
+											<tr v-for="int in intervenciones" :key="int.idIntervencion">
+												<td>{{ int.codMotivoIntervencion }}</td>
+												<td>{{ (new Date(int.InicioIntervencion)).toLocaleDateString( 'es-ES' ) + " " + (new Date(int.InicioIntervencion)).toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'}) }}</td>
+												<td>{{ (new Date(int.FinalIntervencion)).toLocaleDateString( 'es-ES' ) + " " + (new Date(int.FinalIntervencion)).toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'}) }}</td>
+												<td>{{ int.MotivoIntervencion }}</td>
+											</tr>
+
+										</tbody>
+
+									</table>
+
+								</div>
+
+							</div>							
+							
+						</div>						
 						<div v-else-if="ventana === 2">
 
 							<!-- 
@@ -366,7 +512,73 @@
 
 							</div>
 
-						</div>			
+						</div>
+						<div v-else-if="ventana === 3">
+
+							<!-- 
+								VELOCIDAD DE LA MÁQUINA
+							-->
+							<div v-if="datos.idTipoMaquina < 3">
+
+								<div v-if="velocidad === 'Calculando'">
+
+									<BarraVelocidad :cargando="true"/>
+
+								</div>
+								<div class="mt-3" v-else>
+
+									<BarraVelocidad @cambiarTipoVelocidad="cambiarTipoVelocidad" :estado="estadoMaquina" :esMandriladora="datos.idTipoMaquina == 1 ? true : false" :indicadorVelocidad="tipoVelocidad" :merma="merma" :velocidad="(datos.idTipoMaquina == 1 && tipoVelocidad == 1 ? velocidadActual : velocidad)"/>
+
+								</div>
+
+							</div>
+
+							<!-- 
+								TIEMPOS DE LA MÁQUINA (PREPARACIÓN, PARADA, MARCHA...)
+							-->
+							<div class="mt-2 text-left">
+
+								<InfoTiempos :tiempos="tiempos"/>
+
+							</div>
+							
+							<br>
+
+							<h3>Boletines</h3>
+							<p>Boletines activos de la máquina.</p>
+
+							<div v-if="boletines.length == 0">
+								<p class="text-center text-muted mt-2">No hay boletines.</p>
+							</div>
+							<div v-else>
+
+								<div class="table-responsive">
+
+									<table class="table">
+
+										<thead>
+											<th>Operación</th>
+											<th>Cliente</th>
+											<th>Descripción</th>
+										</thead>
+
+										<tbody>
+
+											<tr v-for="(boletin) in boletines" :key="boletin.idPlanificacion">
+												<td>{{ boletin.codOperacion }}</td>
+												<td>{{ boletin.Cliente }}</td>
+												<td>{{ boletin.Descripcion }}</td>
+											</tr>
+
+										</tbody>
+
+									</table>
+
+								</div>
+
+							</div>
+							
+						</div>
 
 					</vs-card>
 
@@ -438,6 +650,10 @@ export default {
 			registroVelocidad: [],
 			operacion: [],
 			operariosAlta: [],
+			boletines: [],
+			intervenciones: [],
+			infoadicional: [],
+			comentarios: [],
 	
 			tipoVelocidad: 1,
 			producido: 0,
@@ -462,7 +678,7 @@ export default {
 			temporizadorSpin: null,
 			fecha: "",
 
-			debug: false, /* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
+			debug: false, 				/* Si se marca esta opción, se consultarán solo una vez los datos al servidor de SPIN. */
 
 			datosDesactualizados: false,
 			renderizado: false,
@@ -598,6 +814,34 @@ export default {
 			} ).catch( err => {
 
 				console.log("[ERROR] No se han podido cargar las máquinas. Error detallado: " + err);
+
+			} )			
+
+		},
+
+		cargarBoletines: function(e){
+
+			axios.get( "http://" + process.env.VUE_APP_API + ":3000/maquina/" + this.id + "/boletines" ).then( res => {
+
+				this.boletines = res.data;
+
+			} ).catch( err => {
+
+				console.log( "[ERROR] No se han podido cargar los boletines de la máquina. Error detallado: " + err );
+
+			} )
+
+		},
+
+		cargarIntervenciones: function(e){
+
+			axios.get( "http://" + process.env.VUE_APP_API + ":3000/maquina/" + this.id + "/intervenciones" ).then( res => {
+
+				this.intervenciones = res.data;
+
+			} ).catch( err => {
+
+				console.log( "[ERROR] No se han podido cargar las intervenciones de la máquina. Error detallado: " + err );
 
 			} )			
 
@@ -752,6 +996,34 @@ export default {
 
 		},
 
+		cargarComentario: function( codOrden ){
+
+			axios.get( "http://" + process.env.VUE_APP_API + ":3000/operacion/" + codOrden + "/comentarios" ).then( res => {
+
+				this.comentarios = res.data;
+
+			} ).catch( err => {
+
+				console.log( "[ERROR] No se pueden obtener los comentarios para la orden " + codOrden + ". Error detallado: " + err );
+
+			} )
+
+		},
+
+		cargarInfoAdicional: function( idOperacion ){
+
+			axios.get( "http://" + process.env.VUE_APP_API + ":3000/operacion/" + idOperacion + "/info" ).then( res => {
+
+				this.infoadicional = res.data
+
+			} ).catch( err => {
+
+				console.log( "[ERROR] No se ha podido cargar la información adicional de la operación. Error detallado: " + err );
+
+			} )
+
+		},
+
 		cargarBoletin: function(e){
 
 			axios.get( "http://"+ process.env.VUE_APP_API +":3000/maquina/" + this.id + "/boletinID" ).then( res => {
@@ -775,7 +1047,10 @@ export default {
 
 								this.operacion = res.data[0]
 
-								this.cargarDatosSpin();							
+								this.cargarDatosSpin();
+								this.cargarComentario( this.operacion.codOrden );
+								this.cargarInfoAdicional( this.operacion.idOperacion );
+
 							}
 
 						} ).catch( err => {
@@ -899,6 +1174,8 @@ export default {
 
 		this.cargarEstadosMaquina();
 		this.cargarDatos();
+		this.cargarBoletines();
+		this.cargarIntervenciones();
 
 		this.$emit( "cerrarMenu" );
 

@@ -25,6 +25,7 @@
                             <div class="container">
                                    <br />
                                    <router-view
+
                                           :menu="mostrarMenu"
                                           @cerrarMenu="
                                                  () => {

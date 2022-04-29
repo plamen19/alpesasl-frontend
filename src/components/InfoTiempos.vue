@@ -6,17 +6,15 @@
 
 			<div class="col-12 col-md-6 text-center">
 
-				<p class="tag is-light is-secondary"><b>Tiemp.:</b> <span>{{ getTiempoFormateado( tiempos[1] ) }} | <b>Conc.:</b> {{ getTiempoFormateado( tiempos[5] + tiempos[6] ) }}</span></p>
-				<br>
-				<p class="tag is-light is-success"><b>TMarcha.:</b> <span>{{ getTiempoFormateado( tiempos[3] ) }} | <b>Conc.:</b> {{ getTiempoFormateado( tiempos[5] ) }}</span></p>
+				<p><span class="tag is-light is-secondary"><b>Tiemp.:</b> <span class="ml-1">{{ getTiempoFormateado( tiempos[1] ) }}</span></span> <span class="tag is-light is-link"><b>Conc.:</b> <span class="ml-1">{{ getTiempoFormateado( tiempos[5] + tiempos[6] )}}</span></span></p>
+				<p><span class="tag is-light is-success"><b>TMarcha.:</b> <span class="ml-1">{{ getTiempoFormateado( tiempos[3] ) }}</span></span> <span class="tag is-light is-link"><b>Conc.:</b> <span class="ml-1">{{ getTiempoFormateado( tiempos[5] ) }}</span></span></p>
 
 			</div>
 
 			<div class="col-12 col-md-6 text-center">
 
-				<p class="tag is-light is-secondary"><b>TPrep:</b> <span>{{ getTiempoFormateado( tiempos[2] ) }} | <b>Conc.:</b> {{  getTiempoFormateado( tiempos[6] ) }}</span></p>
-				<br>
-				<p class="tag is-light is-danger"><b>TParada:</b> <span>{{ getTiempoFormateado( tiempos[4] ) }}</span></p>
+				<p><span class="tag is-light is-secondary"><b>TPrep:</b> <span class="ml-1">{{ getTiempoFormateado( tiempos[2] ) }}</span></span><span class="tag is-light is-link"><b>Conc.:</b> <span class="ml-1">{{  getTiempoFormateado( tiempos[6] ) }}</span></span></p>
+				<p class="tag is-light is-danger"><b>TParada:</b> <span class="ml-1">{{ getTiempoFormateado( tiempos[4] ) }}</span></p>
 
 			</div>
 

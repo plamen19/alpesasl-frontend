@@ -28,6 +28,7 @@ export default {
 				'TEST MARCHA': 'tag is-light is-secondary',
 				'DESCANSO': 'tag is-light is-primary',
 				'LIMPIEZA': 'tag is-light is-primary',
+				"E.TUBO": 'tag is-light is-warning',
 
 			},
 
